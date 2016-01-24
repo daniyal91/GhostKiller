@@ -272,39 +272,17 @@ public class Methods {
     }
 
     public static void showMap(int[][] mapArray) {
-        int row = mapArray.length;
-        int col = mapArray[0].length;
 
-        final JFrame frame = new JFrame("saved map");
-        JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
+        GameView gameView = new GameView(mapArray);
 
-        for (int i = 0; i < row * col; i++) {
-            JButton tile = new JButton();
-            tile.setContentAreaFilled(false);
-            tile.setFocusPainted(false);
-            tile.setOpaque(false);
-            tile.setBorderPainted(false);
+        // TODO : We should validate this before saving the map!
+        //if (Methods.cntcheck(mapArray)) {
+        //    JOptionPane.showMessageDialog(frame, "the path has entrance/exit and it's connected");
+        //} else {
+        //    JOptionPane.showMessageDialog(frame,
+        //                    "the path is not connected or has not entrance/exit point");
+        //}
 
-            if (mapArray[i / col][i % row] == 1) {
-                tile.setIcon(new ImageIcon("icons/road.jpg"));
-            } else {
-                tile.setIcon(new ImageIcon("icons/grass.jpg"));
-            }
-
-            map.add(tile);
-        }
-        frame.setContentPane(map);
-        frame.setSize(400 * col / 10, 400 * row / 10);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-        if (Methods.cntcheck(mapArray)) {
-            JOptionPane.showMessageDialog(frame, "the path has entrance/exit and it's connected");
-        } else {
-            JOptionPane.showMessageDialog(frame,
-                            "the path is not connected or has not entrance/exit point");
-        }
     }
 
 }

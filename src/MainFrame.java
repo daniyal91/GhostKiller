@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     private JTextField textFieldColumn;
 
     public MainFrame() {
-        setTitle("Main Window");
+        setTitle("Tower defense game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();

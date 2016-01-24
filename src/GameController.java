@@ -1,10 +1,9 @@
 import java.awt.EventQueue;
 
 
-public class Main {
+public class GameController {
 
-    public static void main(String[] args) {
-
+    public GameController() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -16,12 +15,16 @@ public class Main {
             }
         });
 
+    }
 
-        // for testing purpose :
-        // Methods.mainWin();
-        // int[][] lArr=Methods.read("file1.txt");
-        // Methods.editMap(lArr);
-        // Methods.showMap(lArr);
+    public void startGame(){
+        // TODO
+    }
+
+    public static void main(String[] args) {
+
+        GameController gameController = new GameController();
+        gameController.startGame();
 
     }
 }
