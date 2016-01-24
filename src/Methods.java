@@ -181,10 +181,10 @@ public class Methods {
   /**
    * @wbp.parser.entryPoint
    */
-  public static void editMap(int[][] mapArr) {
+  public static void editMap(final int[][] mapArr) {
 
-    int row = mapArr.length;
-    int col = mapArr[0].length;
+    final int row = mapArr.length;
+    final int col = mapArr[0].length;
 
     JFrame frame = new JFrame("Create or Edit map");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -201,7 +201,7 @@ public class Methods {
 
     JButton save = new JButton("save");
     keys.add(save);
-    JTextField textField = new JTextField();
+    final JTextField textField = new JTextField();
     keys.add(textField);
     textField.setColumns(20);
     textField.setText("enter the name of the file");
@@ -223,10 +223,10 @@ public class Methods {
 
     for (int i = 0; i < row * col; i++) {
 
-      Icon gIcon = new ImageIcon("icons/grass.jpg");
-      Icon rIcon = new ImageIcon("icons/road.jpg");
+      final Icon gIcon = new ImageIcon("icons/grass.jpg");
+      final Icon rIcon = new ImageIcon("icons/road.jpg");
 
-      JButton tile = new JButton();
+      final JButton tile = new JButton();
 
       if (mapArr[i / col][i % col] == 0)
         tile.setIcon(gIcon);
