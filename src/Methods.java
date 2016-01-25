@@ -46,7 +46,7 @@ public class Methods {
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                System.out.println("save button");
+            //  System.out.println("save button");
                 String filename = textField.getText();
                 GameGrid newGameGrid = new GameGrid();
                 newGameGrid.setCases(mapArr);

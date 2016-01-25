@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -48,8 +49,6 @@ public class MainFrame extends JFrame {
         });
         contentPane.setLayout(null);
 
-
-
         contentPane.add(btnCreateMap);
 
         JLabel lblX = new JLabel("X");
@@ -83,6 +82,13 @@ public class MainFrame extends JFrame {
                     File selectedFile = fileChooser.getSelectedFile();
                     GameGrid gameGrid = new GameGrid();
                     gameGrid.readFromFile(selectedFile.getName());
+
+                    //isConnected() must be checked when a grid is loaded
+                    if (gameGrid.isConnected())
+                        System.out.println("the path has entrance/exit and it's connected");
+                    else
+                        System.out.println("the path is not connected or has not entrance/exit point");
+
                     GameView gameView = new GameView(gameGrid);
                 }
             }
