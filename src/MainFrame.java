@@ -77,9 +77,12 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser fileChooser = new JFileChooser();
+                File currentDir = new File(System.getProperty("user.dir"));
+                fileChooser.setCurrentDirectory(currentDir);
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
+                
                     GameGrid gameGrid = new GameGrid();
                     gameGrid.readFromFile(selectedFile.getName());
 
