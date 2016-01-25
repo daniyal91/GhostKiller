@@ -5,6 +5,7 @@ public class GameController {
 
     public GameController() {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     MainFrame frame = new MainFrame();
@@ -27,4 +28,5 @@ public class GameController {
         gameController.startGame();
 
     }
+
 }

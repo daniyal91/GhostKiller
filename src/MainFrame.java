@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -9,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import model.GameGrid;
 
 
 public class MainFrame extends JFrame {
@@ -72,13 +75,15 @@ public class MainFrame extends JFrame {
         JButton btnLoadMap = new JButton("Load Map");
         btnLoadMap.setBounds(36, 136, 110, 23);
         btnLoadMap.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
-                    int[][] mapArray = Methods.read(selectedFile.getName());
-                    Methods.showMap(mapArray);
+                    GameGrid gameGrid = new GameGrid();
+                    gameGrid.readFromFile(selectedFile.getName());
+                    GameView gameView = new GameView(gameGrid);
                 }
             }
         });
