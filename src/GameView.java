@@ -26,7 +26,7 @@ public class GameView {
             tile.setOpaque(false);
             tile.setBorderPainted(false);
 
-            if (gameGrid.getCases()[i / col][i % row] == 1) {
+            if (gameGrid.getCases()[i / col][i % col] == 1) {
                 tile.setIcon(new ImageIcon("icons/road.jpg"));
             } else {
                 tile.setIcon(new ImageIcon("icons/grass.jpg"));
