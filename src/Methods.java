@@ -87,13 +87,13 @@ public class Methods {
                     Object property = tile.getClientProperty("id");
                     int id = ((Integer) property);
 
-                    if (mapArr[id / col][id % row] == 0) {
+                    if (mapArr[id / col][id % col] == 0) {
                         tile.setIcon(rIcon);
-                        mapArr[id / col][id % row] = 1;
+                        mapArr[id / col][id % col] = 1;
                     } else {
 
                         tile.setIcon(gIcon);
-                        mapArr[id / col][id % row] = 0;
+                        mapArr[id / col][id % col] = 0;
                     }
 
                     // System.out.println(id/10+""+id%10);
