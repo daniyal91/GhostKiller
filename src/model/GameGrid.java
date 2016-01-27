@@ -98,7 +98,8 @@ public class GameGrid {
             connectivities[this.entryPoint()][0][0] = 1;
             this.connect(connectivities, this.entryPoint(), 0);
             System.out.println("entrance point: (" + this.entryPoint() + ",0)");
-            System.out.println("exit point: (" + this.exitPoint() + "," + this.cases[0].length + ")");
+            System.out.println(
+                            "exit point: (" + this.exitPoint() + "," + this.cases[0].length + ")");
         } else {
 
             System.out.println("no entrance point");
@@ -113,8 +114,7 @@ public class GameGrid {
     }
 
     /*
-     * Returns the entry point of the grid.
-     * The entry point is assumed to be at the left edge
+     * Returns the entry point of the grid. The entry point is assumed to be at the left edge
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
@@ -130,8 +130,7 @@ public class GameGrid {
     }
 
     /*
-     * Returns the exit point of the grid.
-     * The exit point is assumed to be at the right edge
+     * Returns the exit point of the grid. The exit point is assumed to be at the right edge
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
@@ -151,8 +150,8 @@ public class GameGrid {
     }
 
     /*
-     * Side method for cntcheck method, it connects the neighbor of the tile(i,j)
-     * together if they are path tiles, from the entrance to the exit point
+     * Side method for cntcheck method, it connects the neighbor of the tile(i,j) together if they
+     * are path tiles, from the entrance to the exit point
      */
     private void connect(int[][][] connectivites, int line, int column) {
 
