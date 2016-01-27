@@ -86,42 +86,24 @@ public class GameView {
         JLabel towerSelectionText = new JLabel("Towers");
         towerSelectionText.setForeground(Color.white);
         towerSelectionArea.add(towerSelectionText);
+        
         // Tower images
         final String[] towers= {"icons/AncientTower.png","icons/KingTower.png","icons/ModernTower.png"};
         
-        // Adding tower 1 and its click listener
-    	JLabel imgLabelTower1 = new JLabel(new ImageIcon(towers[0]));
-    	towerSelectionArea.add(imgLabelTower1);
-    	imgLabelTower1.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent e) {
-	          selectedTower = towers[0];
-    		}
-	
-    	});
-	
-    	 // Adding tower 2 and its click listener
-    	JLabel imgLabelTower2 = new JLabel(new ImageIcon(towers[1]));
-    	towerSelectionArea.add(imgLabelTower2);
-    	imgLabelTower2.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent e) {
-	          selectedTower = towers[1];
-    		}
-	
-    	});
+     // Adding towers and their click listeners
+        for(int i = 0; i < towers.length; i++) {
+        	JLabel imgLabelTower = new JLabel(new ImageIcon(towers[i]));
+        	towerSelectionArea.add(imgLabelTower);
+        	final int index = i;
+        	imgLabelTower.addMouseListener(new MouseAdapter() {
+        		@Override
+        		public void mouseClicked(MouseEvent e) {
+    	          selectedTower = towers[index];
+        		}
     	
-    	 // Adding tower 3 and its click listener
-    	JLabel imgLabelTower3 = new JLabel(new ImageIcon(towers[2]));
-    	towerSelectionArea.add(imgLabelTower3);
-    	imgLabelTower3.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent e) {
-	          selectedTower = towers[2];
-    		}
-	
-    	});
-        
+        	});
+        }
+                
         // Health and bank panel
         JPanel healthBankPanel = new JPanel();
         healthBankPanel.setBackground(Color.DARK_GRAY);
