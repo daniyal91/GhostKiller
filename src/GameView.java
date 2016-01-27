@@ -1,6 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +18,8 @@ import model.GameGrid;
 public class GameView {
 
     private JFrame gameFrame;
-
+    private String selectedTower = ""; 
+    
     public GameView(GameGrid gameGrid) {
 
         int row = gameGrid.getCases().length;
@@ -42,6 +47,26 @@ public class GameView {
             } else {
                 tile.setIcon(new ImageIcon("icons/grass.jpg"));
             }
+            
+            tile.addMouseListener(new MouseAdapter() {
+        		@Override
+        		public void mouseClicked(MouseEvent e) {
+        			JButton placeTower = (JButton)e.getSource();
+        			if(placeTower.getIcon().toString().equals("icons/grass.jpg"))
+        			{
+        				if(selectedTower.equals(""))
+						{
+        					// TODO
+        				}
+        				else
+        				{
+        					placeTower.setIcon(new ImageIcon(selectedTower));
+                			selectedTower = "";
+        				}
+        			}
+        		}
+    	
+        	});
 
             map.add(tile);
         }
@@ -62,11 +87,41 @@ public class GameView {
         towerSelectionText.setForeground(Color.white);
         towerSelectionArea.add(towerSelectionText);
         // Tower images
-        String[] towers= {"icons/AncientTower.png","icons/KingTower.png","icons/ModernTower.png"};
-        for(int i = 0; i < towers.length; i++) {
-        	JLabel imgLabel = new JLabel(new ImageIcon(towers[i]));
-        	towerSelectionArea.add(imgLabel);
-        }
+        final String[] towers= {"icons/AncientTower.png","icons/KingTower.png","icons/ModernTower.png"};
+        
+        // Adding tower 1 and its click listener
+    	JLabel imgLabelTower1 = new JLabel(new ImageIcon(towers[0]));
+    	towerSelectionArea.add(imgLabelTower1);
+    	imgLabelTower1.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent e) {
+	          selectedTower = towers[0];
+    		}
+	
+    	});
+	
+    	 // Adding tower 2 and its click listener
+    	JLabel imgLabelTower2 = new JLabel(new ImageIcon(towers[1]));
+    	towerSelectionArea.add(imgLabelTower2);
+    	imgLabelTower2.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent e) {
+	          selectedTower = towers[1];
+    		}
+	
+    	});
+    	
+    	 // Adding tower 3 and its click listener
+    	JLabel imgLabelTower3 = new JLabel(new ImageIcon(towers[2]));
+    	towerSelectionArea.add(imgLabelTower3);
+    	imgLabelTower3.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent e) {
+	          selectedTower = towers[2];
+    		}
+	
+    	});
+        
         // Health and bank panel
         JPanel healthBankPanel = new JPanel();
         healthBankPanel.setBackground(Color.DARK_GRAY);
@@ -83,6 +138,7 @@ public class GameView {
         JLabel lifeTxt = new JLabel("75%");
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
+        
     }
 
 
