@@ -18,7 +18,7 @@ public class GameController {
 
     }
 
-    public void startGame(){
+    public void startGame() {
         // TODO
     }
 
