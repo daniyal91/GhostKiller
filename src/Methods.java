@@ -2,10 +2,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -46,13 +48,30 @@ public class Methods {
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                // System.out.println("save button");
-                String filename = textField.getText();
-                GameGrid newGameGrid = new GameGrid();
-                newGameGrid.setCases(mapArr);
-                newGameGrid.writeToFile(filename);
-            }
 
+                JFileChooser fileChooser = new JFileChooser();
+                File currentDir = new File(System.getProperty("user.dir"));
+                fileChooser.setCurrentDirectory(currentDir);
+                int returnValue = fileChooser.showOpenDialog(null);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    GameGrid gameGrid = new GameGrid();
+                    gameGrid.cases = mapArr;
+
+                    // isConnected() must be checked when a grid is loaded
+                    if (gameGrid.isConnected()) {
+                        System.out.println("the path has entrance/exit and it's connected");
+                    } else {
+                        System.out.println(
+                                        "the path is not connected or has not entrance/exit point");
+                    }
+
+                    gameGrid.writeToFile(selectedFile.getName());
+
+                }
+            }
         });
 
         JPanel map = new JPanel(new GridLayout(row, col, 2, 2));

@@ -81,7 +81,8 @@ public class GameView {
         towerSelectionArea.add(towerSelectionText);
 
         // Tower images
-        final String[] towers = {"icons/AncientTower.png","icons/KingTower.png", "icons/ModernTower.png"};
+        final String[] towers =
+                        {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
 
         // Adding towers and their click listeners
         for (int i = 0; i < towers.length; i++) {
