@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 public class GameGrid {
 
+    // FIXME : this variable should be private once editMap is refactored!
     public int[][] cases;
 
     /*
