@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
                 String columnText = textFieldColumn.getText();
                 int columnCount = Integer.parseInt(columnText);
                 int[][] mapArr = new int[lineCount][columnCount];
-                Methods.editMap(mapArr);
+                EditMapView mapView = new EditMapView(mapArr);
             }
 
         });
@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
                                         "the path is not connected or has not entrance/exit point");
                     }
 
-                    Methods.editMap(gameGrid.cases);
+                    EditMapView mapView = new EditMapView(gameGrid.cases);
                 }
 
             }
