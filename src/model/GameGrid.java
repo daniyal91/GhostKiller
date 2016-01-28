@@ -9,7 +9,8 @@ import java.io.PrintWriter;
 
 public class GameGrid {
 
-    private int[][] cases;
+    // FIXME : this variable should be private once editMap is refactored!
+    public int[][] cases;
 
     /*
      * Writes a serialized version of the game grid to a file.

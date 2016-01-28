@@ -22,12 +22,12 @@ public class MainFrame extends JFrame {
     private JTextField textFieldColumn;
 
     public MainFrame() {
+
         setTitle("Tower defense game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
+
         contentPane = new JPanel();
-
-
         contentPane.setBackground(Color.DARK_GRAY);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -47,7 +47,6 @@ public class MainFrame extends JFrame {
 
         });
         contentPane.setLayout(null);
-
         contentPane.add(btnCreateMap);
 
         JLabel lblX = new JLabel("X");
@@ -70,8 +69,41 @@ public class MainFrame extends JFrame {
         contentPane.add(textFieldColumn);
         textFieldColumn.setColumns(10);
 
-        JButton btnLoadMap = new JButton("Load Map");
-        btnLoadMap.setBounds(36, 136, 110, 23);
+        JButton btnEditMap = new JButton("Edit Map");
+        btnEditMap.setBounds(36, 100, 110, 23);
+        btnEditMap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                JFileChooser fileChooser = new JFileChooser();
+                File currentDir = new File(System.getProperty("user.dir"));
+                fileChooser.setCurrentDirectory(currentDir);
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    GameGrid gameGrid = new GameGrid();
+                    gameGrid.readFromFile(selectedFile.getName());
+
+                    // isConnected() must be checked when a grid is loaded
+                    if (gameGrid.isConnected()) {
+                        System.out.println("the path has entrance/exit and it's connected");
+                    } else {
+                        System.out.println(
+                                        "the path is not connected or has not entrance/exit point");
+                    }
+
+                    Methods.editMap(gameGrid.cases);
+                }
+
+            }
+
+        });
+        contentPane.setLayout(null);
+        contentPane.add(btnEditMap);
+
+        JButton btnLoadMap = new JButton("Play");
+        btnLoadMap.setBounds(36, 180, 110, 23);
         btnLoadMap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -90,8 +122,7 @@ public class MainFrame extends JFrame {
                         System.out.println("the path has entrance/exit and it's connected");
                     } else {
                         System.out.println(
-                            "the path is not connected or has not entrance/exit point"
-                        );
+                                        "the path is not connected or has not entrance/exit point");
                     }
                     GameView gameView = new GameView(gameGrid);
                 }
