@@ -33,7 +33,7 @@ public class EditMapView implements ActionListener {
         final int col = mapArr[0].length;
 
         this.frame = new JFrame("Create or Edit map");
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.frame.setBounds(100, 100, 400 * col / 10, 400 * row / 10 + 100);
 
         // mainPane contains all the other panels
@@ -113,6 +113,8 @@ public class EditMapView implements ActionListener {
 
         if (event.getSource() == this.saveButton) {
             this.saveMap();
+            frame.dispose();
+            
         } else {
             this.updateTile(event.getSource());
         }
