@@ -1,9 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,8 +21,11 @@ public class EditMapView implements ActionListener {
     private JButton saveButton;
     private GameGrid gameGrid;
 
-    private JButton[][] tiles;
+    private JButton startPoint;
+    private JButton endPoint;
+    private String selectedKey = "";
 
+    private JButton[][] tiles;
     private ImageIcon roadIcon;
     private ImageIcon grassIcon;
 
@@ -43,11 +48,42 @@ public class EditMapView implements ActionListener {
         this.frame.setContentPane(mainPane);
 
         JPanel keys = new JPanel();
+        keys.setBackground(Color.DARK_GRAY);
+        
         mainPane.add(keys, BorderLayout.SOUTH);
 
         this.saveButton = new JButton("save");
         keys.add(this.saveButton);
 
+        
+        this.startPoint = new JButton("Start Point");
+        startPoint.setBackground(Color.WHITE);
+        this.endPoint = new JButton("Finish Point");
+        endPoint.setBackground(Color.WHITE);
+        
+
+        keys.add(startPoint);
+        keys.add(endPoint);
+        
+        startPoint.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectedKey = "icons/start.png";
+            }
+
+        });
+        
+        endPoint.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectedKey = "icons/end.png";
+            }
+
+        });
+        
+        
+       
+        
         this.saveButton.addActionListener(this);
 
         JPanel map = new JPanel(new GridLayout(row, col, 2, 2));
@@ -63,7 +99,7 @@ public class EditMapView implements ActionListener {
 
                 this.tiles[i][j] = new JButton();
                 JButton currentTile = this.tiles[i][j];
-
+ 
                 if (this.gameGrid.cases[i][j] == 0) {
                     currentTile.setIcon(this.grassIcon);
                 } else {
@@ -122,6 +158,7 @@ public class EditMapView implements ActionListener {
 
 
     private void updateTile(Object source) {
+       
         for (int i = 0; i < this.gameGrid.cases.length; i++) {
             for (int j = 0; j < this.gameGrid.cases[0].length; j++) {
                 if(source == this.tiles[i][j]) {
@@ -132,13 +169,22 @@ public class EditMapView implements ActionListener {
     }
 
     private void toggleTile(int row, int column){
-        if (this.gameGrid.cases[row][column] == 0) {
+      if (selectedKey.equals("")){
+        if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column]==2 ||this.gameGrid.cases[row][column]==3) {
             this.gameGrid.cases[row][column] = 1;
             this.tiles[row][column].setIcon(this.roadIcon);
+            
         } else {
-            this.gameGrid.cases[row][column] = 0;
+            this.gameGrid.cases[row][column] = 0; 
             this.tiles[row][column].setIcon(this.grassIcon);
+            
         }
+      }
+      else {
+          this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
+          this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png")? 2:3;
+          selectedKey = "";
+      }
     }
 
     public void show() {

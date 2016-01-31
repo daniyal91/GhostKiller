@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ public class GameView {
 
     private JFrame gameFrame;
     private String selectedTower = "";
+    Random randomGenerator = new Random();
 
     public GameView(GameGrid gameGrid) {
 
@@ -38,12 +40,21 @@ public class GameView {
             tile.setFocusPainted(false);
             tile.setOpaque(false);
             tile.setBorderPainted(false);
+            tile.setIcon(new ImageIcon("icons/grass2.jpg"));
 
-            if (gameGrid.getCases()[i / col][i % col] == 1) {
-                tile.setIcon(new ImageIcon("icons/road.jpg"));
-            } else {
-                tile.setIcon(new ImageIcon("icons/grass.jpg"));
+            switch (gameGrid.getCases()[i / col][i % col]){
+                case 0: {  if (randomGenerator.nextInt(100) >92) 
+                    tile.setIcon(new ImageIcon("icons/grass2.jpg")); 
+                else
+                    tile.setIcon(new ImageIcon("icons/grass.jpg")); 
+                } break;
+                case 1:tile.setIcon(new ImageIcon("icons/road.jpg"));break;
+                case 2:tile.setIcon(new ImageIcon("icons/start.png"));break;
+                case 3:tile.setIcon(new ImageIcon("icons/end.png"));break;
             }
+
+
+
 
             tile.addMouseListener(new MouseAdapter() {
                 @Override
@@ -67,9 +78,9 @@ public class GameView {
         mainPane.add(map);
 
         // this.gameFrame.setContentPane(map);
-        this.gameFrame.setSize(540 * col / 10, 820 * row / 10);
+        this.gameFrame.setSize(540 * col / 10, 700 * row / 10);
         this.gameFrame.setLocationRelativeTo(null);
-        this.gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.gameFrame.setVisible(true);
 
         // Area where towers are displayed
@@ -82,7 +93,7 @@ public class GameView {
 
         // Tower images
         final String[] towers =
-                        {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
+            {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
 
         // Adding towers and their click listeners
         for (int i = 0; i < towers.length; i++) {
