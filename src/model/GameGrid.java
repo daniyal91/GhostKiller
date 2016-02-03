@@ -95,20 +95,21 @@ public class GameGrid {
 
         // check if it has a entry point before it :
 
-        if (this.entryPoint() > -1) {
-            connectivities[this.entryPoint()][0][0] = 1;
-            this.connect(connectivities, this.entryPoint(), 0);
-            System.out.println("entrance point: (" + this.entryPoint() + ",0)");
+        if (gridValid(this.entryPoint())) {
+            connectivities[this.entryPoint().xCoordinate][this.entryPoint().yCoordinate][0] = 1;
+            this.connect(connectivities, this.entryPoint().xCoordinate, this.entryPoint().yCoordinate);
+            System.out.println("entrance point: (" + this.entryPoint().xCoordinate + ","+ this.entryPoint().yCoordinate+ ")");
             System.out.println(
-                            "exit point: (" + this.exitPoint() + "," + this.cases[0].length + ")");
+                    "exit point: (" + this.exitPoint().xCoordinate + "," + this.exitPoint().yCoordinate + ")");
         } else {
 
-            System.out.println("no entrance point");
+            System.out.println("Entrance point not valid");
         }
 
-        if (this.exitPoint() > -1) {
-            return (connectivities[this.exitPoint()][this.cases[0].length - 1][0] == 1);
+        if (gridValid(this.exitPoint())) {
+            return (connectivities[this.exitPoint().xCoordinate][this.exitPoint().yCoordinate][0] == 1);
         } else {
+            System.out.println("Exit point not valid");
             return false;
         }
 
@@ -119,15 +120,26 @@ public class GameGrid {
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
-    private int entryPoint() {
-        int entHgth = -1;
+    private GridLocation entryPoint() {
+        GridLocation entP=new GridLocation();
+        boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
-            if (this.cases[i][0] == 1) {
-                entHgth = i;
-                break;
-            }
+            for (int j = 0; j < this.cases[0].length; j++)
+                if (this.cases[i][j] == 2) {
+                    if (!flag) {
+                        entP.xCoordinate=i;
+                        entP.yCoordinate=j;
+                        flag=true;
+                    }
+                    else { 
+                        if(flag)
+                            System.out.println("more than one entry point");
+                        return new GridLocation();
+
+                    }
+                }
         }
-        return entHgth;
+        return entP;
     }
 
     /*
@@ -135,15 +147,37 @@ public class GameGrid {
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
-    private int exitPoint() {
-        int extHgth = -1;
+
+    private GridLocation exitPoint() {
+        GridLocation extP=new GridLocation();
+        boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
-            if (this.cases[i][this.cases[0].length - 1] == 1) {
-                extHgth = i;
-                break;
-            }
+            for (int j = 0; j < this.cases[0].length; j++)
+                if (this.cases[i][j] == 3) {
+                    if (!flag) {
+                      extP.xCoordinate=i;
+                      extP.yCoordinate=j;
+                        flag=true;
+                    }
+                    else { 
+                        if(flag)
+                            System.out.println("more than one exit point");
+                        return new GridLocation();
+
+                    }
+                }
         }
-        return extHgth;
+        return extP;
+    }
+
+
+    public boolean gridValid (GridLocation grid){
+        if (grid.xCoordinate*grid.yCoordinate==0 || grid.xCoordinate==this.cases.length-1 || grid.yCoordinate==this.cases[0].length-1)
+            return true;
+        else
+            return false;
+
+
     }
 
     public GameGrid() {
@@ -151,35 +185,35 @@ public class GameGrid {
     }
 
     /*
-     * Side method for cntcheck method, it connects the neighbor of the tile(i,j) together if they
+     * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if they
      * are path tiles, from the entrance to the exit point
      */
     private void connect(int[][][] connectivites, int line, int column) {
 
         // check the right neighbor
-        if (column < this.cases[0].length - 1 && this.cases[line][column + 1] == 1
-                        && connectivites[line][column + 1][0] != 1) {
+        if (column < this.cases[0].length - 1 && this.cases[line][column + 1] >= 1
+                && connectivites[line][column + 1][0] != 1) {
             connectivites[line][column + 1][0] = 1;
             this.connect(connectivites, line, column + 1);
         }
 
         // check the below neighbor
-        if (line < this.cases.length - 1 && this.cases[line + 1][column] == 1
-                        && connectivites[line + 1][column][0] != 1) {
+        if (line < this.cases.length - 1 && this.cases[line + 1][column] >= 1
+                && connectivites[line + 1][column][0] != 1) {
             connectivites[line + 1][column][0] = 1;
             this.connect(connectivites, line + 1, column);
         }
 
         // check the above neighbor
-        if (line > 0 && this.cases[line - 1][column] == 1
-                        && connectivites[line - 1][column][0] != 1) {
+        if (line > 0 && this.cases[line - 1][column] >= 1
+                && connectivites[line - 1][column][0] != 1) {
             connectivites[line - 1][column][0] = 1;
             this.connect(connectivites, line - 1, column);
         }
 
         // check the left neighbor
-        if (column > 0 && this.cases[line][column - 1] == 1
-                        && connectivites[line][column - 1][0] != 1) {
+        if (column > 0 && this.cases[line][column - 1] >= 1
+                && connectivites[line][column - 1][0] != 1) {
             connectivites[line][column - 1][0] = 1;
             this.connect(connectivites, line, column - 1);
         }

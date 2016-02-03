@@ -1,13 +1,16 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -19,10 +22,15 @@ public class EditMapView implements ActionListener {
     private JButton saveButton;
     private GameGrid gameGrid;
 
-    private JButton[][] tiles;
+    private JButton startPoint;
+    private JButton endPoint;
+    private String selectedKey = "";
 
+    private JButton[][] tiles;
     private ImageIcon roadIcon;
     private ImageIcon grassIcon;
+    private ImageIcon startIcon;
+    private ImageIcon finishIcon;
 
     public EditMapView (final int[][] mapArr) {
 
@@ -43,10 +51,41 @@ public class EditMapView implements ActionListener {
         this.frame.setContentPane(mainPane);
 
         JPanel keys = new JPanel();
+        keys.setBackground(Color.DARK_GRAY);
+
         mainPane.add(keys, BorderLayout.SOUTH);
 
         this.saveButton = new JButton("save");
         keys.add(this.saveButton);
+
+
+        this.startPoint = new JButton("Start Point");
+        startPoint.setBackground(Color.WHITE);
+        this.endPoint = new JButton("Finish Point");
+        endPoint.setBackground(Color.WHITE);
+
+
+        keys.add(startPoint);
+        keys.add(endPoint);
+
+        startPoint.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectedKey = "icons/start.png";
+            }
+
+        });
+
+        endPoint.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectedKey = "icons/end.png";
+            }
+
+        });
+
+
+
 
         this.saveButton.addActionListener(this);
 
@@ -57,6 +96,10 @@ public class EditMapView implements ActionListener {
 
         this.roadIcon = new ImageIcon("icons/road.jpg");
         this.grassIcon = new ImageIcon("icons/grass.jpg");
+        this.startIcon = new ImageIcon("icons/start.png");
+        this.finishIcon = new ImageIcon("icons/end.png");
+
+
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -64,10 +107,20 @@ public class EditMapView implements ActionListener {
                 this.tiles[i][j] = new JButton();
                 JButton currentTile = this.tiles[i][j];
 
-                if (this.gameGrid.cases[i][j] == 0) {
-                    currentTile.setIcon(this.grassIcon);
-                } else {
-                    currentTile.setIcon(this.roadIcon);
+                switch (this.gameGrid.cases[i][j]) {
+
+                    case 0:currentTile.setIcon(this.grassIcon);
+                    break;
+
+                    case 1:currentTile.setIcon(this.roadIcon);
+                    break;
+
+                    case 2:currentTile.setIcon(this.startIcon);
+                    break;
+
+                    case 3:currentTile.setIcon(this.finishIcon);
+                    break;
+
                 }
 
                 currentTile.setBorderPainted(false);
@@ -85,36 +138,38 @@ public class EditMapView implements ActionListener {
 
     }
 
-    private void saveMap() {
+    private boolean saveMap() {
 
-        JFileChooser fileChooser = new JFileChooser();
-        File currentDir = new File(System.getProperty("user.dir"));
-        fileChooser.setCurrentDirectory(currentDir);
-        int returnValue = fileChooser.showOpenDialog(null);
 
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+        if (this.gameGrid.isConnected()) {
 
-            // isConnected() must be checked when a grid is loaded
-            if (this.gameGrid.isConnected()) {
-                System.out.println("the path has entrance/exit and it's connected");
-            } else {
-                System.out.println(
-                                "the path is not connected or has not entrance/exit point");
+            System.out.println("the path has entrance/exit and it's connected");
+            JFileChooser fileChooser = new JFileChooser();
+            File currentDir = new File(System.getProperty("user.dir"));
+            fileChooser.setCurrentDirectory(currentDir);
+            int returnValue = fileChooser.showOpenDialog(null);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+
+                this.gameGrid.writeToFile(selectedFile.getName());
+                return true;
             }
-
-            this.gameGrid.writeToFile(selectedFile.getName());
-
         }
+
+        else {
+            JOptionPane.showMessageDialog(null,"the path is not connected or invalid entrance/exit point(s) ",
+                    "Try Again",JOptionPane.WARNING_MESSAGE);       
+        }
+        return false;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent event) {
 
-        if (event.getSource() == this.saveButton) {
-            this.saveMap();
+        if (event.getSource() == this.saveButton && this.saveMap()) {
             frame.dispose();
-            
         } else {
             this.updateTile(event.getSource());
         }
@@ -122,6 +177,7 @@ public class EditMapView implements ActionListener {
 
 
     private void updateTile(Object source) {
+
         for (int i = 0; i < this.gameGrid.cases.length; i++) {
             for (int j = 0; j < this.gameGrid.cases[0].length; j++) {
                 if(source == this.tiles[i][j]) {
@@ -132,12 +188,21 @@ public class EditMapView implements ActionListener {
     }
 
     private void toggleTile(int row, int column){
-        if (this.gameGrid.cases[row][column] == 0) {
-            this.gameGrid.cases[row][column] = 1;
-            this.tiles[row][column].setIcon(this.roadIcon);
-        } else {
-            this.gameGrid.cases[row][column] = 0;
-            this.tiles[row][column].setIcon(this.grassIcon);
+        if (selectedKey.equals("")){
+            if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column]==2 ||this.gameGrid.cases[row][column]==3) {
+                this.gameGrid.cases[row][column] = 1;
+                this.tiles[row][column].setIcon(this.roadIcon);
+
+            } else {
+                this.gameGrid.cases[row][column] = 0; 
+                this.tiles[row][column].setIcon(this.grassIcon);
+
+            }
+        }
+        else {
+            this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
+            this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png")? 2:3;
+            selectedKey = "";
         }
     }
 
