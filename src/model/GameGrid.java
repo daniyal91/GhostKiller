@@ -96,18 +96,18 @@ public class GameGrid {
         // check if it has a entry point before it :
 
         if (gridValid(this.entryPoint())) {
-            connectivities[this.entryPoint().getx()][this.entryPoint().gety()][0] = 1;
-            this.connect(connectivities, this.entryPoint().getx(), this.entryPoint().gety());
-            System.out.println("entrance point: (" + this.entryPoint().getx() + ","+ this.entryPoint().gety());
+            connectivities[this.entryPoint().xCoordinate][this.entryPoint().yCoordinate][0] = 1;
+            this.connect(connectivities, this.entryPoint().xCoordinate, this.entryPoint().yCoordinate);
+            System.out.println("entrance point: (" + this.entryPoint().xCoordinate + ","+ this.entryPoint().yCoordinate+ ")");
             System.out.println(
-                    "exit point: (" + this.exitPoint().getx() + "," + this.exitPoint().gety() + ")");
+                    "exit point: (" + this.exitPoint().xCoordinate + "," + this.exitPoint().yCoordinate + ")");
         } else {
 
             System.out.println("Entrance point not valid");
         }
 
         if (gridValid(this.exitPoint())) {
-            return (connectivities[this.exitPoint().getx()][this.exitPoint().gety()][0] == 1);
+            return (connectivities[this.exitPoint().xCoordinate][this.exitPoint().yCoordinate][0] == 1);
         } else {
             System.out.println("Exit point not valid");
             return false;
@@ -120,21 +120,21 @@ public class GameGrid {
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
-    private Grid entryPoint() {
-        Grid entP=new Grid();
+    private GridLocation entryPoint() {
+        GridLocation entP=new GridLocation();
         boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
             for (int j = 0; j < this.cases[0].length; j++)
                 if (this.cases[i][j] == 2) {
                     if (!flag) {
-                        entP.setx(i);
-                        entP.sety(j);
+                        entP.xCoordinate=i;
+                        entP.yCoordinate=j;
                         flag=true;
                     }
                     else { 
                         if(flag)
                             System.out.println("more than one entry point");
-                        return new Grid();
+                        return new GridLocation();
 
                     }
                 }
@@ -148,21 +148,21 @@ public class GameGrid {
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
 
-    private Grid exitPoint() {
-        Grid extP=new Grid();
+    private GridLocation exitPoint() {
+        GridLocation extP=new GridLocation();
         boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
             for (int j = 0; j < this.cases[0].length; j++)
                 if (this.cases[i][j] == 3) {
                     if (!flag) {
-                        extP.setx(i);
-                        extP.sety(j);
+                      extP.xCoordinate=i;
+                      extP.yCoordinate=j;
                         flag=true;
                     }
                     else { 
                         if(flag)
                             System.out.println("more than one exit point");
-                        return new Grid();
+                        return new GridLocation();
 
                     }
                 }
@@ -171,8 +171,8 @@ public class GameGrid {
     }
 
 
-    public boolean gridValid (Grid grid){
-        if (grid.getx()*grid.gety()==0 || grid.getx()==this.cases.length-1 || grid.gety()==this.cases[0].length-1)
+    public boolean gridValid (GridLocation grid){
+        if (grid.xCoordinate*grid.yCoordinate==0 || grid.xCoordinate==this.cases.length-1 || grid.yCoordinate==this.cases[0].length-1)
             return true;
         else
             return false;
