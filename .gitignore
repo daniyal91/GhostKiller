@@ -29,3 +29,6 @@ local.properties
 
 # Vim temp files.
 *.swp
+
+# map files
+*.txt

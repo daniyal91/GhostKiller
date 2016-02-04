@@ -21,6 +21,10 @@ public class MainFrame extends JFrame {
     private JTextField textFieldLine;
     private JTextField textFieldColumn;
 
+    public JButton buttonCreate;
+    public JButton buttonEdit;
+    public JButton buttonLoad;
+
     public MainFrame() {
 
         setTitle("Tower defense game");
@@ -32,9 +36,9 @@ public class MainFrame extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
 
-        JButton btnCreateMap = new JButton("Create Map");
-        btnCreateMap.setBounds(36, 11, 110, 23);
-        btnCreateMap.addActionListener(new ActionListener() {
+        this.buttonCreate = new JButton("Create Map");
+        this.buttonCreate.setBounds(36, 11, 110, 23);
+        this.buttonCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 String lineText = textFieldLine.getText();
@@ -47,7 +51,7 @@ public class MainFrame extends JFrame {
 
         });
         contentPane.setLayout(null);
-        contentPane.add(btnCreateMap);
+        contentPane.add(this.buttonCreate);
 
         JLabel lblX = new JLabel("X");
         lblX.setBounds(156, 15, 6, 14);
@@ -69,9 +73,9 @@ public class MainFrame extends JFrame {
         contentPane.add(textFieldColumn);
         textFieldColumn.setColumns(10);
 
-        JButton btnEditMap = new JButton("Edit Map");
-        btnEditMap.setBounds(36, 100, 110, 23);
-        btnEditMap.addActionListener(new ActionListener() {
+        this.buttonEdit = new JButton("Edit Map");
+        this.buttonEdit.setBounds(36, 100, 110, 23);
+        this.buttonEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
 
@@ -100,11 +104,11 @@ public class MainFrame extends JFrame {
 
         });
         contentPane.setLayout(null);
-        contentPane.add(btnEditMap);
+        contentPane.add(this.buttonEdit);
 
-        JButton btnLoadMap = new JButton("Play");
-        btnLoadMap.setBounds(36, 180, 110, 23);
-        btnLoadMap.addActionListener(new ActionListener() {
+        this.buttonLoad = new JButton("Play");
+        this.buttonLoad.setBounds(36, 180, 110, 23);
+        this.buttonLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser fileChooser = new JFileChooser();
@@ -129,7 +133,7 @@ public class MainFrame extends JFrame {
             }
         });
 
-        contentPane.add(btnLoadMap);
+        contentPane.add(this.buttonLoad);
     }
 
 
