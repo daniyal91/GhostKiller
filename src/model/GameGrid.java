@@ -120,7 +120,7 @@ public class GameGrid {
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
-    private GridLocation entryPoint() {
+    public GridLocation entryPoint() {
         GridLocation entP=new GridLocation();
         boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
@@ -148,7 +148,7 @@ public class GameGrid {
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
 
-    private GridLocation exitPoint() {
+    public GridLocation exitPoint() {
         GridLocation extP=new GridLocation();
         boolean flag=false;
         for (int i = 0; i < this.cases.length; i++) {
