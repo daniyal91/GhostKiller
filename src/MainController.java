@@ -47,7 +47,7 @@ public class MainController implements Runnable, ActionListener {
         } else if (event.getSource() == this.mainFrame.buttonEdit) {
 
             String filePath = this.selectFile();
-            if (filePath != null){
+            if (filePath != null) {
 
                 GameGrid gameGrid = new GameGrid();
                 gameGrid.readFromFile(filePath);
@@ -57,7 +57,7 @@ public class MainController implements Runnable, ActionListener {
 
         } else if (event.getSource() == this.mainFrame.buttonLoad) {
             String filePath = this.selectFile();
-            if (filePath != null){
+            if (filePath != null) {
 
                 GameGrid gameGrid = new GameGrid();
                 gameGrid.readFromFile(filePath);
@@ -76,7 +76,7 @@ public class MainController implements Runnable, ActionListener {
         JFileChooser fileChooser = new JFileChooser();
         File currentDir = new File(System.getProperty("user.dir"));
         fileChooser.setCurrentDirectory(currentDir);
-        if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             return fileChooser.getSelectedFile().getName();
         } else {
             return null;

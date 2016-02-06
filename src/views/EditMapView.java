@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -34,7 +35,7 @@ public class EditMapView implements ActionListener {
     private ImageIcon startIcon;
     private ImageIcon finishIcon;
 
-    public EditMapView (final int[][] mapArr) {
+    public EditMapView(final int[][] mapArr) {
 
         this.gameGrid = new GameGrid();
         this.gameGrid.cases = mapArr;
@@ -70,7 +71,7 @@ public class EditMapView implements ActionListener {
         keys.add(startPoint);
         keys.add(endPoint);
 
-        startPoint.addMouseListener(new MouseAdapter(){
+        startPoint.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedKey = "icons/start.png";
@@ -78,14 +79,13 @@ public class EditMapView implements ActionListener {
 
         });
 
-        endPoint.addMouseListener(new MouseAdapter(){
+        endPoint.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedKey = "icons/end.png";
             }
 
         });
-
 
 
 
@@ -111,17 +111,21 @@ public class EditMapView implements ActionListener {
 
                 switch (this.gameGrid.cases[i][j]) {
 
-                    case 0:currentTile.setIcon(this.grassIcon);
-                    break;
+                    case 0:
+                        currentTile.setIcon(this.grassIcon);
+                        break;
 
-                    case 1:currentTile.setIcon(this.roadIcon);
-                    break;
+                    case 1:
+                        currentTile.setIcon(this.roadIcon);
+                        break;
 
-                    case 2:currentTile.setIcon(this.startIcon);
-                    break;
+                    case 2:
+                        currentTile.setIcon(this.startIcon);
+                        break;
 
-                    case 3:currentTile.setIcon(this.finishIcon);
-                    break;
+                    case 3:
+                        currentTile.setIcon(this.finishIcon);
+                        break;
 
                 }
 
@@ -160,8 +164,9 @@ public class EditMapView implements ActionListener {
         }
 
         else {
-            JOptionPane.showMessageDialog(null,"the path is not connected or invalid entrance/exit point(s) ",
-                    "Try Again",JOptionPane.WARNING_MESSAGE);       
+            JOptionPane.showMessageDialog(null,
+                            "the path is not connected or invalid entrance/exit point(s) ",
+                            "Try Again", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
@@ -182,28 +187,28 @@ public class EditMapView implements ActionListener {
 
         for (int i = 0; i < this.gameGrid.cases.length; i++) {
             for (int j = 0; j < this.gameGrid.cases[0].length; j++) {
-                if(source == this.tiles[i][j]) {
+                if (source == this.tiles[i][j]) {
                     this.toggleTile(i, j);
                 }
             }
         }
     }
 
-    private void toggleTile(int row, int column){
-        if (selectedKey.equals("")){
-            if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column]==2 ||this.gameGrid.cases[row][column]==3) {
+    private void toggleTile(int row, int column) {
+        if (selectedKey.equals("")) {
+            if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column] == 2
+                            || this.gameGrid.cases[row][column] == 3) {
                 this.gameGrid.cases[row][column] = 1;
                 this.tiles[row][column].setIcon(this.roadIcon);
 
             } else {
-                this.gameGrid.cases[row][column] = 0; 
+                this.gameGrid.cases[row][column] = 0;
                 this.tiles[row][column].setIcon(this.grassIcon);
 
             }
-        }
-        else {
+        } else {
             this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
-            this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png")? 2:3;
+            this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png") ? 2 : 3;
             selectedKey = "";
         }
     }
