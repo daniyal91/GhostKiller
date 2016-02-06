@@ -19,8 +19,9 @@ public class GameView {
 
     private JFrame gameFrame;
     private String selectedTower = "";
+    public ImageIcon[] towerIcons;
 
-    public GameView(GameGrid gameGrid) {
+    public GameView(GameGrid gameGrid, GameController gameController) {
 
         this.gameFrame = new JFrame("Tower defense game");
 
@@ -60,8 +61,6 @@ public class GameView {
                     break;
             }
 
-
-
             tile.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -100,10 +99,12 @@ public class GameView {
         // Tower images
         final String[] towers =
                         {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
+        this.towerIcons = new ImageIcon[3];
 
         // Adding towers and their click listeners
         for (int i = 0; i < towers.length; i++) {
-            JLabel imgLabelTower = new JLabel(new ImageIcon(towers[i]));
+            this.towerIcons[i] = new ImageIcon(towers[i]);
+            JLabel imgLabelTower = new JLabel(this.towerIcons[i]);
             towerSelectionArea.add(imgLabelTower);
             final int index = i;
             imgLabelTower.addMouseListener(new MouseAdapter() {

@@ -62,7 +62,8 @@ public class MainController implements Runnable, ActionListener {
 
                 GameGrid gameGrid = new GameGrid();
                 gameGrid.readFromFile(filePath, true);
-                GameView mapView = new GameView(gameGrid);
+                GameController gameController = new GameController(gameGrid);
+                GameView mapView = new GameView(gameGrid, gameController);
 
             }
         }
