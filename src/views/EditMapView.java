@@ -36,13 +36,12 @@ public class EditMapView implements ActionListener {
     private ImageIcon startIcon;
     private ImageIcon finishIcon;
 
-    public EditMapView(final CASE_TYPES[][] mapArr) {
+    public EditMapView(GameGrid gameGrid) {
 
-        this.gameGrid = new GameGrid();
-        this.gameGrid.cases = mapArr;
+        this.gameGrid = gameGrid;
 
-        final int row = mapArr.length;
-        final int col = mapArr[0].length;
+        final int row = this.gameGrid.cases.length;
+        final int col = this.gameGrid.cases[0].length;
 
         this.frame = new JFrame("Create or Edit map");
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

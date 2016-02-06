@@ -19,6 +19,15 @@ public class GameGrid {
 
     Random randomGenerator = new Random();
 
+    public GameGrid(int lineCount, int columnCount) {
+        this.cases = new CASE_TYPES[lineCount][columnCount];
+        for (int i = 0; i < lineCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                this.cases[i][j] = CASE_TYPES.GRASS;
+            }
+        }
+    }
+
     /*
      * Writes a serialized version of the game grid to a file.
      */
@@ -31,7 +40,7 @@ public class GameGrid {
             for (int i = 0; i < this.cases.length; i++) {
                 pr.println();
                 for (int j = 0; j < this.cases[0].length; j++) {
-                    pr.print(this.cases[i][j] + " ");
+                    pr.print(this.cases[i][j].ordinal() + " ");
                 }
             }
 
@@ -50,7 +59,7 @@ public class GameGrid {
     }
 
     // read and return an array from the text file "filename"
-    public void readFromFile(String filename) {
+    public void readFromFile(String filename, Boolean addRandomBushes) {
 
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
@@ -81,7 +90,8 @@ public class GameGrid {
                 for (int i = 0; i < columns; i++) {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
-                    if (this.cases[linenumber][i] == CASE_TYPES.GRASS
+                    if (addRandomBushes
+                                    && this.cases[linenumber][i] == CASE_TYPES.GRASS
                                     && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }
