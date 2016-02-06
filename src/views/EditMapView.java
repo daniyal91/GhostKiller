@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.GameGrid;
+import model.GameGrid.CASE_TYPES;
 
 public class EditMapView implements ActionListener {
 
@@ -35,7 +36,7 @@ public class EditMapView implements ActionListener {
     private ImageIcon startIcon;
     private ImageIcon finishIcon;
 
-    public EditMapView(final int[][] mapArr) {
+    public EditMapView(final CASE_TYPES[][] mapArr) {
 
         this.gameGrid = new GameGrid();
         this.gameGrid.cases = mapArr;
@@ -111,19 +112,19 @@ public class EditMapView implements ActionListener {
 
                 switch (this.gameGrid.cases[i][j]) {
 
-                    case 0:
+                    case GRASS:
                         currentTile.setIcon(this.grassIcon);
                         break;
 
-                    case 1:
+                    case ROAD:
                         currentTile.setIcon(this.roadIcon);
                         break;
 
-                    case 2:
+                    case START:
                         currentTile.setIcon(this.startIcon);
                         break;
 
-                    case 3:
+                    case END:
                         currentTile.setIcon(this.finishIcon);
                         break;
 
@@ -196,19 +197,19 @@ public class EditMapView implements ActionListener {
 
     private void toggleTile(int row, int column) {
         if (selectedKey.equals("")) {
-            if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column] == 2
-                            || this.gameGrid.cases[row][column] == 3) {
-                this.gameGrid.cases[row][column] = 1;
+            if (this.gameGrid.cases[row][column] != CASE_TYPES.ROAD) {
+                this.gameGrid.cases[row][column] = CASE_TYPES.ROAD;
                 this.tiles[row][column].setIcon(this.roadIcon);
 
             } else {
-                this.gameGrid.cases[row][column] = 0;
+                this.gameGrid.cases[row][column] = CASE_TYPES.GRASS;
                 this.tiles[row][column].setIcon(this.grassIcon);
 
             }
         } else {
             this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
-            this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png") ? 2 : 3;
+            CASE_TYPES selectedCaseType = selectedKey.equals("icons/start.png") ? CASE_TYPES.START : CASE_TYPES.END;
+            this.gameGrid.cases[row][column] = selectedCaseType;
             selectedKey = "";
         }
     }

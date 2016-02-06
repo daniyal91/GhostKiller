@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import model.GameGrid;
+import model.GameGrid.CASE_TYPES;
 import model.GridLocation;
 
 public class GameGridTest {
@@ -35,7 +36,7 @@ public class GameGridTest {
     @Test
     public void testGetCases() {
         testgamegird.readFromFile("src/test/testfiles/testmap.txt");
-        int[][] testcases = testgamegird.getCases();
+        CASE_TYPES[][] testcases = testgamegird.getCases();
         assertTrue("getCases method can't retrieve the array", testcases.length > 0);
 
     }

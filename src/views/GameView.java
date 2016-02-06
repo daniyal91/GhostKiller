@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +19,6 @@ public class GameView {
 
     private JFrame gameFrame;
     private String selectedTower = "";
-    Random randomGenerator = new Random();
 
     public GameView(GameGrid gameGrid) {
 
@@ -45,20 +43,19 @@ public class GameView {
             tile.setIcon(new ImageIcon("icons/grass2.jpg"));
 
             switch (gameGrid.getCases()[i / col][i % col]) {
-                case 0: {
-                    if (randomGenerator.nextInt(100) > 92)
-                        tile.setIcon(new ImageIcon("icons/grass2.jpg"));
-                    else
-                        tile.setIcon(new ImageIcon("icons/grass.jpg"));
-                }
+                case GRASS:
+                    tile.setIcon(new ImageIcon("icons/grass.jpg"));
                     break;
-                case 1:
+                case BUSH:
+                    tile.setIcon(new ImageIcon("icons/grass2.jpg"));
+                    break;
+                case ROAD:
                     tile.setIcon(new ImageIcon("icons/road.jpg"));
                     break;
-                case 2:
+                case START:
                     tile.setIcon(new ImageIcon("icons/start.png"));
                     break;
-                case 3:
+                case END:
                     tile.setIcon(new ImageIcon("icons/end.png"));
                     break;
             }

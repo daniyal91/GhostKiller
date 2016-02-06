@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import model.GameGrid;
+import model.GameGrid.CASE_TYPES;
 import views.EditMapView;
 import views.GameView;
 import views.MainView;
@@ -41,7 +42,7 @@ public class MainController implements Runnable, ActionListener {
             int lineCount = Integer.parseInt(lineText);
             String columnText = this.mainFrame.textFieldColumns.getText();
             int columnCount = Integer.parseInt(columnText);
-            int[][] mapArr = new int[lineCount][columnCount];
+            CASE_TYPES[][] mapArr = new CASE_TYPES[lineCount][columnCount];
             EditMapView mapView = new EditMapView(mapArr);
 
         } else if (event.getSource() == this.mainFrame.buttonEdit) {
