@@ -44,17 +44,24 @@ public class GameView {
             tile.setBorderPainted(false);
             tile.setIcon(new ImageIcon("icons/grass2.jpg"));
 
-            switch (gameGrid.getCases()[i / col][i % col]){
-                case 0: {  if (randomGenerator.nextInt(100) >92) 
-                    tile.setIcon(new ImageIcon("icons/grass2.jpg")); 
-                else
-                    tile.setIcon(new ImageIcon("icons/grass.jpg")); 
-                } break;
-                case 1:tile.setIcon(new ImageIcon("icons/road.jpg"));break;
-                case 2:tile.setIcon(new ImageIcon("icons/start.png"));break;
-                case 3:tile.setIcon(new ImageIcon("icons/end.png"));break;
+            switch (gameGrid.getCases()[i / col][i % col]) {
+                case 0: {
+                    if (randomGenerator.nextInt(100) > 92)
+                        tile.setIcon(new ImageIcon("icons/grass2.jpg"));
+                    else
+                        tile.setIcon(new ImageIcon("icons/grass.jpg"));
+                }
+                    break;
+                case 1:
+                    tile.setIcon(new ImageIcon("icons/road.jpg"));
+                    break;
+                case 2:
+                    tile.setIcon(new ImageIcon("icons/start.png"));
+                    break;
+                case 3:
+                    tile.setIcon(new ImageIcon("icons/end.png"));
+                    break;
             }
-
 
 
 
@@ -95,7 +102,7 @@ public class GameView {
 
         // Tower images
         final String[] towers =
-            {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
+                        {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
 
         // Adding towers and their click listeners
         for (int i = 0; i < towers.length; i++) {
