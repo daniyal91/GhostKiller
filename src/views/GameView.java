@@ -3,8 +3,8 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,11 +17,15 @@ import model.GameGrid;
 
 public class GameView {
 
+    // Tower images
+    public final static String[] TOWER_IMAGES =
+                    {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
+
     private JFrame gameFrame;
     private String selectedTower = "";
-    public ImageIcon[] towerIcons;
+    public ArrayList<JLabel> towerLabels;
 
-    public GameView(GameGrid gameGrid, GameController gameController) {
+    public GameView(GameGrid gameGrid, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
 
@@ -61,28 +65,13 @@ public class GameView {
                     break;
             }
 
-            tile.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JButton placeTower = (JButton) e.getSource();
-                    if (placeTower.getIcon().toString().equals("icons/grass.jpg")) {
-                        if (selectedTower.equals("")) {
-                            // TODO
-                        } else {
-                            placeTower.setIcon(new ImageIcon(selectedTower));
-                            selectedTower = "";
-                        }
-                    }
-                }
-
-            });
+            tile.addMouseListener(controller);
 
             map.add(tile);
         }
 
         mainPane.add(map);
 
-        // this.gameFrame.setContentPane(map);
         this.gameFrame.setSize(540 * col / 10, 700 * row / 10);
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -96,24 +85,19 @@ public class GameView {
         towerSelectionText.setForeground(Color.white);
         towerSelectionArea.add(towerSelectionText);
 
-        // Tower images
-        final String[] towers =
-                        {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
-        this.towerIcons = new ImageIcon[3];
+
+        this.towerLabels = new ArrayList<JLabel>();
 
         // Adding towers and their click listeners
-        for (int i = 0; i < towers.length; i++) {
-            this.towerIcons[i] = new ImageIcon(towers[i]);
-            JLabel imgLabelTower = new JLabel(this.towerIcons[i]);
-            towerSelectionArea.add(imgLabelTower);
-            final int index = i;
-            imgLabelTower.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    selectedTower = towers[index];
-                }
+        for (int i = 0; i < TOWER_IMAGES.length; i++) {
 
-            });
+            ImageIcon towerIcon = new ImageIcon(TOWER_IMAGES[i]);
+            JLabel towerLabel = new JLabel(towerIcon);
+
+            this.towerLabels.add(towerLabel);
+            towerSelectionArea.add(towerLabel);
+            towerLabel.addMouseListener(controller);
+
         }
 
         // Health and bank panel

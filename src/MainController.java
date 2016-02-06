@@ -7,7 +7,6 @@ import javax.swing.JFileChooser;
 
 import model.GameGrid;
 import views.EditMapView;
-import views.GameView;
 import views.MainView;
 
 
@@ -63,7 +62,6 @@ public class MainController implements Runnable, ActionListener {
                 GameGrid gameGrid = new GameGrid();
                 gameGrid.readFromFile(filePath, true);
                 GameController gameController = new GameController(gameGrid);
-                GameView mapView = new GameView(gameGrid, gameController);
 
             }
         }
