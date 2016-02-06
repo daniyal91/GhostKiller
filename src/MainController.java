@@ -1,10 +1,8 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.swing.JFileChooser;
-
+import misc.utils;
 import model.GameGrid;
 import views.EditMapView;
 import views.MainView;
@@ -46,7 +44,7 @@ public class MainController implements Runnable, ActionListener {
 
         } else if (event.getSource() == this.mainFrame.buttonEdit) {
 
-            String filePath = this.selectFile();
+            String filePath = utils.selectFile();
             if (filePath != null) {
 
                 GameGrid gameGrid = new GameGrid();
@@ -56,7 +54,7 @@ public class MainController implements Runnable, ActionListener {
             }
 
         } else if (event.getSource() == this.mainFrame.buttonLoad) {
-            String filePath = this.selectFile();
+            String filePath = utils.selectFile();
             if (filePath != null) {
 
                 GameGrid gameGrid = new GameGrid();
@@ -67,21 +65,6 @@ public class MainController implements Runnable, ActionListener {
         }
     }
 
-    /**
-     * Wrapper around JFileChooser.
-     *
-     * @return The path of the selected file, or null if no file selected.
-     */
-    private String selectFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        File currentDir = new File(System.getProperty("user.dir"));
-        fileChooser.setCurrentDirectory(currentDir);
-        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getName();
-        } else {
-            return null;
-        }
 
-    }
 
 }

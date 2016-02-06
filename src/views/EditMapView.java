@@ -7,16 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import misc.utils;
 import model.GameGrid;
 import model.GameGrid.CASE_TYPES;
 
@@ -30,7 +29,7 @@ public class EditMapView implements ActionListener {
     private JButton endPoint;
     private String selectedKey = "";
 
-    private JButton[][] tiles;
+    public JButton[][] tiles;
     private ImageIcon roadIcon;
     private ImageIcon grassIcon;
     private ImageIcon startIcon;
@@ -86,8 +85,6 @@ public class EditMapView implements ActionListener {
             }
 
         });
-
-
 
         this.saveButton.addActionListener(this);
 
@@ -149,28 +146,22 @@ public class EditMapView implements ActionListener {
 
         if (this.gameGrid.isConnected()) {
 
-            System.out.println("the path has entrance/exit and it's connected");
-            JFileChooser fileChooser = new JFileChooser();
-            File currentDir = new File(System.getProperty("user.dir"));
-            fileChooser.setCurrentDirectory(currentDir);
-            int returnValue = fileChooser.showOpenDialog(null);
-
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-
-                this.gameGrid.writeToFile(selectedFile.getName());
+            String filePath = utils.selectFile();
+            if (filePath != null) {
+                this.gameGrid.writeToFile(filePath);
                 return true;
             }
         }
 
         else {
-            JOptionPane.showMessageDialog(null,
-                            "the path is not connected or invalid entrance/exit point(s) ",
-                            "Try Again", JOptionPane.WARNING_MESSAGE);
+            this.showMessage("Sorry, no connecting path between entry point and exit point!", "Invalid map");
         }
         return false;
     }
 
+    public void showMessage(String message, String title) {
+        JOptionPane.showMessageDialog(null, message,  title, JOptionPane.WARNING_MESSAGE);
+    }
 
     @Override
     public void actionPerformed(ActionEvent event) {

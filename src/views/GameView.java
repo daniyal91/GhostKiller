@@ -15,14 +15,17 @@ import javax.swing.border.EmptyBorder;
 
 import model.GameGrid;
 
+
+
 public class GameView {
 
-    // Tower images
-    public final static String[] TOWER_IMAGES =
-                    {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
+    public final static String[] TOWER_IMAGES = {
+                    "icons/AncientTower.png",
+                    "icons/KingTower.png",
+                    "icons/ModernTower.png"
+                    };
 
     private JFrame gameFrame;
-    private String selectedTower = "";
     public ArrayList<JLabel> towerLabels;
 
     public GameView(GameGrid gameGrid, MouseListener controller) {
@@ -84,7 +87,6 @@ public class GameView {
         JLabel towerSelectionText = new JLabel("Towers");
         towerSelectionText.setForeground(Color.white);
         towerSelectionArea.add(towerSelectionText);
-
 
         this.towerLabels = new ArrayList<JLabel>();
 
