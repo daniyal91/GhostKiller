@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 
 import misc.utils;
 import model.GameGrid;
-import views.EditMapView;
 import views.MainView;
 
 
@@ -40,7 +39,8 @@ public class MainController implements Runnable, ActionListener {
             int columnCount = Integer.parseInt(columnText);
 
             GameGrid gameGrid = new GameGrid(lineCount, columnCount);
-            EditMapView mapView = new EditMapView(gameGrid);
+            EditMapController controller = new EditMapController(gameGrid);
+
 
         } else if (event.getSource() == this.mainFrame.buttonEdit) {
 
@@ -49,7 +49,7 @@ public class MainController implements Runnable, ActionListener {
 
                 GameGrid gameGrid = new GameGrid();
                 gameGrid.readFromFile(filePath, false);
-                EditMapView mapView = new EditMapView(gameGrid);
+                EditMapController controller = new EditMapController(gameGrid);
 
             }
 

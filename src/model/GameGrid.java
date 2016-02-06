@@ -11,7 +11,15 @@ import java.util.Random;
 public class GameGrid {
 
     public static enum CASE_TYPES {
-        GRASS, BUSH, ROAD, START, END
+        GRASS, BUSH, ROAD, START, END, NONE
+    };
+
+    public static String[] CASE_TYPES_ICON_PATHS = {
+                    "icons/grass.jpg",
+                    "icons/grass2.jpg",
+                    "icons/road.jpg",
+                    "icons/start.png",
+                    "icons/end.png"
     };
 
     // FIXME : this variable should be private once editMap is refactored!

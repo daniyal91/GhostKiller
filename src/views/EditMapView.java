@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,24 +19,21 @@ import misc.utils;
 import model.GameGrid;
 import model.GameGrid.CASE_TYPES;
 
-public class EditMapView implements ActionListener {
+public class EditMapView implements ActionListener, MouseListener {
 
     private JFrame frame;
-    private JButton saveButton;
+    public JButton saveButton;
     private GameGrid gameGrid;
 
-    private JButton startPoint;
-    private JButton endPoint;
-    private String selectedKey = "";
+    public JButton startPointButton;
+    public JButton endPointButton;
 
     public JButton[][] tiles;
-    private ImageIcon roadIcon;
-    private ImageIcon grassIcon;
-    private ImageIcon startIcon;
-    private ImageIcon finishIcon;
+    public CASE_TYPES selectedCaseType;
 
-    public EditMapView(GameGrid gameGrid) {
+    public EditMapView(GameGrid gameGrid, ActionListener controller) {
 
+        this.selectedCaseType = CASE_TYPES.NONE;
         this.gameGrid = gameGrid;
 
         final int row = this.gameGrid.cases.length;
@@ -58,82 +55,41 @@ public class EditMapView implements ActionListener {
         mainPane.add(keys, BorderLayout.SOUTH);
 
         this.saveButton = new JButton("save");
+        this.saveButton.addActionListener(this);
         keys.add(this.saveButton);
 
+        this.startPointButton = new JButton("Start Point");
+        this.startPointButton.setBackground(Color.WHITE);
+        this.startPointButton.addMouseListener(this);
+        keys.add(this.startPointButton);
 
-        this.startPoint = new JButton("Start Point");
-        startPoint.setBackground(Color.WHITE);
-        this.endPoint = new JButton("Finish Point");
-        endPoint.setBackground(Color.WHITE);
-
-
-        keys.add(startPoint);
-        keys.add(endPoint);
-
-        startPoint.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectedKey = "icons/start.png";
-            }
-
-        });
-
-        endPoint.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectedKey = "icons/end.png";
-            }
-
-        });
-
-        this.saveButton.addActionListener(this);
+        this.endPointButton = new JButton("Finish Point");
+        this.endPointButton.setBackground(Color.WHITE);
+        this.endPointButton.addMouseListener(this);
+        keys.add(this.endPointButton);
 
         JPanel map = new JPanel(new GridLayout(row, col, 2, 2));
         mainPane.add(map, BorderLayout.CENTER);
 
         this.tiles = new JButton[row][col];
 
-        this.roadIcon = new ImageIcon("icons/road.jpg");
-        this.grassIcon = new ImageIcon("icons/grass.jpg");
-        this.startIcon = new ImageIcon("icons/start.png");
-        this.finishIcon = new ImageIcon("icons/end.png");
-
-
-
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
+                String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[this.gameGrid.cases[i][j].ordinal()];
+                ImageIcon tileIcon = new ImageIcon(iconPath);
+
                 this.tiles[i][j] = new JButton();
-                JButton currentTile = this.tiles[i][j];
-
-                switch (this.gameGrid.cases[i][j]) {
-
-                    case GRASS:
-                        currentTile.setIcon(this.grassIcon);
-                        break;
-
-                    case ROAD:
-                        currentTile.setIcon(this.roadIcon);
-                        break;
-
-                    case START:
-                        currentTile.setIcon(this.startIcon);
-                        break;
-
-                    case END:
-                        currentTile.setIcon(this.finishIcon);
-                        break;
-
-                }
-
-                currentTile.setBorderPainted(false);
-                currentTile.setContentAreaFilled(false);
-                currentTile.setFocusPainted(false);
+                this.tiles[i][j].setIcon(tileIcon);
+                this.tiles[i][j].setBorderPainted(false);
+                this.tiles[i][j].setContentAreaFilled(false);
+                this.tiles[i][j].setFocusPainted(false);
 
                 // action listener for tiles for changing them to path
-                currentTile.addActionListener(this);
+                this.tiles[i][j].addActionListener(this);
 
-                map.add(currentTile);
+                map.add(this.tiles[i][j]);
+
             }
         }
 
@@ -186,27 +142,64 @@ public class EditMapView implements ActionListener {
     }
 
     private void toggleTile(int row, int column) {
-        if (selectedKey.equals("")) {
-            if (this.gameGrid.cases[row][column] != CASE_TYPES.ROAD) {
-                this.gameGrid.cases[row][column] = CASE_TYPES.ROAD;
-                this.tiles[row][column].setIcon(this.roadIcon);
 
-            } else {
-                this.gameGrid.cases[row][column] = CASE_TYPES.GRASS;
-                this.tiles[row][column].setIcon(this.grassIcon);
+        CASE_TYPES selectedCaseType = CASE_TYPES.NONE;
 
-            }
+        // A special case type was selected, we place it on the grid.
+        if (this.selectedCaseType != CASE_TYPES.NONE) {
+            selectedCaseType = this.selectedCaseType;
+            this.selectedCaseType = CASE_TYPES.NONE;
+
+        // No special case type was selected, we will toggle between grass and road.
         } else {
-            this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
-            CASE_TYPES selectedCaseType = selectedKey.equals("icons/start.png") ? CASE_TYPES.START
-                            : CASE_TYPES.END;
-            this.gameGrid.cases[row][column] = selectedCaseType;
-            selectedKey = "";
+            if (this.gameGrid.cases[row][column] == CASE_TYPES.ROAD) {
+                selectedCaseType = CASE_TYPES.GRASS;
+            } else {
+                selectedCaseType = CASE_TYPES.ROAD;
+            }
         }
+
+        String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[selectedCaseType.ordinal()];
+        this.tiles[row][column].setIcon(new ImageIcon(iconPath));
+        this.gameGrid.cases[row][column] = selectedCaseType;
+
     }
 
     public void show() {
         this.frame.setVisible(true);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent event) {
+        if (event.getSource() == this.startPointButton) {
+            this.selectedCaseType = CASE_TYPES.START;
+        } else if (event.getSource() == this.endPointButton) {
+            this.selectedCaseType = CASE_TYPES.END;
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent arg0) {
+        // TODO Auto-generated method stub
+
     }
 
 }
