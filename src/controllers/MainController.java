@@ -1,4 +1,5 @@
-import java.awt.EventQueue;
+package controllers;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,14 +11,6 @@ import views.MainView;
 public class MainController implements Runnable, ActionListener {
 
     private MainView mainFrame;
-
-
-    public static void main(String[] args) {
-
-        MainController gameController = new MainController();
-        EventQueue.invokeLater(gameController);
-
-    }
 
     @Override
     public void run() {

@@ -1,3 +1,5 @@
+package controllers;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,13 +25,11 @@ public class GameController implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent event) {
 
-        System.out.println(event.getSource());
-        System.out.println(this.gameView.towerLabels.indexOf(event.getSource()));
         // The user clicked on one of the tower images.
         if (this.gameView.towerLabels.indexOf(event.getSource()) != -1) {
             this.selectedTower = this.gameView.towerLabels.indexOf(event.getSource());
             System.out.println(this.selectedTower);
-        // The user clicked on a tile on the game grid.
+            // The user clicked on a tile on the game grid.
         } else {
             JButton buttonClicked = (JButton) event.getSource();
             if (buttonClicked.getIcon().toString().equals("icons/grass.jpg")) {

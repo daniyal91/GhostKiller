@@ -14,13 +14,8 @@ public class GameGrid {
         GRASS, BUSH, ROAD, START, END, NONE
     };
 
-    public static String[] CASE_TYPES_ICON_PATHS = {
-                    "icons/grass.jpg",
-                    "icons/grass2.jpg",
-                    "icons/road.jpg",
-                    "icons/start.png",
-                    "icons/end.png"
-    };
+    public static String[] CASE_TYPES_ICON_PATHS = {"icons/grass.jpg", "icons/grass2.jpg",
+                    "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     // FIXME : this variable should be private once editMap is refactored!
     public CASE_TYPES[][] cases;
@@ -98,8 +93,7 @@ public class GameGrid {
                 for (int i = 0; i < columns; i++) {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
-                    if (addRandomBushes
-                                    && this.cases[linenumber][i] == CASE_TYPES.GRASS
+                    if (addRandomBushes && this.cases[linenumber][i] == CASE_TYPES.GRASS
                                     && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }

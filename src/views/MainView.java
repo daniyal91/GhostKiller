@@ -12,7 +12,8 @@ import javax.swing.border.EmptyBorder;
 
 /**
  *
- * Main View for the program. Offers the user 3 choices : create a map, edit a map, or play the game.
+ * Main View for the program. Offers the user 3 choices : create a map, edit a map, or play the
+ * game.
  *
  */
 public class MainView extends JFrame {
