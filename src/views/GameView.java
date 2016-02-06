@@ -38,34 +38,21 @@ public class GameView {
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         for (int i = 0; i < row * col; i++) {
+
             JButton tile = new JButton();
             tile.setContentAreaFilled(false);
             tile.setFocusPainted(false);
             tile.setOpaque(false);
             tile.setBorderPainted(false);
-            tile.setIcon(new ImageIcon("icons/grass2.jpg"));
 
-            switch (gameGrid.getCases()[i / col][i % col]) {
-                case GRASS:
-                    tile.setIcon(new ImageIcon("icons/grass.jpg"));
-                    break;
-                case BUSH:
-                    tile.setIcon(new ImageIcon("icons/grass2.jpg"));
-                    break;
-                case ROAD:
-                    tile.setIcon(new ImageIcon("icons/road.jpg"));
-                    break;
-                case START:
-                    tile.setIcon(new ImageIcon("icons/start.png"));
-                    break;
-                case END:
-                    tile.setIcon(new ImageIcon("icons/end.png"));
-                    break;
-            }
+            int caseTypeOrdinal = gameGrid.getCases()[i / col][i % col].ordinal();
+            String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[caseTypeOrdinal];
+            tile.setIcon(new ImageIcon(iconPath));
 
             tile.addMouseListener(controller);
 
             map.add(tile);
+
         }
 
         mainPane.add(map);
@@ -101,12 +88,14 @@ public class GameView {
         JPanel healthBankPanel = new JPanel();
         healthBankPanel.setBackground(Color.DARK_GRAY);
         mainPane.add(healthBankPanel, BorderLayout.SOUTH);
+
         // Bank image
         JLabel bankImgLabel = new JLabel(new ImageIcon("icons/bank_icon.png"));
         healthBankPanel.add(bankImgLabel);
         JLabel bankTxt = new JLabel("$100");
         bankTxt.setForeground(Color.green);
         healthBankPanel.add(bankTxt);
+
         // Health image
         JLabel lifeImgLabel = new JLabel(new ImageIcon("icons/life_icon.png"));
         healthBankPanel.add(lifeImgLabel);
