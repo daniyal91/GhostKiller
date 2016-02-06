@@ -10,7 +10,9 @@ import java.util.Random;
 
 public class GameGrid {
 
-    public static enum CASE_TYPES {GRASS, BUSH, ROAD, START, END};
+    public static enum CASE_TYPES {
+        GRASS, BUSH, ROAD, START, END
+    };
 
     // FIXME : this variable should be private once editMap is refactored!
     public CASE_TYPES[][] cases;
@@ -79,7 +81,8 @@ public class GameGrid {
                 for (int i = 0; i < columns; i++) {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
-                    if (this.cases[linenumber][i] == CASE_TYPES.GRASS && randomGenerator.nextInt(100) > 92) {
+                    if (this.cases[linenumber][i] == CASE_TYPES.GRASS
+                                    && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }
                 }
@@ -210,7 +213,8 @@ public class GameGrid {
         if (column > this.cases[0].length - 1) {
             return false;
         }
-        if (this.cases[line][column] == CASE_TYPES.GRASS || this.cases[line][column] == CASE_TYPES.BUSH) {
+        if (this.cases[line][column] == CASE_TYPES.GRASS
+                        || this.cases[line][column] == CASE_TYPES.BUSH) {
             return false;
         }
         if (connectivities[line][column][0] == 1) {
@@ -245,7 +249,7 @@ public class GameGrid {
 
         // check the left neighbor
         if (this.isRoad(line, column - 1, connectivites)) {
-            connectivites[line][column -1][0] = 1;
+            connectivites[line][column - 1][0] = 1;
             this.connect(connectivites, line, column - 1);
         }
 

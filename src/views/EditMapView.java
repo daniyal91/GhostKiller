@@ -208,7 +208,8 @@ public class EditMapView implements ActionListener {
             }
         } else {
             this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
-            CASE_TYPES selectedCaseType = selectedKey.equals("icons/start.png") ? CASE_TYPES.START : CASE_TYPES.END;
+            CASE_TYPES selectedCaseType = selectedKey.equals("icons/start.png") ? CASE_TYPES.START
+                            : CASE_TYPES.END;
             this.gameGrid.cases[row][column] = selectedCaseType;
             selectedKey = "";
         }
