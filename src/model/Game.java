@@ -1,8 +1,10 @@
 package model;
 
+import java.awt.Point;
 import java.util.HashMap;
+import java.util.Observable;
 
-public class Game {
+public class Game extends Observable {
 
     public static Tower[] AVAILABLE_TOWERS = {
                     new KingTower(),
@@ -10,25 +12,28 @@ public class Game {
                     new AncientTower()
     };
 
-    private final HashMap<GridLocation, Tower> towers = new HashMap<GridLocation, Tower>();
-    private GameGrid grid;
+    private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
+    public GameGrid grid;
 
     public Game() {
-
+        this.grid = new GameGrid();
     }
 
     public void addTower(Tower t, int line, int column) {
-        GridLocation location = new GridLocation(line, column);
+        Point location = new Point(line, column);
         this.towers.put(location, t);
+        System.out.println("adding a tower at" + line + " , " + column);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public boolean hasTower(int line, int column) {
-        GridLocation location = new GridLocation(line, column);
+        Point location = new Point(line, column);
         return this.towers.get(location) != null;
     }
 
     public Tower getTower(int line, int column) {
-        GridLocation location = new GridLocation(line, column);
+        Point location = new Point(line, column);
         return this.towers.get(location);
     }
 

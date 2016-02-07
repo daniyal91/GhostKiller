@@ -1,27 +1,28 @@
 package controllers;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import model.Game;
-import model.GameGrid;
 import model.Tower;
 import views.GameView;
 
 public class GameController implements MouseListener {
 
-    private GameGrid gameGrid;
+    private Game game;
     private GameView gameView;
 
     // Used to determine if a tower was selected for placement.
     private int selectedTower = -1;
 
-    public GameController(GameGrid gameGrid) {
-        this.gameGrid = gameGrid;
-        this.gameView = new GameView(gameGrid, this);
+    public GameController(Game game) {
+        this.game = game;
+        this.gameView = new GameView(game.grid, this);
+        this.game.addObserver(this.gameView);
+        this.gameView.show();
     }
 
     @Override
@@ -30,8 +31,7 @@ public class GameController implements MouseListener {
         // The user clicked on one of the tower images.
         if (this.gameView.towerLabels.indexOf(event.getSource()) != -1) {
             this.selectedTower = this.gameView.towerLabels.indexOf(event.getSource());
-            System.out.println(this.selectedTower);
-            // The user clicked on a tile on the game grid.
+        // The user clicked on a tile on the game grid.
         } else {
             JButton buttonClicked = (JButton) event.getSource();
             if (buttonClicked.getIcon().toString().equals("icons/grass.jpg")) {
@@ -39,12 +39,12 @@ public class GameController implements MouseListener {
                     // TODO
                 } else {
                     Tower tower = Game.AVAILABLE_TOWERS[this.selectedTower];
-                    buttonClicked.setIcon(new ImageIcon(tower.getIconPath()));
+                    Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
+                    this.game.addTower(tower, towerLocation.x, towerLocation.y);
                     this.selectedTower = -1;
                 }
             }
         }
-
     }
 
     @Override

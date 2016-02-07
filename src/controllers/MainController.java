@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import misc.utils;
+import model.Game;
 import model.GameGrid;
 import views.MainView;
 
@@ -50,9 +51,9 @@ public class MainController implements Runnable, ActionListener {
             String filePath = utils.selectFile();
             if (filePath != null) {
 
-                GameGrid gameGrid = new GameGrid();
-                gameGrid.readFromFile(filePath, true);
-                GameController gameController = new GameController(gameGrid);
+                Game game = new Game();
+                game.grid.readFromFile(filePath, true);
+                GameController gameController = new GameController(game);
 
             }
         }

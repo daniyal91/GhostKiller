@@ -3,8 +3,11 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,10 +20,11 @@ import model.Game;
 import model.GameGrid;
 import model.Tower;
 
-public class GameView {
+public class GameView implements Observer {
 
     private JFrame gameFrame;
     public ArrayList<JLabel> towerLabels;
+    private JButton[][] tiles;
 
     public GameView(GameGrid gameGrid, MouseListener controller) {
 
@@ -36,21 +40,23 @@ public class GameView {
         int col = gameGrid.getCases()[0].length;
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
+        this.tiles = new JButton[row][col];
+
         for (int i = 0; i < row * col; i++) {
 
-            JButton tile = new JButton();
-            tile.setContentAreaFilled(false);
-            tile.setFocusPainted(false);
-            tile.setOpaque(false);
-            tile.setBorderPainted(false);
+            this.tiles[i / col][i % col] = new JButton();
+            this.tiles[i / col][i % col].setContentAreaFilled(false);
+            this.tiles[i / col][i % col].setFocusPainted(false);
+            this.tiles[i / col][i % col].setOpaque(false);
+            this.tiles[i / col][i % col].setBorderPainted(false);
 
             int caseTypeOrdinal = gameGrid.getCases()[i / col][i % col].ordinal();
             String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[caseTypeOrdinal];
-            tile.setIcon(new ImageIcon(iconPath));
+            this.tiles[i / col][i % col].setIcon(new ImageIcon(iconPath));
 
-            tile.addMouseListener(controller);
+            this.tiles[i / col][i % col].addMouseListener(controller);
 
-            map.add(tile);
+            map.add(this.tiles[i / col][i % col]);
 
         }
 
@@ -59,7 +65,6 @@ public class GameView {
         this.gameFrame.setSize(540 * col / 10, 700 * row / 10);
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.gameFrame.setVisible(true);
 
         // Area where towers are displayed
         JPanel towerSelectionArea = new JPanel();
@@ -103,6 +108,48 @@ public class GameView {
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
 
+    }
+
+    public void show() {
+        this.gameFrame.setVisible(true);
+    }
+
+    /**
+     * After it is instantiated, the view should only be updated
+     * using this method. The view should know what to look
+     * for in the Game object in order to update it's representation.
+     */
+    @Override
+    public void update(Observable observable, Object object) {
+        Game game = (Game) observable;
+        // For now, we only update the locations of the towers.
+        for (int i = 0; i < this.tiles.length; i++) {
+            for (int j = 0; j < this.tiles[0].length; j++) {
+                if (game.hasTower(i, j)) {
+                    System.out.println("has a tower at" + i + " , " + j);
+                    this.placeTower(i, j, game.getTower(i, j));
+                }
+            }
+        }
+    }
+
+    private void placeTower(int line, int column, Tower tower){
+        this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
+    }
+
+    public Point getButtonLocation(JButton button) {
+        for (int i = 0; i < this.tiles.length; i++) {
+            for (int j = 0; j < this.tiles[0].length; j++) {
+                if (this.tiles[i][j] == button) {
+                    return new Point(i, j);
+                }
+            }
+        }
+        return null;
+    }
+
+    public void showTowerDetails(Tower t) {
+        // TODO show the details of the tower in a new panel.
     }
 
 

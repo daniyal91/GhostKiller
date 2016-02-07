@@ -6,4 +6,5 @@ public class AncientTower extends Tower {
         this.name = "Ancient tower";
         this.iconPath = "icons/AncientTower.png";
     }
+
 }
