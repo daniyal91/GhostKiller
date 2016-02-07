@@ -6,7 +6,9 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import model.Game;
 import model.GameGrid;
+import model.Tower;
 import views.GameView;
 
 public class GameController implements MouseListener {
@@ -36,8 +38,8 @@ public class GameController implements MouseListener {
                 if (this.selectedTower == -1) {
                     // TODO
                 } else {
-                    String towerImagePath = GameView.TOWER_IMAGES[this.selectedTower];
-                    buttonClicked.setIcon(new ImageIcon(towerImagePath));
+                    Tower tower = Game.AVAILABLE_TOWERS[this.selectedTower];
+                    buttonClicked.setIcon(new ImageIcon(tower.getIconPath()));
                     this.selectedTower = -1;
                 }
             }

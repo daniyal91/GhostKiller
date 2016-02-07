@@ -13,12 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Game;
 import model.GameGrid;
+import model.Tower;
 
 public class GameView {
-
-    public final static String[] TOWER_IMAGES =
-                    {"icons/AncientTower.png", "icons/KingTower.png", "icons/ModernTower.png"};
 
     private JFrame gameFrame;
     public ArrayList<JLabel> towerLabels;
@@ -73,9 +72,10 @@ public class GameView {
         this.towerLabels = new ArrayList<JLabel>();
 
         // Adding towers and their click listeners
-        for (int i = 0; i < TOWER_IMAGES.length; i++) {
+        for (int i = 0; i < Game.AVAILABLE_TOWERS.length; i++) {
 
-            ImageIcon towerIcon = new ImageIcon(TOWER_IMAGES[i]);
+            Tower tower = Game.AVAILABLE_TOWERS[i];
+            ImageIcon towerIcon = new ImageIcon(tower.getIconPath());
             JLabel towerLabel = new JLabel(towerIcon);
 
             this.towerLabels.add(towerLabel);
