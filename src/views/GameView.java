@@ -126,7 +126,6 @@ public class GameView implements Observer {
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles[0].length; j++) {
                 if (game.hasTower(i, j)) {
-                    System.out.println("has a tower at" + i + " , " + j);
                     this.placeTower(i, j, game.getTower(i, j));
                 }
             }
@@ -150,6 +149,7 @@ public class GameView implements Observer {
 
     public void showTowerDetails(Tower t) {
         // TODO show the details of the tower in a new panel.
+        System.out.println(t);
     }
 
 

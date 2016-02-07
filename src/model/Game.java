@@ -22,7 +22,6 @@ public class Game extends Observable {
     public void addTower(Tower t, int line, int column) {
         Point location = new Point(line, column);
         this.towers.put(location, t);
-        System.out.println("adding a tower at" + line + " , " + column);
         this.setChanged();
         this.notifyObservers();
     }

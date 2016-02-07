@@ -71,4 +71,9 @@ public abstract class Tower {
         return specialEffects;
     }
 
+    @Override
+    public String toString() {
+        return "Tower named " + this.name;
+    }
+
 }
