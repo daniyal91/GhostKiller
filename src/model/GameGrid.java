@@ -6,11 +6,30 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Random;
 
 public class GameGrid {
 
+    public static enum CASE_TYPES {
+        GRASS, BUSH, ROAD, START, END, NONE
+    };
+
+    public static String[] CASE_TYPES_ICON_PATHS = {"icons/grass.jpg", "icons/grass2.jpg",
+                    "icons/road.jpg", "icons/start.png", "icons/end.png"};
+
     // FIXME : this variable should be private once editMap is refactored!
-    public int[][] cases;
+    public CASE_TYPES[][] cases;
+
+    Random randomGenerator = new Random();
+
+    public GameGrid(int lineCount, int columnCount) {
+        this.cases = new CASE_TYPES[lineCount][columnCount];
+        for (int i = 0; i < lineCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                this.cases[i][j] = CASE_TYPES.GRASS;
+            }
+        }
+    }
 
     /*
      * Writes a serialized version of the game grid to a file.
@@ -24,7 +43,7 @@ public class GameGrid {
             for (int i = 0; i < this.cases.length; i++) {
                 pr.println();
                 for (int j = 0; j < this.cases[0].length; j++) {
-                    pr.print(this.cases[i][j] + " ");
+                    pr.print(this.cases[i][j].ordinal() + " ");
                 }
             }
 
@@ -34,23 +53,23 @@ public class GameGrid {
         }
     }
 
-    public int[][] getCases() {
+    public CASE_TYPES[][] getCases() {
         return this.cases;
     }
 
-    public void setCases(int[][] cases) {
+    public void setCases(CASE_TYPES[][] cases) {
         this.cases = cases;
     }
 
     // read and return an array from the text file "filename"
-    public void readFromFile(String filename) {
+    public void readFromFile(String filename, Boolean addRandomBushes) {
 
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
         int columns = 0; // n customer, k teams
 
         // Using an ArrayList instead of standard arrays.
-        this.cases = new int[1][1]; //
+        this.cases = new CASE_TYPES[1][1]; //
         BufferedReader br = null;
 
         try {
@@ -63,15 +82,21 @@ public class GameGrid {
             rows = Integer.parseInt(tokens[0]);
             columns = Integer.parseInt(tokens[1]);
 
-            this.cases = new int[rows][columns];
+            this.cases = new CASE_TYPES[rows][columns];
 
             // read other lines
             while ((line = br.readLine()) != null) {
+
                 // \\s+ means any number of white spaces between tokens
                 tokens = line.split("\\s+");
 
                 for (int i = 0; i < columns; i++) {
-                    this.cases[linenumber][i] = Integer.parseInt(tokens[i]);
+                    int caseValue = Integer.parseInt(tokens[i]);
+                    this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
+                    if (addRandomBushes && this.cases[linenumber][i] == CASE_TYPES.GRASS
+                                    && randomGenerator.nextInt(100) > 92) {
+                        this.cases[linenumber][i] = CASE_TYPES.BUSH;
+                    }
                 }
 
                 linenumber = linenumber + 1; // next line (lane) information
@@ -128,7 +153,7 @@ public class GameGrid {
         boolean flag = false;
         for (int i = 0; i < this.cases.length; i++) {
             for (int j = 0; j < this.cases[0].length; j++)
-                if (this.cases[i][j] == 2) {
+                if (this.cases[i][j] == CASE_TYPES.START) {
                     if (!flag) {
                         entP.xCoordinate = i;
                         entP.yCoordinate = j;
@@ -155,7 +180,7 @@ public class GameGrid {
         boolean flag = false;
         for (int i = 0; i < this.cases.length; i++) {
             for (int j = 0; j < this.cases[0].length; j++)
-                if (this.cases[i][j] == 3) {
+                if (this.cases[i][j] == CASE_TYPES.END) {
                     if (!flag) {
                         extP.xCoordinate = i;
                         extP.yCoordinate = j;
@@ -186,6 +211,30 @@ public class GameGrid {
 
     }
 
+    private boolean isRoad(int line, int column, int[][][] connectivities) {
+
+        if (line < 0) {
+            return false;
+        }
+        if (line > this.cases.length - 1) {
+            return false;
+        }
+        if (column < 0) {
+            return false;
+        }
+        if (column > this.cases[0].length - 1) {
+            return false;
+        }
+        if (this.cases[line][column] == CASE_TYPES.GRASS
+                        || this.cases[line][column] == CASE_TYPES.BUSH) {
+            return false;
+        }
+        if (connectivities[line][column][0] == 1) {
+            return false;
+        }
+        return true;
+    }
+
     /*
      * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if
      * they are path tiles, from the entrance to the exit point
@@ -193,29 +242,25 @@ public class GameGrid {
     private void connect(int[][][] connectivites, int line, int column) {
 
         // check the right neighbor
-        if (column < this.cases[0].length - 1 && this.cases[line][column + 1] >= 1
-                        && connectivites[line][column + 1][0] != 1) {
+        if (this.isRoad(line, column + 1, connectivites)) {
             connectivites[line][column + 1][0] = 1;
             this.connect(connectivites, line, column + 1);
         }
 
         // check the below neighbor
-        if (line < this.cases.length - 1 && this.cases[line + 1][column] >= 1
-                        && connectivites[line + 1][column][0] != 1) {
+        if (this.isRoad(line + 1, column, connectivites)) {
             connectivites[line + 1][column][0] = 1;
             this.connect(connectivites, line + 1, column);
         }
 
         // check the above neighbor
-        if (line > 0 && this.cases[line - 1][column] >= 1
-                        && connectivites[line - 1][column][0] != 1) {
+        if (this.isRoad(line - 1, column, connectivites)) {
             connectivites[line - 1][column][0] = 1;
             this.connect(connectivites, line - 1, column);
         }
 
         // check the left neighbor
-        if (column > 0 && this.cases[line][column - 1] >= 1
-                        && connectivites[line][column - 1][0] != 1) {
+        if (this.isRoad(line, column - 1, connectivites)) {
             connectivites[line][column - 1][0] = 1;
             this.connect(connectivites, line, column - 1);
         }

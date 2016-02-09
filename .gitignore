@@ -26,6 +26,8 @@ local.properties
 
 # Eclipse project files
 .classpath
+.settings
+.checkstyle
 
 # Vim temp files.
 *.swp

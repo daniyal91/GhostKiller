@@ -3,15 +3,11 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,29 +15,19 @@ import javax.swing.border.EmptyBorder;
 
 import model.GameGrid;
 
-public class EditMapView implements ActionListener {
+public class EditMapView<T extends ActionListener & MouseListener> {
 
-    private JFrame frame;
-    private JButton saveButton;
-    private GameGrid gameGrid;
+    public JFrame frame;
+    public JButton saveButton;
+    public JButton startPointButton;
+    public JButton endPointButton;
+    public JButton[][] tiles;
 
-    private JButton startPoint;
-    private JButton endPoint;
-    private String selectedKey = "";
 
-    private JButton[][] tiles;
-    private ImageIcon roadIcon;
-    private ImageIcon grassIcon;
-    private ImageIcon startIcon;
-    private ImageIcon finishIcon;
+    public EditMapView(GameGrid gameGrid, T controller) {
 
-    public EditMapView(final int[][] mapArr) {
-
-        this.gameGrid = new GameGrid();
-        this.gameGrid.cases = mapArr;
-
-        final int row = mapArr.length;
-        final int col = mapArr[0].length;
+        final int row = gameGrid.cases.length;
+        final int col = gameGrid.cases[0].length;
 
         this.frame = new JFrame("Create or Edit map");
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -59,84 +45,41 @@ public class EditMapView implements ActionListener {
         mainPane.add(keys, BorderLayout.SOUTH);
 
         this.saveButton = new JButton("save");
+        this.saveButton.addActionListener(controller);
         keys.add(this.saveButton);
 
+        this.startPointButton = new JButton("Start Point");
+        this.startPointButton.setBackground(Color.WHITE);
+        this.startPointButton.addMouseListener(controller);
+        keys.add(this.startPointButton);
 
-        this.startPoint = new JButton("Start Point");
-        startPoint.setBackground(Color.WHITE);
-        this.endPoint = new JButton("Finish Point");
-        endPoint.setBackground(Color.WHITE);
-
-
-        keys.add(startPoint);
-        keys.add(endPoint);
-
-        startPoint.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectedKey = "icons/start.png";
-            }
-
-        });
-
-        endPoint.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectedKey = "icons/end.png";
-            }
-
-        });
-
-
-
-        this.saveButton.addActionListener(this);
+        this.endPointButton = new JButton("Finish Point");
+        this.endPointButton.setBackground(Color.WHITE);
+        this.endPointButton.addMouseListener(controller);
+        keys.add(this.endPointButton);
 
         JPanel map = new JPanel(new GridLayout(row, col, 2, 2));
         mainPane.add(map, BorderLayout.CENTER);
 
         this.tiles = new JButton[row][col];
 
-        this.roadIcon = new ImageIcon("icons/road.jpg");
-        this.grassIcon = new ImageIcon("icons/grass.jpg");
-        this.startIcon = new ImageIcon("icons/start.png");
-        this.finishIcon = new ImageIcon("icons/end.png");
-
-
-
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
+                String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[gameGrid.cases[i][j].ordinal()];
+                ImageIcon tileIcon = new ImageIcon(iconPath);
+
                 this.tiles[i][j] = new JButton();
-                JButton currentTile = this.tiles[i][j];
-
-                switch (this.gameGrid.cases[i][j]) {
-
-                    case 0:
-                        currentTile.setIcon(this.grassIcon);
-                        break;
-
-                    case 1:
-                        currentTile.setIcon(this.roadIcon);
-                        break;
-
-                    case 2:
-                        currentTile.setIcon(this.startIcon);
-                        break;
-
-                    case 3:
-                        currentTile.setIcon(this.finishIcon);
-                        break;
-
-                }
-
-                currentTile.setBorderPainted(false);
-                currentTile.setContentAreaFilled(false);
-                currentTile.setFocusPainted(false);
+                this.tiles[i][j].setIcon(tileIcon);
+                this.tiles[i][j].setBorderPainted(false);
+                this.tiles[i][j].setContentAreaFilled(false);
+                this.tiles[i][j].setFocusPainted(false);
 
                 // action listener for tiles for changing them to path
-                currentTile.addActionListener(this);
+                this.tiles[i][j].addActionListener(controller);
 
-                map.add(currentTile);
+                map.add(this.tiles[i][j]);
+
             }
         }
 
@@ -144,77 +87,12 @@ public class EditMapView implements ActionListener {
 
     }
 
-    private boolean saveMap() {
-
-
-        if (this.gameGrid.isConnected()) {
-
-            System.out.println("the path has entrance/exit and it's connected");
-            JFileChooser fileChooser = new JFileChooser();
-            File currentDir = new File(System.getProperty("user.dir"));
-            fileChooser.setCurrentDirectory(currentDir);
-            int returnValue = fileChooser.showOpenDialog(null);
-
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-
-                this.gameGrid.writeToFile(selectedFile.getName());
-                return true;
-            }
-        }
-
-        else {
-            JOptionPane.showMessageDialog(null,
-                            "the path is not connected or invalid entrance/exit point(s) ",
-                            "Try Again", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-
-        if (event.getSource() == this.saveButton && this.saveMap()) {
-            frame.dispose();
-        } else {
-            this.updateTile(event.getSource());
-        }
-    }
-
-
-    private void updateTile(Object source) {
-
-        for (int i = 0; i < this.gameGrid.cases.length; i++) {
-            for (int j = 0; j < this.gameGrid.cases[0].length; j++) {
-                if (source == this.tiles[i][j]) {
-                    this.toggleTile(i, j);
-                }
-            }
-        }
-    }
-
-    private void toggleTile(int row, int column) {
-        if (selectedKey.equals("")) {
-            if (this.gameGrid.cases[row][column] == 0 || this.gameGrid.cases[row][column] == 2
-                            || this.gameGrid.cases[row][column] == 3) {
-                this.gameGrid.cases[row][column] = 1;
-                this.tiles[row][column].setIcon(this.roadIcon);
-
-            } else {
-                this.gameGrid.cases[row][column] = 0;
-                this.tiles[row][column].setIcon(this.grassIcon);
-
-            }
-        } else {
-            this.tiles[row][column].setIcon(new ImageIcon(selectedKey));
-            this.gameGrid.cases[row][column] = selectedKey.equals("icons/start.png") ? 2 : 3;
-            selectedKey = "";
-        }
-    }
-
     public void show() {
         this.frame.setVisible(true);
+    }
+
+    public void showMessage(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
     }
 
 }
