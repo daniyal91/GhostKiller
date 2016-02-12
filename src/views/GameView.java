@@ -57,7 +57,6 @@ public class GameView implements Observer {
             this.tiles[i / col][i % col].addMouseListener(controller);
 
             map.add(this.tiles[i / col][i % col]);
-
         }
 
         mainPane.add(map);
@@ -132,7 +131,9 @@ public class GameView implements Observer {
         }
     }
 
-    private void placeTower(int line, int column, Tower tower){
+    private void placeTower(int line, int column, Tower tower){     
+        this.tiles[line][column].setBackground(new Color(45,111,1));
+        this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
     }
 
