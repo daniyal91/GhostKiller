@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameGrid {
@@ -35,7 +36,7 @@ public class GameGrid {
         }
     }
 
-    /*
+    /**
      * Writes a serialized version of the game grid to a file.
      */
     public void writeToFile(String filename) {
@@ -114,89 +115,92 @@ public class GameGrid {
 
     }
 
-    /*
-     * Verifies if a map is connected from the entry point to the exit point.
+    /**
+     * Validates that a map is valid.
+     * Many checks are made, including if one exit and one entry point exist, and
+     * if there is a connecting path between them.
+     *
+     * @throws GameGridException
      */
-    public boolean isConnected() {
+    public void validateMap() throws GameGridException {
 
-        // a new int[][] with the same dimension for tracking the connectivity
-        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][1];
-
-        // check if it has a entry point before it :
-
-        if (gridValid(this.entryPoint())) {
-            connectivities[this.entryPoint().xCoordinate][this.entryPoint().yCoordinate][0] = 1;
-            this.connect(connectivities, this.entryPoint().xCoordinate,
-                            this.entryPoint().yCoordinate);
-            System.out.println("entrance point: (" + this.entryPoint().xCoordinate + ","
-                            + this.entryPoint().yCoordinate + ")");
-            System.out.println("exit point: (" + this.exitPoint().xCoordinate + ","
-                            + this.exitPoint().yCoordinate + ")");
-        } else {
-
-            System.out.println("Entrance point not valid");
+        ArrayList<GridLocation> entryPoints = this.getCasesByType(CASE_TYPES.START);
+        if (entryPoints.size() > 1) {
+            throw new GameGridException("Invalid grid : too many entry points.");
         }
 
-        if (gridValid(this.exitPoint())) {
-            return (connectivities[this.exitPoint().xCoordinate][this
-                            .exitPoint().yCoordinate][0] == 1);
-        } else {
-            System.out.println("Exit point not valid");
-            return false;
+        if (entryPoints.size() == 0) {
+            throw new GameGridException("Invalid grid : no entry point.");
+        }
+
+        ArrayList<GridLocation> exitPoints = this.getCasesByType(CASE_TYPES.END);
+        if (exitPoints.size() > 1) {
+            throw new GameGridException("Invalid grid : too many exit points.");
+        }
+
+        if (exitPoints.size() == 0) {
+            throw new GameGridException("Invalid grid : no exit point.");
+        }
+
+        if (!this.isConnected()) {
+            throw new GameGridException("Invalid grid : no connecting path between exit point and entry point.");
         }
 
     }
 
-    /*
+    /**
+     * Verifies if a map is connected from the entry point to the exit point.
+     * We must be sure that there is only one exit point and one entry point
+     * before calling this function!
+     */
+    public boolean isConnected() {
+
+        GridLocation entryPoint = this.entryPoint();
+        GridLocation exitPoint = this.exitPoint();
+
+        // a new int[][] with the same dimension for tracking the connectivity
+        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][1];
+
+        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
+        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);
+        return connectivities[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
+
+    }
+
+    public ArrayList<GridLocation> getCasesByType(CASE_TYPES caseType) {
+
+        ArrayList<GridLocation> response = new ArrayList<GridLocation>();
+
+        for (int i = 0; i < this.cases.length; i++) {
+            for (int j = 0; j < this.cases[0].length; j++) {
+                if(this.cases[i][j] == caseType) {
+                    response.add(new GridLocation(i, j));
+                }
+
+            }
+        }
+
+        return response;
+
+    }
+
+
+    /**
      * Returns the entry point of the grid. The entry point is assumed to be at the left edge
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
     public GridLocation entryPoint() {
-        GridLocation entP = new GridLocation();
-        boolean flag = false;
-        for (int i = 0; i < this.cases.length; i++) {
-            for (int j = 0; j < this.cases[0].length; j++)
-                if (this.cases[i][j] == CASE_TYPES.START) {
-                    if (!flag) {
-                        entP.xCoordinate = i;
-                        entP.yCoordinate = j;
-                        flag = true;
-                    } else {
-                        if (flag)
-                            System.out.println("more than one entry point");
-                        return new GridLocation();
-
-                    }
-                }
-        }
-        return entP;
+        return this.getCasesByType(CASE_TYPES.START).get(0);
     }
 
-    /*
+    /**
      * Returns the exit point of the grid. The exit point is assumed to be at the right edge
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
     public GridLocation exitPoint() {
-        GridLocation extP = new GridLocation();
-        boolean flag = false;
-        for (int i = 0; i < this.cases.length; i++) {
-            for (int j = 0; j < this.cases[0].length; j++)
-                if (this.cases[i][j] == CASE_TYPES.END) {
-                    if (!flag) {
-                        extP.xCoordinate = i;
-                        extP.yCoordinate = j;
-                        flag = true;
-                    } else {
-                        if (flag)
-                            System.out.println("more than one exit point");
-                        return new GridLocation();
-
-                    }
-                }
-        }
-        return extP;
+        return this.getCasesByType(CASE_TYPES.END).get(0);
     }
 
     public boolean gridValid(GridLocation grid) {
@@ -233,7 +237,7 @@ public class GameGrid {
         return true;
     }
 
-    /*
+    /**
      * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if
      * they are path tiles, from the entrance to the exit point
      */
