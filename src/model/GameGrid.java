@@ -22,6 +22,10 @@ public class GameGrid {
 
     Random randomGenerator = new Random();
 
+    public GameGrid() {
+
+    }
+
     public GameGrid(int lineCount, int columnCount) {
         this.cases = new CASE_TYPES[lineCount][columnCount];
         for (int i = 0; i < lineCount; i++) {
@@ -174,7 +178,6 @@ public class GameGrid {
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
-
     public GridLocation exitPoint() {
         GridLocation extP = new GridLocation();
         boolean flag = false;
@@ -196,7 +199,6 @@ public class GameGrid {
         return extP;
     }
 
-
     public boolean gridValid(GridLocation grid) {
         if (grid.xCoordinate * grid.yCoordinate == 0 || grid.xCoordinate == this.cases.length - 1
                         || grid.yCoordinate == this.cases[0].length - 1)
@@ -204,10 +206,6 @@ public class GameGrid {
         else
             return false;
 
-
-    }
-
-    public GameGrid() {
 
     }
 

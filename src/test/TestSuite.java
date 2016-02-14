@@ -5,8 +5,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)
-@SuiteClasses({GameGridTest.class, 
-               GridLocationTest.class})
+@SuiteClasses(
+              {
+               GameGridTestCase.class,
+               GridLocationTestCase.class,
+               GameTestCase.class
+              }
+             )
 
 public class TestSuite {
 }

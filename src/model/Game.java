@@ -6,6 +6,14 @@ import java.util.Observable;
 
 public class Game extends Observable {
 
+    /**
+     * Initial amount of money that the player has to buy towers.
+     */
+    public static int INITIAL_MONEY = 100;
+
+    /**
+     * List of available towers that the user can buy.
+     */
     public static Tower[] AVAILABLE_TOWERS = {
                     new KingTower(),
                     new ModernTower(),
@@ -18,8 +26,8 @@ public class Game extends Observable {
     private int money;
 
     public Game() {
-        this.grid = new GameGrid();
-        this.money = 100;
+        this.grid = new GameGrid(100, 100);
+        this.money = Game.INITIAL_MONEY;
     }
 
     public int getMoney() {
@@ -33,15 +41,29 @@ public class Game extends Observable {
      * @param line    Line where to place the new tower.
      * @param column  Column where to place the new tower.
      */
-    public void buyTower(Tower tower, int line, int column) {
-        System.out.println(tower.getInitialCost());
-        System.out.println(this.money);
+    public void buyTower(Tower tower, int line, int column) {;
         if (tower.getInitialCost() > this.money) {
             // TODO maybe raise an exception to notify there is not enough money left.
             return;
         }
         this.money -= tower.getInitialCost();
         this.addTower(tower, line, column);
+    }
+
+    /**
+     * Sells a tower at a specific location of the game grid.
+     *
+     * @param line    Line where to place the new tower.
+     * @param column  Column where to place the new tower.
+     */
+    public void sellTower(int line, int column) {
+
+        Tower tower = this.getTower(line, column);
+        this.money += tower.refundAmout();
+        this.towers.remove(tower);
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
     public void addTower(Tower t, int line, int column) {
