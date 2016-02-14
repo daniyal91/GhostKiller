@@ -9,7 +9,7 @@ public abstract class Tower {
     protected String name;
     protected String iconPath;
 
-    private int initialCost;
+    protected int initialCost;
     private int level;
     private int levelCost;
     private int refundRate;

@@ -21,7 +21,7 @@ public class GameController implements MouseListener {
 
     public GameController(Game game) {
         this.game = game;
-        this.gameView = new GameView(game.grid, this);
+        this.gameView = new GameView(game, this);
         this.game.addObserver(this.gameView);
         this.gameView.show();
     }
@@ -46,7 +46,7 @@ public class GameController implements MouseListener {
                     this.gameView.showTowerDetails(tower);
                 } else {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.addTower(this.selectedTower, towerLocation.x, towerLocation.y);
+                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
                     this.selectedTower = null;
                 }
             }

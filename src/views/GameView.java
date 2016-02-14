@@ -25,8 +25,9 @@ public class GameView implements Observer {
     private JFrame gameFrame;
     public ArrayList<JLabel> towerLabels;
     private JButton[][] tiles;
+    private JLabel cashLabel;
 
-    public GameView(GameGrid gameGrid, MouseListener controller) {
+    public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
 
@@ -36,8 +37,8 @@ public class GameView implements Observer {
         mainPane.setLayout(new BorderLayout(0, 0));
         this.gameFrame.setContentPane(mainPane);
 
-        int row = gameGrid.getCases().length;
-        int col = gameGrid.getCases()[0].length;
+        int row = game.grid.getCases().length;
+        int col = game.grid.getCases()[0].length;
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -50,7 +51,7 @@ public class GameView implements Observer {
             this.tiles[i / col][i % col].setOpaque(false);
             this.tiles[i / col][i % col].setBorderPainted(false);
 
-            int caseTypeOrdinal = gameGrid.getCases()[i / col][i % col].ordinal();
+            int caseTypeOrdinal = game.grid.getCases()[i / col][i % col].ordinal();
             String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[caseTypeOrdinal];
             this.tiles[i / col][i % col].setIcon(new ImageIcon(iconPath));
 
@@ -96,9 +97,9 @@ public class GameView implements Observer {
         // Bank image
         JLabel bankImgLabel = new JLabel(new ImageIcon("icons/bank_icon.png"));
         healthBankPanel.add(bankImgLabel);
-        JLabel bankTxt = new JLabel("$100");
-        bankTxt.setForeground(Color.green);
-        healthBankPanel.add(bankTxt);
+        this.cashLabel = new JLabel("$" + game.getMoney());
+        this.cashLabel.setForeground(Color.green);
+        healthBankPanel.add(this.cashLabel);
 
         // Health image
         JLabel lifeImgLabel = new JLabel(new ImageIcon("icons/life_icon.png"));
@@ -129,9 +130,10 @@ public class GameView implements Observer {
                 }
             }
         }
+        this.cashLabel.setText("$" + game.getMoney());
     }
 
-    private void placeTower(int line, int column, Tower tower){     
+    private void placeTower(int line, int column, Tower tower){
         this.tiles[line][column].setBackground(new Color(45,111,1));
         this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
