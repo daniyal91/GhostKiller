@@ -15,8 +15,33 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
+    private int money;
+
     public Game() {
         this.grid = new GameGrid();
+        this.money = 100;
+    }
+
+    public int getMoney() {
+        return this.money;
+    }
+
+    /**
+     * Buys a news tower and place it at the specified position on the grid.
+     *
+     * @param tower   The tower to buy.
+     * @param line    Line where to place the new tower.
+     * @param column  Column where to place the new tower.
+     */
+    public void buyTower(Tower tower, int line, int column) {
+        System.out.println(tower.getInitialCost());
+        System.out.println(this.money);
+        if (tower.getInitialCost() > this.money) {
+            // TODO maybe raise an exception to notify there is not enough money left.
+            return;
+        }
+        this.money -= tower.getInitialCost();
+        this.addTower(tower, line, column);
     }
 
     public void addTower(Tower t, int line, int column) {
