@@ -34,24 +34,23 @@ public class GameController implements MouseListener {
             int selectedTowerIndex = this.gameView.towerLabels.indexOf(event.getSource());
             this.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
             this.gameView.showTowerDetails(this.selectedTower);
+            return;
+        }
 
         // The user clicked on a tile on the game grid.
-        } else {
-            JButton buttonClicked = (JButton) event.getSource();
-            Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
-            GameGrid.CASE_TYPES caseType = this.game.grid.cases[clickLocation.x][clickLocation.y];
-            if (caseType == GameGrid.CASE_TYPES.GRASS) {
-                if (this.selectedTower == null && this.game.hasTower(clickLocation.x,clickLocation.y)) {
-                    Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
-                    this.gameView.showTowerDetails(tower);
-                } else {
-                    Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
-                    this.selectedTower = null;
-                }
+        JButton buttonClicked = (JButton) event.getSource();
+        Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
+        GameGrid.CASE_TYPES caseType = this.game.grid.cases[clickLocation.x][clickLocation.y];
+        if (caseType == GameGrid.CASE_TYPES.GRASS) {
+            if (this.selectedTower == null && this.game.hasTower(clickLocation.x,clickLocation.y)) {
+                Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
+                this.gameView.showTowerDetails(tower);
+            } else if (this.selectedTower != null) {
+                this.game.buyTower(this.selectedTower, clickLocation.x, clickLocation.y);
+                this.selectedTower = null;
             }
-
         }
+
     }
 
     @Override

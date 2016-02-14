@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import misc.utils;
 import model.GameGrid;
 import model.GameGrid.CASE_TYPES;
+import model.GameGridException;
 import views.EditMapView;
 
 public class EditMapController implements ActionListener, MouseListener {
@@ -26,21 +27,18 @@ public class EditMapController implements ActionListener, MouseListener {
 
     private boolean saveMap() {
 
-        if (this.gameGrid.isConnected()) {
-
-            String filePath = utils.selectFile();
-            if (filePath != null) {
-                this.gameGrid.writeToFile(filePath);
-                return true;
-            }
+        try {
+            this.gameGrid.validateMap();
+        } catch (GameGridException exception) {
+            this.editMapView.showMessage(exception.getMessage(), "Error while saving map!");
+            return false;
         }
 
-        else {
-            this.editMapView.showMessage(
-                            "Sorry, no connecting path between entry point and exit point!",
-                            "Invalid map");
+        String filePath = utils.selectFile();
+        if (filePath != null) {
+            this.gameGrid.writeToFile(filePath);
         }
-        return false;
+        return true;
 
     }
 
