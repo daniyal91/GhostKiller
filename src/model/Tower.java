@@ -2,6 +2,11 @@ package model;
 
 public abstract class Tower {
 
+    /**
+     * Refund rate of the towers.
+     */
+    public static double REFUND_RATE = 0.40;
+
     public static enum SPECIAL_EFFECTS {
         SLOW, SPLASH, TELEPORT
     }
@@ -12,7 +17,6 @@ public abstract class Tower {
     protected int initialCost;
     private int level;
     private int levelCost;
-    private int refundRate;
 
     private int range;
     private int rangeIncrease;
@@ -43,10 +47,6 @@ public abstract class Tower {
         return levelCost;
     }
 
-    public int getRefundRate() {
-        return refundRate;
-    }
-
     public int getRange() {
         return range;
     }
@@ -74,6 +74,16 @@ public abstract class Tower {
     @Override
     public String toString() {
         return "Tower named " + this.name;
+    }
+
+    /**
+     * Calculates the refund amount of the tower
+     *
+     * @return The refund amount of the tower.
+     */
+    public int refundAmout() {
+        int totalCost = this.initialCost + (this.level * this.levelCost);
+        return (int) (totalCost * Tower.REFUND_RATE);
     }
 
 }

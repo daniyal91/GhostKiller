@@ -9,7 +9,7 @@ import model.GameGrid;
 import model.GameGrid.CASE_TYPES;
 import model.GridLocation;
 
-public class GameGridTest {
+public class GameGridTestCase {
 
     GameGrid testgamegird = new GameGrid();
     GameGrid badgamegird = new GameGrid();

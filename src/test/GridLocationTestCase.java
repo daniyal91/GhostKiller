@@ -5,7 +5,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import model.GridLocation;
 
-public class GridLocationTest extends TestCase {
+public class GridLocationTestCase extends TestCase {
 
     @Test
     public void testDefaultConstructor() {
