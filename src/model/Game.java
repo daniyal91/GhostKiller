@@ -57,13 +57,11 @@ public class Game extends Observable {
      * @param column  Column where to place the new tower.
      */
     public void sellTower(int line, int column) {
-
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
         this.setChanged();
         this.notifyObservers();
-
     }
 
     public void addTower(Tower t, int line, int column) {
@@ -81,6 +79,18 @@ public class Game extends Observable {
     public Tower getTower(int line, int column) {
         Point location = new Point(line, column);
         return this.towers.get(location);
+    }
+    
+    public void upgradeTower(int line, int column) {
+    	Tower tower = this.getTower(line, column);
+    	if(this.money >= tower.getLevelCost()) {
+	    	tower.setLevel(tower.getLevel()+1);
+	    	tower.setPower(tower.getPower()+tower.getPowerIncrease());
+	    	tower.setRange(tower.getRange()+tower.getRangeIncrease());
+	    	this.money -= tower.getLevelCost();
+	        this.setChanged();
+	        this.notifyObservers();
+    	}        
     }
 
 }

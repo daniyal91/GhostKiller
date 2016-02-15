@@ -188,6 +188,18 @@ public class GameView implements Observer {
 	            }
 	        });
 	        towerImagePanel.add(sellTower);
+	        JButton upgradeTower = new JButton();
+	        upgradeTower.setBackground(Color.white);
+	        upgradeTower.setText("Upgrade Tower");
+	        // TODO: Move this method to the controller
+	        upgradeTower.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e)
+	            {
+	            	game.upgradeTower(x, y);
+	            	towerInspectionWindow.dispose();
+	            }
+	        });
+	        towerImagePanel.add(upgradeTower);
         }
         // Tower Details
         JPanel towerDetailsPanel = new JPanel();
