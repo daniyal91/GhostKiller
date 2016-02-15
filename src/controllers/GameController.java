@@ -3,9 +3,7 @@ package controllers;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JButton;
-
 import model.Game;
 import model.GameGrid;
 import model.Tower;
@@ -45,7 +43,8 @@ public class GameController implements MouseListener {
                     this.gameView.showTowerDetails(tower, true, clickLocation.x, clickLocation.y, game);
                 } else if(this.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
+                 Tower t= new Tower(this.selectedTower);
+                    this.game.buyTower(t, towerLocation.x, towerLocation.y);
                     this.selectedTower = null;
                 }
             }

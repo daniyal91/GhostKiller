@@ -1,6 +1,9 @@
 package model;
 
-public abstract class Tower {
+public class Tower {
+
+
+
 
     /**
      * Refund rate of the towers.
@@ -21,7 +24,25 @@ public abstract class Tower {
     private int rateOfFire;
     private SPECIAL_EFFECTS specialEffects;
 
-   
+
+    public Tower() {
+    }
+
+
+    public Tower(Tower T) {
+        super();
+        this.name=T.name;
+        this.iconPath=T.iconPath;
+        this.initialCost=T.initialCost;
+        this.level=T.level;
+        this.levelCost=T.levelCost;
+        this.range=T.range;
+        this.power=T.power;
+        this.rateOfFire=T.rateOfFire;
+
+    }
+
+
     public SPECIAL_EFFECTS getSpecialEffects() {
         return specialEffects;
     }
