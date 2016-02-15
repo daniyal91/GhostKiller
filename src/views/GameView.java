@@ -167,7 +167,12 @@ public class GameView implements Observer {
         // Tower Image
         JPanel towerImagePanel = new JPanel();
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
-        JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
+        //JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
+        //towerImage.setBackground(Color.DARK_GRAY);
+        //towerImagePanel.add(towerImage);
+        JButton towerImage = new JButton();
+        towerImage.setBackground(Color.DARK_GRAY);
+        towerImage.setIcon(new ImageIcon(t.getIconPath()));
         towerImagePanel.add(towerImage);
         
         // Tower Details
