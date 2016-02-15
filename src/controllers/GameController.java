@@ -28,26 +28,26 @@ public class GameController implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-
         // The user clicked on one of the tower images.
         if (this.gameView.towerLabels.indexOf(event.getSource()) != -1) {
             int selectedTowerIndex = this.gameView.towerLabels.indexOf(event.getSource());
             this.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
-            this.gameView.showTowerDetails(this.selectedTower);
-            return;
-        }
+            this.gameView.showTowerDetails(this.selectedTower, false, 0, 0, game);
 
         // The user clicked on a tile on the game grid.
-        JButton buttonClicked = (JButton) event.getSource();
-        Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
-        GameGrid.CASE_TYPES caseType = this.game.grid.cases[clickLocation.x][clickLocation.y];
-        if (caseType == GameGrid.CASE_TYPES.GRASS) {
-            if (this.selectedTower == null && this.game.hasTower(clickLocation.x,clickLocation.y)) {
-                Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
-                this.gameView.showTowerDetails(tower);
-            } else if (this.selectedTower != null) {
-                this.game.buyTower(this.selectedTower, clickLocation.x, clickLocation.y);
-                this.selectedTower = null;
+        } else {
+            JButton buttonClicked = (JButton) event.getSource();
+            Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
+            GameGrid.CASE_TYPES caseType = this.game.grid.cases[clickLocation.x][clickLocation.y];
+            if (caseType == GameGrid.CASE_TYPES.GRASS) {
+                if (this.selectedTower == null && this.game.hasTower(clickLocation.x,clickLocation.y)) {
+                    Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
+                    this.gameView.showTowerDetails(tower, true, clickLocation.x, clickLocation.y, game);
+                } else {
+                    Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
+                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
+                    this.selectedTower = null;
+                }
             }
         }
 
