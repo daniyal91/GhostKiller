@@ -10,9 +10,7 @@ public class ModernTower extends Tower {
         this.setLevelCost(4);
         this.setPower(1);
         this.setRange(3);
-        this.setPowerIncrease(1);
-        this.setRangeIncrease(1);
-      
+        this.setRateOfFire(1);
     }
 
 }

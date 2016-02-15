@@ -10,8 +10,7 @@ public class AncientTower extends Tower {
         this.setLevelCost(15);
         this.setPower(4);
         this.setRange(8);
-        this.setPowerIncrease(3);
-        this.setRangeIncrease(3);
+        this.setRateOfFire(1);
     }
 
 }

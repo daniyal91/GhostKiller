@@ -10,8 +10,7 @@ public class KingTower extends Tower {
         this.setLevelCost(8);
         this.setPower(2);
         this.setRange(5);
-        this.setPowerIncrease(2);
-        this.setRangeIncrease(2);
+        this.setRateOfFire(1);
     }
 
 }

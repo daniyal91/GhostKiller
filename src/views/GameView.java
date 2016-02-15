@@ -34,7 +34,7 @@ public class GameView implements Observer {
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-
+   
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,7 +66,8 @@ public class GameView implements Observer {
 
         mainPane.add(map);
 
-        this.gameFrame.setSize(540 * col / 10, 700 * row / 10);
+        this.gameFrame.setSize(530 * col / 10, 680 * row / 10);
+    
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -111,6 +112,7 @@ public class GameView implements Observer {
         JLabel lifeTxt = new JLabel("75%");
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
+        this.gameFrame.setResizable(false);
 
     }
 

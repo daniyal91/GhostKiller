@@ -15,9 +15,9 @@ public class Game extends Observable {
      * List of available towers that the user can buy.
      */
     public static Tower[] AVAILABLE_TOWERS = {
-                    new KingTower(),
-                    new ModernTower(),
-                    new AncientTower()
+            new KingTower(),
+            new ModernTower(),
+            new AncientTower()
     };
 
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
@@ -42,12 +42,12 @@ public class Game extends Observable {
      * @param column  Column where to place the new tower.
      */
     public void buyTower(Tower tower, int line, int column) {;
-        if (tower.getInitialCost() > this.money) {
-            // TODO maybe raise an exception to notify there is not enough money left.
-            return;
-        }
-        this.money -= tower.getInitialCost();
-        this.addTower(tower, line, column);
+    if (tower.getInitialCost() > this.money) {
+        // TODO maybe raise an exception to notify there is not enough money left.
+        return;
+    }
+    this.money -= tower.getInitialCost();
+    this.addTower(tower, line, column);
     }
 
     /**
@@ -85,8 +85,9 @@ public class Game extends Observable {
     	Tower tower = this.getTower(line, column);
     	if(this.money >= tower.getLevelCost()) {
 	    	tower.setLevel(tower.getLevel()+1);
-	    	tower.setPower(tower.getPower()+tower.getPowerIncrease());
-	    	tower.setRange(tower.getRange()+tower.getRangeIncrease());
+	    	tower.setPower(tower.getPower()+tower.getPower());
+	    	tower.setRange(tower.getRange()+tower.getRange());
+	    	tower.setRateOfFire(tower.getRateOfFire()+tower.getRateOfFire());
 	    	this.money -= tower.getLevelCost();
 	        this.setChanged();
 	        this.notifyObservers();
