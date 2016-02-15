@@ -21,7 +21,7 @@ public class GameGridTestCase {
     GameGrid badgamegird = new GameGrid();
 
     @Before
-    public void beforeMethod(){
+    public void beforeMethod() {
         testgamegird.readFromFile("src/test/testfiles/testmap.txt", false);
         badgamegird.readFromFile("src/test/testfiles/testmap2.txt", false);
     }
@@ -29,7 +29,7 @@ public class GameGridTestCase {
     @Test
     public void testReadFromFile() throws IOException {
         assertTrue("The information could not be read from the file",
-                testgamegird.cases.length == 10);
+                        testgamegird.cases.length == 10);
     }
 
     @Test
@@ -72,25 +72,26 @@ public class GameGridTestCase {
     public void testGridValid() {
         GridLocation testgridl = testgamegird.exitPoint();
         assertTrue("GridValid test failed for a vlid GridLocation",
-                testgamegird.gridValid(testgridl));
+                        testgamegird.gridValid(testgridl));
     }
 
-    @Test(expected=GameGridException.class)
+    @Test(expected = GameGridException.class)
     public void testNoConnectingPath() throws GameGridException {
         try {
             this.badgamegird.validateMap();
         } catch (GameGridException e) {
-            assertEquals(e.getMessage(), "Invalid grid : no connecting path between exit point and entry point.");
+            assertEquals(e.getMessage(),
+                            "Invalid grid : no connecting path between exit point and entry point.");
             throw e;
         }
     }
 
-    @Test(expected=GameGridException.class)
+    @Test(expected = GameGridException.class)
     public void testNoEntryPoint() throws GameGridException {
 
         // Replacing all the entry points by grass.
         ArrayList<GridLocation> entryPoints = this.badgamegird.getCasesByType(CASE_TYPES.START);
-        for (GridLocation entryPoint: entryPoints) {
+        for (GridLocation entryPoint : entryPoints) {
             this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] = CASE_TYPES.GRASS;
         }
 
@@ -102,7 +103,7 @@ public class GameGridTestCase {
         }
     }
 
-    @Test(expected=GameGridException.class)
+    @Test(expected = GameGridException.class)
     public void testTooManyEntryPoints() throws GameGridException {
 
         // Manually adding 3 entry points.
