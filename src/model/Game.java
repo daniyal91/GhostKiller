@@ -60,7 +60,7 @@ public class Game extends Observable {
 
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
-        this.towers.remove(tower);
+        this.towers.remove(new Point(line, column));
         this.setChanged();
         this.notifyObservers();
 
