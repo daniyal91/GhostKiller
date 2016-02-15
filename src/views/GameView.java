@@ -141,6 +141,10 @@ public class GameView implements Observer {
         this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
     }
+    
+    private void removeTower(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon("icons/grass.jpg"));
+    }
 
     public Point getButtonLocation(JButton button) {
         for (int i = 0; i < this.tiles.length; i++) {
@@ -184,6 +188,7 @@ public class GameView implements Observer {
 	            public void actionPerformed(ActionEvent e)
 	            {
 	            	game.sellTower(x, y);
+	            	removeTower(x, y);
 	            	towerInspectionWindow.dispose();
 	            }
 	        });
