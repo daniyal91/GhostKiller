@@ -66,7 +66,7 @@ public class GameView implements Observer {
 
         mainPane.add(map);
 
-        this.gameFrame.setSize(540 * col / 10, 680 * row / 10);
+        this.gameFrame.setSize(530 * col / 10, 680 * row / 10);
     
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
