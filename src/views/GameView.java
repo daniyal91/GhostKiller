@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -151,7 +153,7 @@ public class GameView implements Observer {
         return null;
     }
 
-    public void showTowerDetails(Tower t, boolean placedOnTile) {
+    public void showTowerDetails(Tower t, boolean placedOnTile, int x, int y, Game game) {
         // TODO show the details of the tower in a new panel.
         System.out.println(t);
         
@@ -167,13 +169,26 @@ public class GameView implements Observer {
         // Tower Image
         JPanel towerImagePanel = new JPanel();
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
-        //JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
-        //towerImage.setBackground(Color.DARK_GRAY);
-        //towerImagePanel.add(towerImage);
-        JButton towerImage = new JButton();
+        JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
         towerImage.setBackground(Color.DARK_GRAY);
-        towerImage.setIcon(new ImageIcon(t.getIconPath()));
         towerImagePanel.add(towerImage);
+        
+        if(placedOnTile)
+        {
+	        JButton sellTower = new JButton();
+	        sellTower.setBackground(Color.white);
+	        sellTower.setText("Sell Tower");
+	        // TODO: Move this method to the controller
+	        sellTower.addActionListener(new ActionListener() {
+	        	 
+	            public void actionPerformed(ActionEvent e)
+	            {
+	            	game.sellTower(x, y);
+	            	towerInspectionWindow.dispose();
+	            }
+	        });
+	        towerImagePanel.add(sellTower);
+        }
         
         // Tower Details
         JPanel towerDetailsPanel = new JPanel();
