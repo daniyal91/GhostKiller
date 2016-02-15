@@ -17,9 +17,7 @@ public abstract class Tower {
     private int level;
     private int levelCost;
     private int range;
-    private int rangeIncrease;
     private int power;
-    private int powerIncrease;
     private int rateOfFire;
     private SPECIAL_EFFECTS specialEffects;
 
@@ -76,28 +74,12 @@ public abstract class Tower {
         this.range = range;
     }
 
-    public int getRangeIncrease() {
-        return rangeIncrease;
-    }
-
-    public void setRangeIncrease(int rangeIncrease) {
-        this.rangeIncrease = rangeIncrease;
-    }
-
     public int getPower() {
         return power;
     }
 
     public void setPower(int power) {
         this.power = power;
-    }
-
-    public int getPowerIncrease() {
-        return powerIncrease;
-    }
-
-    public void setPowerIncrease(int powerIncrease) {
-        this.powerIncrease = powerIncrease;
     }
 
     public int getRateOfFire() {

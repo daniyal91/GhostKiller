@@ -15,9 +15,9 @@ public class Game extends Observable {
      * List of available towers that the user can buy.
      */
     public static Tower[] AVAILABLE_TOWERS = {
-                    new KingTower(),
-                    new ModernTower(),
-                    new AncientTower()
+            new KingTower(),
+            new ModernTower(),
+            new AncientTower()
     };
 
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
@@ -42,12 +42,12 @@ public class Game extends Observable {
      * @param column  Column where to place the new tower.
      */
     public void buyTower(Tower tower, int line, int column) {;
-        if (tower.getInitialCost() > this.money) {
-            // TODO maybe raise an exception to notify there is not enough money left.
-            return;
-        }
-        this.money -= tower.getInitialCost();
-        this.addTower(tower, line, column);
+    if (tower.getInitialCost() > this.money) {
+        // TODO maybe raise an exception to notify there is not enough money left.
+        return;
+    }
+    this.money -= tower.getInitialCost();
+    this.addTower(tower, line, column);
     }
 
     /**
@@ -81,6 +81,5 @@ public class Game extends Observable {
     public Tower getTower(int line, int column) {
         Point location = new Point(line, column);
         return this.towers.get(location);
-    }
-
+    }   
 }
