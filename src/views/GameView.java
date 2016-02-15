@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Game;
@@ -150,9 +151,98 @@ public class GameView implements Observer {
         return null;
     }
 
-    public void showTowerDetails(Tower t) {
+    public void showTowerDetails(Tower t, boolean placedOnTile) {
         // TODO show the details of the tower in a new panel.
         System.out.println(t);
+        
+        // Open new window for tower inspection.
+        JFrame towerInspectionWindow = new JFrame("Tower Inspection");
+        towerInspectionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        towerInspectionWindow.setBounds(950,300,300,300);
+        JPanel towerInspectionPanel = new JPanel();
+        towerInspectionPanel.setBackground(Color.DARK_GRAY);
+        towerInspectionWindow.setContentPane(towerInspectionPanel);
+        
+        
+        // Tower Image
+        JPanel towerImagePanel = new JPanel();
+        towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
+        JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
+        towerImagePanel.add(towerImage);
+        
+        // Tower Details
+        JPanel towerDetailsPanel = new JPanel();
+        towerDetailsPanel.setBackground(Color.DARK_GRAY);
+        towerDetailsPanel.setLayout(new GridLayout(0,2));
+        towerInspectionPanel.add(towerDetailsPanel, BorderLayout.SOUTH);
+        JLabel towerNameTxt = new JLabel("Name: ");
+        towerNameTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerNameTxt);
+        JLabel towerName = new JLabel(t.getName());
+        towerName.setForeground(Color.white);
+        towerDetailsPanel.add(towerName);
+        
+        JLabel towerLevelTxt = new JLabel("Level: ");
+        towerLevelTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerLevelTxt);
+        JLabel towerLevel = new JLabel(Integer.toString(t.getLevel()));
+        towerLevel.setForeground(Color.white);
+        towerDetailsPanel.add(towerLevel);
+        
+        JLabel towerInitCostTxt = new JLabel("Initial Cost: ");
+        towerInitCostTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerInitCostTxt);
+        JLabel towerInitCost = new JLabel(Integer.toString(t.getInitialCost()));
+        towerInitCost.setForeground(Color.white);
+        towerDetailsPanel.add(towerInitCost);
+        
+        JLabel towerCostLevelTxt = new JLabel("Cost to increase level: ");
+        towerCostLevelTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerCostLevelTxt);
+        JLabel towerCostLevel = new JLabel(Integer.toString(t.getLevelCost()));
+        towerCostLevel.setForeground(Color.white);
+        towerDetailsPanel.add(towerCostLevel);
+        
+        JLabel towerRangeTxt = new JLabel("Range: ");
+        towerRangeTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerRangeTxt);
+        JLabel towerRange = new JLabel(Integer.toString(t.getRange()));
+        towerRange.setForeground(Color.white);
+        towerDetailsPanel.add(towerRange);
+        
+        JLabel towerPowerTxt = new JLabel("Power: ");
+        towerPowerTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerPowerTxt);
+        JLabel towerPower = new JLabel(Integer.toString(t.getPower()));
+        towerPower.setForeground(Color.white);
+        towerDetailsPanel.add(towerPower);
+        
+        JLabel towerRateFireTxt = new JLabel("Rate of fire: ");
+        towerRateFireTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerRateFireTxt);
+        JLabel towerRateFire = new JLabel(Integer.toString(t.getRateOfFire()));
+        towerRateFire.setForeground(Color.white);
+        towerDetailsPanel.add(towerRateFire);
+        
+        JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
+        towerSpecialEffectsTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerSpecialEffectsTxt);
+        JLabel towerSpecialEffects = new JLabel("Effects");
+        towerSpecialEffects.setForeground(Color.white);
+        towerDetailsPanel.add(towerSpecialEffects);
+        
+        if(placedOnTile)
+        {
+        	JLabel refundAmountTxt = new JLabel("Refund Amount: ");
+        	refundAmountTxt.setForeground(Color.white);
+            towerDetailsPanel.add(refundAmountTxt);
+            JLabel refundAmount = new JLabel(Integer.toString(t.refundAmout()));
+            refundAmount.setForeground(Color.white);
+            towerDetailsPanel.add(refundAmount);
+        }
+        
+        towerInspectionWindow.setVisible(true);
+        
     }
 
 
