@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.GameGrid;
+import model.GameGrid.CASE_TYPES;
 import model.Tower;
 
 public class GameView implements Observer {
@@ -143,7 +144,7 @@ public class GameView implements Observer {
     }
     
     private void removeTower(int line, int column) {
-        this.tiles[line][column].setIcon(new ImageIcon("icons/grass.jpg"));
+        this.tiles[line][column].setIcon(new ImageIcon(GameGrid.CASE_TYPES_ICON_PATHS[0]));
     }
 
     public Point getButtonLocation(JButton button) {
@@ -157,14 +158,14 @@ public class GameView implements Observer {
         return null;
     }
 
-    public void showTowerDetails(Tower t, boolean placedOnTile, int x, int y, Game game) {
+    public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y, final Game game) {
         // TODO show the details of the tower in a new panel.
         System.out.println(t);
         
         // Open new window for tower inspection.
-        JFrame towerInspectionWindow = new JFrame("Tower Inspection");
+        final JFrame towerInspectionWindow = new JFrame("Tower Inspection");
         towerInspectionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        towerInspectionWindow.setBounds(950,300,300,300);
+        towerInspectionWindow.setBounds(950,300,350,300);
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
         towerInspectionWindow.setContentPane(towerInspectionPanel);
@@ -175,6 +176,7 @@ public class GameView implements Observer {
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
         JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
         towerImage.setBackground(Color.DARK_GRAY);
+        towerImagePanel.setBackground(Color.DARK_GRAY);
         towerImagePanel.add(towerImage);
         
         if(placedOnTile)
