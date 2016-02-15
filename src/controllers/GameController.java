@@ -43,7 +43,7 @@ public class GameController implements MouseListener {
                 if (this.selectedTower == null && this.game.hasTower(clickLocation.x,clickLocation.y)) {
                     Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
                     this.gameView.showTowerDetails(tower, true, clickLocation.x, clickLocation.y, game);
-                } else {
+                } else if(this.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
                     this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
                     this.selectedTower = null;
