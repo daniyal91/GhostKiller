@@ -92,7 +92,8 @@ public class GameGridTestCase {
         // Replacing all the entry points by grass.
         ArrayList<GridLocation> entryPoints = this.badgamegird.getCasesByType(CASE_TYPES.START);
         for (GridLocation entryPoint : entryPoints) {
-            this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] = CASE_TYPES.GRASS;
+            this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] =
+                            CASE_TYPES.GRASS;
         }
 
         try {

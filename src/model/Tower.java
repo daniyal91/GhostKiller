@@ -3,8 +3,6 @@ package model;
 public class Tower {
 
 
-
-
     /**
      * Refund rate of the towers.
      */
@@ -25,20 +23,19 @@ public class Tower {
     private SPECIAL_EFFECTS specialEffects;
 
 
-    public Tower() {
-    }
+    public Tower() {}
 
 
     public Tower(Tower T) {
         super();
-        this.name=T.name;
-        this.iconPath=T.iconPath;
-        this.initialCost=T.initialCost;
-        this.level=T.level;
-        this.levelCost=T.levelCost;
-        this.range=T.range;
-        this.power=T.power;
-        this.rateOfFire=T.rateOfFire;
+        this.name = T.name;
+        this.iconPath = T.iconPath;
+        this.initialCost = T.initialCost;
+        this.level = T.level;
+        this.levelCost = T.levelCost;
+        this.range = T.range;
+        this.power = T.power;
+        this.rateOfFire = T.rateOfFire;
 
     }
 
