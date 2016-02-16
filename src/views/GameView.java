@@ -168,7 +168,8 @@ public class GameView implements Observer {
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
         towerInspectionWindow.setContentPane(towerInspectionPanel);
-        // Tower Image and Sell button.
+        
+        // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
         JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
@@ -203,59 +204,78 @@ public class GameView implements Observer {
             });
             towerImagePanel.add(upgradeTower);
         }
+        
         // Tower Details
         JPanel towerDetailsPanel = new JPanel();
         towerDetailsPanel.setBackground(Color.DARK_GRAY);
         towerDetailsPanel.setLayout(new GridLayout(0,2));
         towerInspectionPanel.add(towerDetailsPanel, BorderLayout.SOUTH);
+        
+        // Tower Name
         JLabel towerNameTxt = new JLabel("Name: ");
         towerNameTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerNameTxt);
         JLabel towerName = new JLabel(t.getName());
         towerName.setForeground(Color.white);
         towerDetailsPanel.add(towerName);
+        
+        // Tower Level
         JLabel towerLevelTxt = new JLabel("Level: ");
         towerLevelTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerLevelTxt);
         JLabel towerLevel = new JLabel(Integer.toString(t.getLevel()));
         towerLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerLevel);
+        
+        // Tower Initial Cost
         JLabel towerInitCostTxt = new JLabel("Initial Cost: ");
         towerInitCostTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerInitCostTxt);
         JLabel towerInitCost = new JLabel(Integer.toString(t.getInitialCost()));
         towerInitCost.setForeground(Color.white);
         towerDetailsPanel.add(towerInitCost);
+        
+        // Tower Increase Level Cost
         JLabel towerCostLevelTxt = new JLabel("Cost to increase level: ");
         towerCostLevelTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerCostLevelTxt);
         JLabel towerCostLevel = new JLabel(Integer.toString(t.getLevelCost()));
         towerCostLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerCostLevel);
+        
+        // Tower Range
         JLabel towerRangeTxt = new JLabel("Range: ");
         towerRangeTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerRangeTxt);
         JLabel towerRange = new JLabel(Integer.toString(t.getRange()));
         towerRange.setForeground(Color.white);
         towerDetailsPanel.add(towerRange);
+        
+        // Tower Power
         JLabel towerPowerTxt = new JLabel("Power: ");
         towerPowerTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerPowerTxt);
         JLabel towerPower = new JLabel(Integer.toString(t.getPower()));
         towerPower.setForeground(Color.white);
         towerDetailsPanel.add(towerPower);
+        
+        // Tower Rate of Fire
         JLabel towerRateFireTxt = new JLabel("Rate of fire: ");
         towerRateFireTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerRateFireTxt);
         JLabel towerRateFire = new JLabel(Integer.toString(t.getRateOfFire()));
         towerRateFire.setForeground(Color.white);
         towerDetailsPanel.add(towerRateFire);
+        
+        // Tower Special Effects
         JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
         towerSpecialEffectsTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffectsTxt);
         JLabel towerSpecialEffects = new JLabel("Effects");
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
+        
+        // Tower Refund Amount
         if(placedOnTile)
         {
             JLabel refundAmountTxt = new JLabel("Refund Amount: ");
