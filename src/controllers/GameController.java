@@ -32,7 +32,7 @@ public class GameController implements MouseListener {
             this.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
             this.gameView.showTowerDetails(this.selectedTower, false, 0, 0, game);
 
-        // The user clicked on a tile on the game grid.
+            // The user clicked on a tile on the game grid.
         } else {
             JButton buttonClicked = (JButton) event.getSource();
             Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
@@ -43,8 +43,7 @@ public class GameController implements MouseListener {
                     this.gameView.showTowerDetails(tower, true, clickLocation.x, clickLocation.y, game);
                 } else if(this.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                 Tower t= new Tower(this.selectedTower);
-                    this.game.buyTower(t, towerLocation.x, towerLocation.y);
+                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
                     this.selectedTower = null;
                 }
             }

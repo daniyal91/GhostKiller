@@ -34,7 +34,7 @@ public class GameView implements Observer {
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-   
+
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,7 +67,7 @@ public class GameView implements Observer {
         mainPane.add(map);
 
         this.gameFrame.setSize(530 * col / 10, 680 * row / 10);
-    
+
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -144,7 +144,7 @@ public class GameView implements Observer {
         this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
     }
-    
+
     private void removeTower(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon(GameGrid.CASE_TYPES_ICON_PATHS[0]));
     }
@@ -177,31 +177,31 @@ public class GameView implements Observer {
         towerImagePanel.add(towerImage);
         if(placedOnTile)
         {
-	        JButton sellTower = new JButton();
-	        sellTower.setBackground(Color.white);
-	        sellTower.setText("Sell Tower");
-	        // TODO: Move this method to the controller
-	        sellTower.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e)
-	            {
-	            	game.sellTower(x, y);
-	            	removeTower(x, y);
-	            	towerInspectionWindow.dispose();
-	            }
-	        });
-	        towerImagePanel.add(sellTower);
-	        JButton upgradeTower = new JButton();
-	        upgradeTower.setBackground(Color.white);
-	        upgradeTower.setText("Upgrade Tower");
-	        // TODO: Move this method to the controller
-	        upgradeTower.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e)
-	            {
-	            	game.upgradeTower(x, y);
-	            	towerInspectionWindow.dispose();
-	            }
-	        });
-	        towerImagePanel.add(upgradeTower);
+            JButton sellTower = new JButton();
+            sellTower.setBackground(Color.white);
+            sellTower.setText("Sell Tower");
+            // TODO: Move this method to the controller
+            sellTower.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e)
+                {
+                    game.sellTower(x, y);
+                    removeTower(x, y);
+                    towerInspectionWindow.dispose();
+                }
+            });
+            towerImagePanel.add(sellTower);
+            JButton upgradeTower = new JButton();
+            upgradeTower.setBackground(Color.white);
+            upgradeTower.setText("Upgrade Tower");
+            // TODO: Move this method to the controller
+            upgradeTower.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e)
+                {
+                    game.upgradeTower(x, y);
+                    towerInspectionWindow.dispose();
+                }
+            });
+            towerImagePanel.add(upgradeTower);
         }
         // Tower Details
         JPanel towerDetailsPanel = new JPanel();
@@ -258,8 +258,8 @@ public class GameView implements Observer {
         towerDetailsPanel.add(towerSpecialEffects);
         if(placedOnTile)
         {
-        	JLabel refundAmountTxt = new JLabel("Refund Amount: ");
-        	refundAmountTxt.setForeground(Color.white);
+            JLabel refundAmountTxt = new JLabel("Refund Amount: ");
+            refundAmountTxt.setForeground(Color.white);
             towerDetailsPanel.add(refundAmountTxt);
             JLabel refundAmount = new JLabel(Integer.toString(t.refundAmout()));
             refundAmount.setForeground(Color.white);
