@@ -34,7 +34,7 @@ public class GameView implements Observer {
 
         this.gameFrame = new JFrame("Tower defense game");
         this.inspFrame = new JFrame("Tower Inspection");
-        
+
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -163,12 +163,10 @@ public class GameView implements Observer {
     public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y,
                     final Game game) {
         // Open new window for tower inspection.
-    	this.inspFrame.dispose();
-        this.inspFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
         this.inspFrame.setContentPane(towerInspectionPanel);
-        
+
         // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
@@ -203,13 +201,13 @@ public class GameView implements Observer {
             });
             towerImagePanel.add(upgradeTower);
         }
-        
+
         // Tower Details
         JPanel towerDetailsPanel = new JPanel();
         towerDetailsPanel.setBackground(Color.DARK_GRAY);
         towerDetailsPanel.setLayout(new GridLayout(0, 2));
         towerInspectionPanel.add(towerDetailsPanel, BorderLayout.SOUTH);
-        
+
         // Tower Name
         JLabel towerNameTxt = new JLabel("Name: ");
         towerNameTxt.setForeground(Color.white);
@@ -217,7 +215,7 @@ public class GameView implements Observer {
         JLabel towerName = new JLabel(t.getName());
         towerName.setForeground(Color.white);
         towerDetailsPanel.add(towerName);
-        
+
         // Tower Level
         JLabel towerLevelTxt = new JLabel("Level: ");
         towerLevelTxt.setForeground(Color.white);
@@ -225,7 +223,7 @@ public class GameView implements Observer {
         JLabel towerLevel = new JLabel(Integer.toString(t.getLevel()));
         towerLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerLevel);
-        
+
         // Tower Initial Cost
         JLabel towerInitCostTxt = new JLabel("Initial Cost: ");
         towerInitCostTxt.setForeground(Color.white);
@@ -233,7 +231,7 @@ public class GameView implements Observer {
         JLabel towerInitCost = new JLabel(Integer.toString(t.getInitialCost()));
         towerInitCost.setForeground(Color.white);
         towerDetailsPanel.add(towerInitCost);
-        
+
         // Tower Increase Level Cost
         JLabel towerCostLevelTxt = new JLabel("Cost to increase level: ");
         towerCostLevelTxt.setForeground(Color.white);
@@ -241,7 +239,7 @@ public class GameView implements Observer {
         JLabel towerCostLevel = new JLabel(Integer.toString(t.getLevelCost()));
         towerCostLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerCostLevel);
-        
+
         // Tower Range
         JLabel towerRangeTxt = new JLabel("Range: ");
         towerRangeTxt.setForeground(Color.white);
@@ -249,7 +247,7 @@ public class GameView implements Observer {
         JLabel towerRange = new JLabel(Integer.toString(t.getRange()));
         towerRange.setForeground(Color.white);
         towerDetailsPanel.add(towerRange);
-        
+
         // Tower Power
         JLabel towerPowerTxt = new JLabel("Power: ");
         towerPowerTxt.setForeground(Color.white);
@@ -257,7 +255,7 @@ public class GameView implements Observer {
         JLabel towerPower = new JLabel(Integer.toString(t.getPower()));
         towerPower.setForeground(Color.white);
         towerDetailsPanel.add(towerPower);
-        
+
         // Tower Rate of Fire
         JLabel towerRateFireTxt = new JLabel("Rate of fire: ");
         towerRateFireTxt.setForeground(Color.white);
@@ -265,7 +263,7 @@ public class GameView implements Observer {
         JLabel towerRateFire = new JLabel(Integer.toString(t.getRateOfFire()));
         towerRateFire.setForeground(Color.white);
         towerDetailsPanel.add(towerRateFire);
-        
+
         // Tower Special Effects
         JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
         towerSpecialEffectsTxt.setForeground(Color.white);
