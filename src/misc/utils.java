@@ -4,6 +4,12 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+/**
+ * Class used for utility functions.
+ *
+ * @author Team 6
+ *
+ */
 public class utils {
 
     /**
