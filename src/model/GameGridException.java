@@ -3,7 +3,7 @@ package model;
 /**
  * Base class for the exceptions raised in the GameGrid class.
  *
- * @author Louis-Bertrand Varin
+ * @author Team 6
  *
  */
 public class GameGridException extends Exception {
