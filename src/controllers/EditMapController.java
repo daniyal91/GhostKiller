@@ -13,18 +13,36 @@ import model.GameGrid.CASE_TYPES;
 import model.GameGridException;
 import views.EditMapView;
 
+
+/**
+ * This class implements the map edition functionality.
+ *
+ * @param <T> ActionListener or MouseListener
+ */
 public class EditMapController implements ActionListener, MouseListener {
 
     private EditMapView<EditMapController> editMapView;
     private GameGrid gameGrid;
     public CASE_TYPES selectedCaseType;
 
+    /**
+     * Constructs the EditMapController object and links the view to
+     * the GameGrid object using the Observer design pattern.
+     *
+     * @param gameGrid   GameGrid edited by the view.
+     */
     public EditMapController(GameGrid gameGrid) {
         this.gameGrid = gameGrid;
         this.editMapView = new EditMapView<EditMapController>(gameGrid, this);
         this.selectedCaseType = CASE_TYPES.NONE;
     }
 
+    /**
+     * Saves the current state of the GameGrid to a text file
+     *
+     * @return True if the operation was successful, false otherwise.
+     *
+     */
     private boolean saveMap() {
 
         try {
@@ -42,6 +60,9 @@ public class EditMapController implements ActionListener, MouseListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
 
@@ -53,6 +74,11 @@ public class EditMapController implements ActionListener, MouseListener {
 
     }
 
+    /**
+     * Updates the case type of the selected tile.
+     *
+     * @param source object associated with the tile to change.
+     */
     private void updateTile(Object source) {
 
         for (int i = 0; i < this.gameGrid.cases.length; i++) {
@@ -65,6 +91,13 @@ public class EditMapController implements ActionListener, MouseListener {
 
     }
 
+    /**
+     *
+     * Toggles the case type of the tile between grass and road.
+     *
+     * @param row    Row of the tile to toggle.
+     * @param column Column of the tile to toggle.
+     */
     private void toggleTile(int row, int column) {
 
         CASE_TYPES selectedCaseType = CASE_TYPES.NONE;
@@ -89,6 +122,9 @@ public class EditMapController implements ActionListener, MouseListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(MouseEvent event) {
         if (event.getSource() == this.editMapView.startPointButton) {
@@ -98,24 +134,36 @@ public class EditMapController implements ActionListener, MouseListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
