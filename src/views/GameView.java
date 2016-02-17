@@ -28,11 +28,13 @@ public class GameView implements Observer {
     public ArrayList<JLabel> towerLabels;
     private JButton[][] tiles;
     private JLabel cashLabel;
+    private JFrame inspFrame;
 
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-
+        this.inspFrame = new JFrame("Tower Inspection");
+        
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -160,12 +162,12 @@ public class GameView implements Observer {
     public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y,
                     final Game game) {
         // Open new window for tower inspection.
-        final JFrame towerInspectionWindow = new JFrame("Tower Inspection");
-        towerInspectionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        towerInspectionWindow.setBounds(950, 300, 350, 300);
+    	this.inspFrame.dispose();
+        this.inspFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.inspFrame.setBounds(950, 300, 350, 300);
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
-        towerInspectionWindow.setContentPane(towerInspectionPanel);
+        this.inspFrame.setContentPane(towerInspectionPanel);
         
         // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
@@ -184,7 +186,7 @@ public class GameView implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     game.sellTower(x, y);
                     removeTower(x, y);
-                    towerInspectionWindow.dispose();
+                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(sellTower);
@@ -196,7 +198,7 @@ public class GameView implements Observer {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     game.upgradeTower(x, y);
-                    towerInspectionWindow.dispose();
+                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(upgradeTower);
@@ -280,7 +282,7 @@ public class GameView implements Observer {
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
         }
-        towerInspectionWindow.setVisible(true);
+        inspFrame.setVisible(true);
     }
 
 }
