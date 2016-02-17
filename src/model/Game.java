@@ -86,10 +86,7 @@ public class Game extends Observable {
     public void upgradeTower(int line, int column) {
         Tower tower = this.getTower(line, column);
         if (this.money >= tower.getLevelCost()) {
-            tower.setLevel(tower.getLevel() + 1);
-            tower.setPower(tower.getPower() + tower.getPower());
-            tower.setRange(tower.getRange() + tower.getRange());
-            tower.setRateOfFire(tower.getRateOfFire() + tower.getRateOfFire());
+            tower.upgradeLevel();
             this.money -= tower.getLevelCost();
             this.setChanged();
             this.notifyObservers();
