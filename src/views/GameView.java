@@ -22,6 +22,13 @@ import model.Game;
 import model.GameGrid;
 import model.Tower;
 
+/**
+ * This class is the main user interface view used to play the game.
+ * It implements the Observer interface to get informed of changes in the Game class objects.
+ *
+ * @author Team 6
+ *
+ */
 public class GameView implements Observer {
 
     private JFrame gameFrame;
@@ -30,6 +37,14 @@ public class GameView implements Observer {
     private JLabel cashLabel;
     private JFrame inspFrame;
 
+
+    /**
+     * Constructs the GameView object.
+     *
+     * @param game       Game object the GameView observes.
+     * @param controller The controller receiving the user inputs.
+     *
+     */
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
@@ -117,6 +132,9 @@ public class GameView implements Observer {
 
     }
 
+    /**
+     * Displays the GameView object.
+     */
     public void show() {
         this.gameFrame.setVisible(true);
     }
@@ -139,16 +157,37 @@ public class GameView implements Observer {
         this.cashLabel.setText("$" + game.getMoney());
     }
 
+    /**
+     * Places the selected tower on the game grid.
+     *
+     * @param line   Line of selected tile.
+     * @param column Column of the selected tile
+     * @param tower  Tower object to place on the grid.
+     *
+     */
     private void placeTower(int line, int column, Tower tower) {
         this.tiles[line][column].setBackground(new Color(45, 111, 1));
         this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
     }
 
+    /**
+     * Removes a tower from the game grid.
+     *
+     * @param line   Line of selected tile.
+     * @param column Column of the selected tile
+     */
     private void removeTower(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon(GameGrid.CASE_TYPES_ICON_PATHS[0]));
     }
 
+    /**
+     * Returns the (x,y) coordinates of the specified button.
+     *
+     * @param button Game grid tile on which user has clicked.
+     *
+     * @return The Coordinates of the button clicked.
+     */
     public Point getButtonLocation(JButton button) {
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles[0].length; j++) {
@@ -160,8 +199,17 @@ public class GameView implements Observer {
         return null;
     }
 
-    public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y,
-                    final Game game) {
+    /**
+     *
+     * Shows the details of the tower in the tower inspection panel.
+     *
+     * @param t            Tower to get the details from.
+     * @param placedOnTile Determines if the tower is a tower placed on the game or a tower template.
+     * @param x            x coordinate of the tower.
+     * @param y            y coordinate of the tower.
+     * @param game         Game object associated with the current view.
+     */
+    public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y, final Game game) {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
