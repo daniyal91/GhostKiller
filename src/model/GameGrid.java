@@ -116,9 +116,8 @@ public class GameGrid {
     }
 
     /**
-     * Validates that a map is valid.
-     * Many checks are made, including if one exit and one entry point exist, and
-     * if there is a connecting path between them.
+     * Validates that a map is valid. Many checks are made, including if one exit and one entry
+     * point exist, and if there is a connecting path between them.
      *
      * @throws GameGridException
      */
@@ -143,15 +142,15 @@ public class GameGrid {
         }
 
         if (!this.isConnected()) {
-            throw new GameGridException("Invalid grid : no connecting path between exit point and entry point.");
+            throw new GameGridException(
+                            "Invalid grid : no connecting path between exit point and entry point.");
         }
 
     }
 
     /**
-     * Verifies if a map is connected from the entry point to the exit point.
-     * We must be sure that there is only one exit point and one entry point
-     * before calling this function!
+     * Verifies if a map is connected from the entry point to the exit point. We must be sure that
+     * there is only one exit point and one entry point before calling this function!
      */
     public boolean isConnected() {
 
@@ -173,7 +172,7 @@ public class GameGrid {
 
         for (int i = 0; i < this.cases.length; i++) {
             for (int j = 0; j < this.cases[0].length; j++) {
-                if(this.cases[i][j] == caseType) {
+                if (this.cases[i][j] == caseType) {
                     response.add(new GridLocation(i, j));
                 }
 

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -26,11 +28,13 @@ public class GameView implements Observer {
     public ArrayList<JLabel> towerLabels;
     private JButton[][] tiles;
     private JLabel cashLabel;
+    private JFrame inspFrame;
 
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-
+        this.inspFrame = new JFrame("Tower Inspection");
+        
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -39,6 +43,7 @@ public class GameView implements Observer {
 
         int row = game.grid.getCases().length;
         int col = game.grid.getCases()[0].length;
+        this.inspFrame.setBounds(450+530*col/10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -62,7 +67,8 @@ public class GameView implements Observer {
 
         mainPane.add(map);
 
-        this.gameFrame.setSize(540 * col / 10, 700 * row / 10);
+        this.gameFrame.setSize(530 * col / 10, 680 * row / 10);
+
         this.gameFrame.setLocationRelativeTo(null);
         this.gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -107,6 +113,7 @@ public class GameView implements Observer {
         JLabel lifeTxt = new JLabel("75%");
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
+        this.gameFrame.setResizable(false);
 
     }
 
@@ -115,9 +122,8 @@ public class GameView implements Observer {
     }
 
     /**
-     * After it is instantiated, the view should only be updated
-     * using this method. The view should know what to look
-     * for in the Game object in order to update it's representation.
+     * After it is instantiated, the view should only be updated using this method. The view should
+     * know what to look for in the Game object in order to update it's representation.
      */
     @Override
     public void update(Observable observable, Object object) {
@@ -133,10 +139,14 @@ public class GameView implements Observer {
         this.cashLabel.setText("$" + game.getMoney());
     }
 
-    private void placeTower(int line, int column, Tower tower){
-        this.tiles[line][column].setBackground(new Color(45,111,1));
+    private void placeTower(int line, int column, Tower tower) {
+        this.tiles[line][column].setBackground(new Color(45, 111, 1));
         this.tiles[line][column].setOpaque(true);
         this.tiles[line][column].setIcon(new ImageIcon(tower.getIconPath()));
+    }
+
+    private void removeTower(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon(GameGrid.CASE_TYPES_ICON_PATHS[0]));
     }
 
     public Point getButtonLocation(JButton button) {
@@ -150,10 +160,129 @@ public class GameView implements Observer {
         return null;
     }
 
-    public void showTowerDetails(Tower t) {
-        // TODO show the details of the tower in a new panel.
-        System.out.println(t);
-    }
+    public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y,
+                    final Game game) {
+        // Open new window for tower inspection.
+    	this.inspFrame.dispose();
+        this.inspFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        JPanel towerInspectionPanel = new JPanel();
+        towerInspectionPanel.setBackground(Color.DARK_GRAY);
+        this.inspFrame.setContentPane(towerInspectionPanel);
+        
+        // Tower Image Sell Tower Button and Upgrade Tower Button.
+        JPanel towerImagePanel = new JPanel();
+        towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
+        JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
+        towerImage.setBackground(Color.DARK_GRAY);
+        towerImagePanel.setBackground(Color.DARK_GRAY);
+        towerImagePanel.add(towerImage);
+        if (placedOnTile) {
+            JButton sellTower = new JButton();
+            sellTower.setBackground(Color.white);
+            sellTower.setText("Sell Tower");
+            // TODO: Move this method to the controller
+            sellTower.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.sellTower(x, y);
+                    removeTower(x, y);
+                    inspFrame.dispose();
+                }
+            });
+            towerImagePanel.add(sellTower);
+            JButton upgradeTower = new JButton();
+            upgradeTower.setBackground(Color.white);
+            upgradeTower.setText("Upgrade Tower");
+            // TODO: Move this method to the controller
+            upgradeTower.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.upgradeTower(x, y);
+                    inspFrame.dispose();
+                }
+            });
+            towerImagePanel.add(upgradeTower);
+        }
+        
+        // Tower Details
+        JPanel towerDetailsPanel = new JPanel();
+        towerDetailsPanel.setBackground(Color.DARK_GRAY);
+        towerDetailsPanel.setLayout(new GridLayout(0, 2));
+        towerInspectionPanel.add(towerDetailsPanel, BorderLayout.SOUTH);
+        
+        // Tower Name
+        JLabel towerNameTxt = new JLabel("Name: ");
+        towerNameTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerNameTxt);
+        JLabel towerName = new JLabel(t.getName());
+        towerName.setForeground(Color.white);
+        towerDetailsPanel.add(towerName);
+        
+        // Tower Level
+        JLabel towerLevelTxt = new JLabel("Level: ");
+        towerLevelTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerLevelTxt);
+        JLabel towerLevel = new JLabel(Integer.toString(t.getLevel()));
+        towerLevel.setForeground(Color.white);
+        towerDetailsPanel.add(towerLevel);
+        
+        // Tower Initial Cost
+        JLabel towerInitCostTxt = new JLabel("Initial Cost: ");
+        towerInitCostTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerInitCostTxt);
+        JLabel towerInitCost = new JLabel(Integer.toString(t.getInitialCost()));
+        towerInitCost.setForeground(Color.white);
+        towerDetailsPanel.add(towerInitCost);
+        
+        // Tower Increase Level Cost
+        JLabel towerCostLevelTxt = new JLabel("Cost to increase level: ");
+        towerCostLevelTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerCostLevelTxt);
+        JLabel towerCostLevel = new JLabel(Integer.toString(t.getLevelCost()));
+        towerCostLevel.setForeground(Color.white);
+        towerDetailsPanel.add(towerCostLevel);
+        
+        // Tower Range
+        JLabel towerRangeTxt = new JLabel("Range: ");
+        towerRangeTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerRangeTxt);
+        JLabel towerRange = new JLabel(Integer.toString(t.getRange()));
+        towerRange.setForeground(Color.white);
+        towerDetailsPanel.add(towerRange);
+        
+        // Tower Power
+        JLabel towerPowerTxt = new JLabel("Power: ");
+        towerPowerTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerPowerTxt);
+        JLabel towerPower = new JLabel(Integer.toString(t.getPower()));
+        towerPower.setForeground(Color.white);
+        towerDetailsPanel.add(towerPower);
+        
+        // Tower Rate of Fire
+        JLabel towerRateFireTxt = new JLabel("Rate of fire: ");
+        towerRateFireTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerRateFireTxt);
+        JLabel towerRateFire = new JLabel(Integer.toString(t.getRateOfFire()));
+        towerRateFire.setForeground(Color.white);
+        towerDetailsPanel.add(towerRateFire);
+        
+        // Tower Special Effects
+        JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
+        towerSpecialEffectsTxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerSpecialEffectsTxt);
+        JLabel towerSpecialEffects = new JLabel("Effects");
+        towerSpecialEffects.setForeground(Color.white);
+        towerDetailsPanel.add(towerSpecialEffects);
 
+        if (placedOnTile) {
+            JLabel refundAmountTxt = new JLabel("Refund Amount: ");
+            refundAmountTxt.setForeground(Color.white);
+            towerDetailsPanel.add(refundAmountTxt);
+            JLabel refundAmount = new JLabel(Integer.toString(t.refundAmout()));
+            refundAmount.setForeground(Color.white);
+            towerDetailsPanel.add(refundAmount);
+        }
+        inspFrame.setVisible(true);
+    }
 
 }

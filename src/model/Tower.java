@@ -1,6 +1,7 @@
 package model;
 
-public abstract class Tower {
+public class Tower {
+
 
     /**
      * Refund rate of the towers.
@@ -13,62 +14,98 @@ public abstract class Tower {
 
     protected String name;
     protected String iconPath;
-
     protected int initialCost;
     private int level;
     private int levelCost;
-
     private int range;
-    private int rangeIncrease;
-
     private int power;
-    private int powerIncrease;
     private int rateOfFire;
-
     private SPECIAL_EFFECTS specialEffects;
+
+
+    public Tower() {}
+
+
+    public Tower(Tower T) {
+        super();
+        this.name = T.name;
+        this.iconPath = T.iconPath;
+        this.initialCost = T.initialCost;
+        this.level = T.level;
+        this.levelCost = T.levelCost;
+        this.range = T.range;
+        this.power = T.power;
+        this.rateOfFire = T.rateOfFire;
+
+    }
+
+
+    public SPECIAL_EFFECTS getSpecialEffects() {
+        return specialEffects;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getIconPath() {
         return iconPath;
     }
 
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
     public int getInitialCost() {
         return initialCost;
+    }
+
+    public void setInitialCost(int initialCost) {
+        this.initialCost = initialCost;
     }
 
     public int getLevel() {
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public int getLevelCost() {
         return levelCost;
+    }
+
+    public void setLevelCost(int levelCost) {
+        this.levelCost = levelCost;
     }
 
     public int getRange() {
         return range;
     }
 
-    public int getRangeIncrease() {
-        return rangeIncrease;
+    public void setRange(int range) {
+        this.range = range;
     }
 
     public int getPower() {
         return power;
     }
 
-    public int getPowerIncrease() {
-        return powerIncrease;
+    public void setPower(int power) {
+        this.power = power;
     }
 
     public int getRateOfFire() {
         return rateOfFire;
     }
 
-    public SPECIAL_EFFECTS getSpecialEffects() {
-        return specialEffects;
+    public void setRateOfFire(int rateOfFire) {
+        this.rateOfFire = rateOfFire;
     }
 
     @Override
