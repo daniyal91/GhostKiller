@@ -43,6 +43,9 @@ public class Game extends Observable {
         if (tower.getInitialCost() > this.money) {
             // TODO maybe raise an exception to notify there is not enough money left.
             return;
+        } else if (this.hasTower(line, column)) {
+            // TODO maybe raise an exception to notify there is already a tower at this location.
+            return;
         }
         this.money -= tower.getInitialCost();
         Tower newTower = new Tower(tower);
