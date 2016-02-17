@@ -10,18 +10,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class implements the main gaming logic in which user can buy, sell, upgrade towers.
- * It is also observable so that a view class can be notified of internal changes.
+ * This class represents a game map, composed of a 2-dimension matrix of tiles.
+ * It implements methods for locating different cells on the map,
+ * checking the validity of a map and saving/restoring maps from text files.
  *
  * @author Team 6
- *
  */
 public class GameGrid {
 
+
+    /**
+     * Different types of cases a GameGrid object can hold.
+     */
     public static enum CASE_TYPES {
         GRASS, BUSH, ROAD, START, END, NONE
     };
 
+    /**
+     * Images used to represent the different types of case types
+     */
     public static String[] CASE_TYPES_ICON_PATHS = {"icons/grass.jpg", "icons/grass2.jpg",
                     "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
@@ -30,10 +37,20 @@ public class GameGrid {
 
     Random randomGenerator = new Random();
 
+    /**
+     * Constructs an empty GameGrid.
+     */
     public GameGrid() {
 
     }
 
+    /**
+     * Constructs a new GameGrid with the specified dimensions.
+     * All the tiles are initialized as grass.
+     *
+     * @param lineCount   user's choice for width
+     * @param columnCount user's choice for length
+     */
     public GameGrid(int lineCount, int columnCount) {
         this.cases = new CASE_TYPES[lineCount][columnCount];
         for (int i = 0; i < lineCount; i++) {
@@ -45,6 +62,8 @@ public class GameGrid {
 
     /**
      * Writes a serialized version of the game grid to a file.
+     *
+     * @param filename name of the file to store the grid to.
      */
     public void writeToFile(String filename) {
         PrintWriter pr;
@@ -65,15 +84,30 @@ public class GameGrid {
         }
     }
 
+    /**
+     * Gets the cases used by the grid.
+     */
     public CASE_TYPES[][] getCases() {
         return this.cases;
     }
 
+    /**
+     * Sets the cases used by the grid.
+     *
+     * @param cases the new matrix of cases used by the grid.
+     */
     public void setCases(CASE_TYPES[][] cases) {
         this.cases = cases;
     }
 
-    // read and return an array from the text file "filename"
+    /**
+     * This method reads a serialized GameGrid object from a file specified by the user.
+     *
+     * @param filename        Name of the file where the object is stored.
+     * @param addRandomBushes Determines if random bushes should be generated randomly on the loaded grid.
+     *
+     * @throws exception      If the file could not be read or has the wrong format.
+     */
     public void readFromFile(String filename, Boolean addRandomBushes) {
 
         int linenumber = 0; // line number starts from the second line
@@ -173,6 +207,13 @@ public class GameGrid {
 
     }
 
+    /**
+     * Gets the cases of the grid corresponding to a certain type.
+     *
+     * @param caseType Type of the tiles to return.
+     *
+     * @return an ArrayList of GridLocation of the locations found.
+     */
     public ArrayList<GridLocation> getCasesByType(CASE_TYPES caseType) {
 
         ArrayList<GridLocation> response = new ArrayList<GridLocation>();
@@ -192,7 +233,7 @@ public class GameGrid {
 
 
     /**
-     * Returns the entry point of the grid. The entry point is assumed to be at the left edge
+     * Returns the entry point of the grid. The entry point is assumed to be at the left edge of the map.
      *
      * @returns the height of the entry point, or -1 if no valid entry point.
      */
@@ -201,7 +242,7 @@ public class GameGrid {
     }
 
     /**
-     * Returns the exit point of the grid. The exit point is assumed to be at the right edge
+     * Returns the exit point of the grid. The exit point is assumed to be at the right edge of the map.
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
      */
@@ -209,16 +250,15 @@ public class GameGrid {
         return this.getCasesByType(CASE_TYPES.END).get(0);
     }
 
-    public boolean gridValid(GridLocation grid) {
-        if (grid.xCoordinate * grid.yCoordinate == 0 || grid.xCoordinate == this.cases.length - 1
-                        || grid.yCoordinate == this.cases[0].length - 1)
-            return true;
-        else
-            return false;
-
-
-    }
-
+    /**
+     * Determines if the location specified is a valid road location.
+     *
+     * @param line            Line of the coordinate to validate.
+     * @param column          Column of the coordinate to validate.
+     * @param connectivities  Matrix used for the connectivity check.
+     *
+     * @return                True if the location is a valid road location, false otherwise.
+     */
     private boolean isRoad(int line, int column, int[][][] connectivities) {
 
         if (line < 0) {
