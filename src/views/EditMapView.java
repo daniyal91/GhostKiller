@@ -15,6 +15,13 @@ import javax.swing.border.EmptyBorder;
 
 import model.GameGrid;
 
+/**
+ * This class is the main user interface view used to edit a game map.
+ * It implements the Observer interface to get informed of changes in the edited game grid.
+ *
+ * @author Team 6
+ *
+ */
 public class EditMapView<T extends ActionListener & MouseListener> {
 
     public JFrame frame;
@@ -24,6 +31,13 @@ public class EditMapView<T extends ActionListener & MouseListener> {
     public JButton[][] tiles;
 
 
+    /**
+     * Constructs the EditMapView object.
+     *
+     * @param gameGrid       GameGrid object the EditMapView observes.
+     * @param controller     The controller receiving the user inputs.
+     *
+     */
     public EditMapView(GameGrid gameGrid, T controller) {
 
         final int row = gameGrid.cases.length;
@@ -87,10 +101,20 @@ public class EditMapView<T extends ActionListener & MouseListener> {
 
     }
 
+    /**
+     * Displays the EditMapView object.
+     */
     public void show() {
         this.frame.setVisible(true);
     }
 
+    /**
+     * Shows a message to the user using the EditMapView.
+     *
+     * @param message Message to show to the user.
+     * @param title   Title of the message to show.
+     *
+     */
     public void showMessage(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
     }
