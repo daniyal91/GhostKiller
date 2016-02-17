@@ -3,12 +3,20 @@ package controllers;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JButton;
+
 import model.Game;
 import model.GameGrid;
 import model.Tower;
 import views.GameView;
 
+/**
+ * Main controller for listening to user inputs from the GameView.
+ *
+ * @author Team 6
+ *
+ */
 public class GameController implements MouseListener {
 
     private Game game;
@@ -17,6 +25,13 @@ public class GameController implements MouseListener {
     // Used to determine if a tower was selected for placement.
     private Tower selectedTower = null;
 
+    /**
+     * Constructs a new GameController object.
+     * Links the Game object to a GameView object using the Observer design pattern.
+     *
+     * @param game Game object to use with the view object.
+     *
+     */
     public GameController(Game game) {
         this.game = game;
         this.gameView = new GameView(game, this);
@@ -24,6 +39,9 @@ public class GameController implements MouseListener {
         this.gameView.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(MouseEvent event) {
         // The user clicked on one of the tower images.
@@ -53,24 +71,36 @@ public class GameController implements MouseListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(MouseEvent arg0) {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
