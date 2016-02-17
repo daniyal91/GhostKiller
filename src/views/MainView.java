@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
  * Main View for the program. Offers the user 3 choices : create a map, edit a map, or play the
  * game.
  *
+ * @author Team 6
+ *
  */
 public class MainView extends JFrame {
 
@@ -27,6 +29,11 @@ public class MainView extends JFrame {
     public JTextField textFieldLines;
     public JTextField textFieldColumns;
 
+    /**
+     * Constructs the MainView object.
+     *
+     * @param mainController The controller receiving the user inputs.
+     */
     public MainView(ActionListener mainController) {
 
         setTitle("Tower defense main menu");

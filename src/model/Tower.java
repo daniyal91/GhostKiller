@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Base class for game towers
+ *
+ * @author Team 6
+ *
+ */
 public class Tower {
 
 
@@ -8,6 +14,10 @@ public class Tower {
      */
     public static double REFUND_RATE = 0.40;
 
+    /**
+     * Special effects available for the towers.
+     *
+     */
     public static enum SPECIAL_EFFECTS {
         SLOW, SPLASH, TELEPORT
     }
@@ -15,17 +25,24 @@ public class Tower {
     protected String name;
     protected String iconPath;
     protected int initialCost;
-    private int level;
-    private int levelCost;
-    private int range;
-    private int power;
-    private int rateOfFire;
-    private SPECIAL_EFFECTS specialEffects;
+    protected int level = 1;
+    protected int levelCost;
+    protected int range;
+    protected int power;
+    protected int rateOfFire;
+    protected SPECIAL_EFFECTS specialEffects;
 
 
+    /**
+     * Default constructor for the Tower class.
+     */
     public Tower() {}
 
-
+    /**
+     * Creates a Tower instance from an existing instance.
+     *
+     * @param T Tower instance to create the new instance from.
+     */
     public Tower(Tower T) {
         super();
         this.name = T.name;
@@ -40,74 +57,75 @@ public class Tower {
     }
 
 
+    /**
+     * Gets the special effects of the tower.
+     */
     public SPECIAL_EFFECTS getSpecialEffects() {
         return specialEffects;
     }
 
+    /**
+     * Gets the name of the tower.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Gets the path of the icon image used to represent the tower.
+     *
+     */
     public String getIconPath() {
         return iconPath;
     }
 
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
-
+    /**
+     * Gets the initial cost to buy the tower.
+     */
     public int getInitialCost() {
         return initialCost;
     }
 
-    public void setInitialCost(int initialCost) {
-        this.initialCost = initialCost;
-    }
-
+    /**
+     * Gets the current level of the tower.
+     */
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
+    /**
+     * Gets the cost to upgrade the level of the tower.
+     *
+     */
     public int getLevelCost() {
         return levelCost;
     }
 
-    public void setLevelCost(int levelCost) {
-        this.levelCost = levelCost;
-    }
-
+    /**
+     * Gets the range of attack of the tower.
+     */
     public int getRange() {
         return range;
     }
 
-    public void setRange(int range) {
-        this.range = range;
-    }
-
+    /**
+     * Gets the attack power of the tower.
+     */
     public int getPower() {
         return power;
     }
 
-    public void setPower(int power) {
-        this.power = power;
-    }
-
+    /**
+     * Gets the rate of fire of the tower.
+     */
     public int getRateOfFire() {
         return rateOfFire;
     }
 
-    public void setRateOfFire(int rateOfFire) {
-        this.rateOfFire = rateOfFire;
-    }
 
+    /**
+     * Returns a textual representation of the tower.
+     */
     @Override
     public String toString() {
         return "Tower named " + this.name;
@@ -121,6 +139,16 @@ public class Tower {
     public int refundAmout() {
         int totalCost = this.initialCost + (this.level * this.levelCost);
         return (int) (totalCost * Tower.REFUND_RATE);
+    }
+
+    /**
+     * Upgrades the level of the tower by 1, and adjust its details accordingly
+     */
+    public void upgradeLevel() {
+        this.level++;
+        this.power *= 2;
+        this.range *=2;
+        this.rateOfFire *= 2;
     }
 
 }
