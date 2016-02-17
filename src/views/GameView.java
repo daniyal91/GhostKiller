@@ -43,6 +43,7 @@ public class GameView implements Observer {
 
         int row = game.grid.getCases().length;
         int col = game.grid.getCases()[0].length;
+        this.inspFrame.setBounds(450+530*col/10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -164,7 +165,6 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
     	this.inspFrame.dispose();
         this.inspFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.inspFrame.setBounds(950, 300, 350, 300);
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
         this.inspFrame.setContentPane(towerInspectionPanel);
