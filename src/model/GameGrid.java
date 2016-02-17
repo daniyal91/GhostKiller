@@ -9,6 +9,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class implements the main gaming logic in which user can buy, sell, upgrade towers.
+ * It is also observable so that a view class can be notified of internal changes.
+ *
+ * @author Team 6
+ *
+ */
 public class GameGrid {
 
     public static enum CASE_TYPES {
