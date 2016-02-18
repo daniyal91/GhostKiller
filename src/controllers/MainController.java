@@ -9,9 +9,8 @@ import model.GameGrid;
 import views.MainView;
 
 /**
- * Main controller for the game program.
- * Will listen to action from user on the MainView, and choose what
- * new view to instantiate accordingly
+ * Main controller for the game program. Will listen to action from user on the MainView, and choose what new view to
+ * instantiate accordingly
  *
  * @author Team 6
  *
@@ -34,11 +33,8 @@ public class MainController implements Runnable, ActionListener {
     }
 
     /**
-     * {@inheritDoc}
-     * Can execute one of the following 3 actions :
-     * * Launch the map editor with a new map;
-     * * Launch the map editor with an existing map;
-     * * Launch the game with a selected map.
+     * {@inheritDoc} Can execute one of the following 3 actions : * Launch the map editor with a new map; * Launch the
+     * map editor with an existing map; * Launch the game with a selected map.
      */
     @Override
     public void actionPerformed(ActionEvent event) {

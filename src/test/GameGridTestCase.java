@@ -28,8 +28,7 @@ public class GameGridTestCase {
 
     @Test
     public void testReadFromFile() throws IOException {
-        assertTrue("The information could not be read from the file",
-                        testgamegird.cases.length == 10);
+        assertTrue("The information could not be read from the file", testgamegird.cases.length == 10);
     }
 
     @Test
@@ -68,20 +67,12 @@ public class GameGridTestCase {
 
     }
 
-    @Test
-    public void testGridValid() {
-        GridLocation testgridl = testgamegird.exitPoint();
-        assertTrue("GridValid test failed for a vlid GridLocation",
-                        testgamegird.gridValid(testgridl));
-    }
-
     @Test(expected = GameGridException.class)
     public void testNoConnectingPath() throws GameGridException {
         try {
             this.badgamegird.validateMap();
         } catch (GameGridException e) {
-            assertEquals(e.getMessage(),
-                            "Invalid grid : no connecting path between exit point and entry point.");
+            assertEquals(e.getMessage(), "Invalid grid : no connecting path between exit point and entry point.");
             throw e;
         }
     }
@@ -92,8 +83,7 @@ public class GameGridTestCase {
         // Replacing all the entry points by grass.
         ArrayList<GridLocation> entryPoints = this.badgamegird.getCasesByType(CASE_TYPES.START);
         for (GridLocation entryPoint : entryPoints) {
-            this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] =
-                            CASE_TYPES.GRASS;
+            this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] = CASE_TYPES.GRASS;
         }
 
         try {

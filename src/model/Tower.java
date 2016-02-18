@@ -147,7 +147,7 @@ public class Tower {
     public void upgradeLevel() {
         this.level++;
         this.power *= 2;
-        this.range *=2;
+        this.range *= 2;
         this.rateOfFire *= 2;
     }
 

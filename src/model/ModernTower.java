@@ -1,8 +1,7 @@
 package model;
 
 /**
- * Modern tower is a subclass of the Tower class and can
- * be placed on the grid during the game.
+ * Modern tower is a subclass of the Tower class and can be placed on the grid during the game.
  *
  * @author Team 6
  *

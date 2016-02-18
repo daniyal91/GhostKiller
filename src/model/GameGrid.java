@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * This class represents a game map, composed of a 2-dimension matrix of tiles.
- * It implements methods for locating different cells on the map,
- * checking the validity of a map and saving/restoring maps from text files.
+ * This class represents a game map, composed of a 2-dimension matrix of tiles. It implements methods for locating
+ * different cells on the map, checking the validity of a map and saving/restoring maps from text files.
  *
  * @author Team 6
  */
@@ -29,8 +28,8 @@ public class GameGrid {
     /**
      * Images used to represent the different types of case types
      */
-    public static String[] CASE_TYPES_ICON_PATHS = {"icons/grass.jpg", "icons/grass2.jpg",
-                    "icons/road.jpg", "icons/start.png", "icons/end.png"};
+    public static String[] CASE_TYPES_ICON_PATHS =
+                    {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     // FIXME : this variable should be private once editMap is refactored!
     public CASE_TYPES[][] cases;
@@ -45,10 +44,9 @@ public class GameGrid {
     }
 
     /**
-     * Constructs a new GameGrid with the specified dimensions.
-     * All the tiles are initialized as grass.
+     * Constructs a new GameGrid with the specified dimensions. All the tiles are initialized as grass.
      *
-     * @param lineCount   user's choice for width
+     * @param lineCount user's choice for width
      * @param columnCount user's choice for length
      */
     public GameGrid(int lineCount, int columnCount) {
@@ -103,10 +101,10 @@ public class GameGrid {
     /**
      * This method reads a serialized GameGrid object from a file specified by the user.
      *
-     * @param filename        Name of the file where the object is stored.
+     * @param filename Name of the file where the object is stored.
      * @param addRandomBushes Determines if random bushes should be generated randomly on the loaded grid.
      *
-     * @throws exception      If the file could not be read or has the wrong format.
+     * @throws exception If the file could not be read or has the wrong format.
      */
     public void readFromFile(String filename, Boolean addRandomBushes) {
 
@@ -157,8 +155,8 @@ public class GameGrid {
     }
 
     /**
-     * Validates that a map is valid. Many checks are made, including if one exit and one entry
-     * point exist, and if there is a connecting path between them.
+     * Validates that a map is valid. Many checks are made, including if one exit and one entry point exist, and if
+     * there is a connecting path between them.
      *
      * @throws GameGridException
      */
@@ -183,15 +181,14 @@ public class GameGrid {
         }
 
         if (!this.isConnected()) {
-            throw new GameGridException(
-                            "Invalid grid : no connecting path between exit point and entry point.");
+            throw new GameGridException("Invalid grid : no connecting path between exit point and entry point.");
         }
 
     }
 
     /**
-     * Verifies if a map is connected from the entry point to the exit point. We must be sure that
-     * there is only one exit point and one entry point before calling this function!
+     * Verifies if a map is connected from the entry point to the exit point. We must be sure that there is only one
+     * exit point and one entry point before calling this function!
      */
     public boolean isConnected() {
 
@@ -253,11 +250,11 @@ public class GameGrid {
     /**
      * Determines if the location specified is a valid road location.
      *
-     * @param line            Line of the coordinate to validate.
-     * @param column          Column of the coordinate to validate.
-     * @param connectivities  Matrix used for the connectivity check.
+     * @param line Line of the coordinate to validate.
+     * @param column Column of the coordinate to validate.
+     * @param connectivities Matrix used for the connectivity check.
      *
-     * @return                True if the location is a valid road location, false otherwise.
+     * @return True if the location is a valid road location, false otherwise.
      */
     private boolean isRoad(int line, int column, int[][][] connectivities) {
 
@@ -273,8 +270,7 @@ public class GameGrid {
         if (column > this.cases[0].length - 1) {
             return false;
         }
-        if (this.cases[line][column] == CASE_TYPES.GRASS
-                        || this.cases[line][column] == CASE_TYPES.BUSH) {
+        if (this.cases[line][column] == CASE_TYPES.GRASS || this.cases[line][column] == CASE_TYPES.BUSH) {
             return false;
         }
         if (connectivities[line][column][0] == 1) {
@@ -284,8 +280,8 @@ public class GameGrid {
     }
 
     /**
-     * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if
-     * they are path tiles, from the entrance to the exit point
+     * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if they are path tiles,
+     * from the entrance to the exit point
      */
     private void connect(int[][][] connectivites, int line, int column) {
 
