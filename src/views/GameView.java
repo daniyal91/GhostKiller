@@ -23,8 +23,8 @@ import model.GameGrid;
 import model.Tower;
 
 /**
- * This class is the main user interface view used to play the game.
- * It implements the Observer interface to get informed of changes in the Game class objects.
+ * This class is the main user interface view used to play the game. It implements the Observer interface to get
+ * informed of changes in the Game class objects.
  *
  * @author Team 6
  *
@@ -41,7 +41,7 @@ public class GameView implements Observer {
     /**
      * Constructs the GameView object.
      *
-     * @param game       Game object the GameView observes.
+     * @param game Game object the GameView observes.
      * @param controller The controller receiving the user inputs.
      *
      */
@@ -58,7 +58,7 @@ public class GameView implements Observer {
 
         int row = game.grid.getCases().length;
         int col = game.grid.getCases()[0].length;
-        this.inspFrame.setBounds(450+530*col/10, 160, 350, 300);
+        this.inspFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -140,8 +140,8 @@ public class GameView implements Observer {
     }
 
     /**
-     * After it is instantiated, the view should only be updated using this method. The view should
-     * know what to look for in the Game object in order to update it's representation.
+     * After it is instantiated, the view should only be updated using this method. The view should know what to look
+     * for in the Game object in order to update it's representation.
      */
     @Override
     public void update(Observable observable, Object object) {
@@ -160,9 +160,9 @@ public class GameView implements Observer {
     /**
      * Places the selected tower on the game grid.
      *
-     * @param line   Line of selected tile.
+     * @param line Line of selected tile.
      * @param column Column of the selected tile
-     * @param tower  Tower object to place on the grid.
+     * @param tower Tower object to place on the grid.
      *
      */
     private void placeTower(int line, int column, Tower tower) {
@@ -174,7 +174,7 @@ public class GameView implements Observer {
     /**
      * Removes a tower from the game grid.
      *
-     * @param line   Line of selected tile.
+     * @param line Line of selected tile.
      * @param column Column of the selected tile
      */
     private void removeTower(int line, int column) {
@@ -203,11 +203,11 @@ public class GameView implements Observer {
      *
      * Shows the details of the tower in the tower inspection panel.
      *
-     * @param t            Tower to get the details from.
+     * @param t Tower to get the details from.
      * @param placedOnTile Determines if the tower is a tower placed on the game or a tower template.
-     * @param x            x coordinate of the tower.
-     * @param y            y coordinate of the tower.
-     * @param game         Game object associated with the current view.
+     * @param x x coordinate of the tower.
+     * @param y y coordinate of the tower.
+     * @param game Game object associated with the current view.
      */
     public void showTowerDetails(Tower t, boolean placedOnTile, final int x, final int y, final Game game) {
         // Open new window for tower inspection.

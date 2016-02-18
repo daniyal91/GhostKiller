@@ -12,8 +12,7 @@ public class GridLocation {
     public int yCoordinate;
 
     /**
-     * Constructs the GridLocation object.
-     * Will default to an invalid location (-1, -1).
+     * Constructs the GridLocation object. Will default to an invalid location (-1, -1).
      */
     public GridLocation() {
         this.xCoordinate = -1;

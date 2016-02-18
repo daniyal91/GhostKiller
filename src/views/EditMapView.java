@@ -16,8 +16,8 @@ import javax.swing.border.EmptyBorder;
 import model.GameGrid;
 
 /**
- * This class is the main user interface view used to edit a game map.
- * It implements the Observer interface to get informed of changes in the edited game grid.
+ * This class is the main user interface view used to edit a game map. It implements the Observer interface to get
+ * informed of changes in the edited game grid.
  *
  * @author Team 6
  *
@@ -34,8 +34,8 @@ public class EditMapView<T extends ActionListener & MouseListener> {
     /**
      * Constructs the EditMapView object.
      *
-     * @param gameGrid       GameGrid object the EditMapView observes.
-     * @param controller     The controller receiving the user inputs.
+     * @param gameGrid GameGrid object the EditMapView observes.
+     * @param controller The controller receiving the user inputs.
      *
      */
     public EditMapView(GameGrid gameGrid, T controller) {
@@ -112,7 +112,7 @@ public class EditMapView<T extends ActionListener & MouseListener> {
      * Shows a message to the user using the EditMapView.
      *
      * @param message Message to show to the user.
-     * @param title   Title of the message to show.
+     * @param title Title of the message to show.
      *
      */
     public void showMessage(String message, String title) {

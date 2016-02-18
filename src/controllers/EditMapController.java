@@ -26,10 +26,10 @@ public class EditMapController implements ActionListener, MouseListener {
     public CASE_TYPES selectedCaseType;
 
     /**
-     * Constructs the EditMapController object and links the view to
-     * the GameGrid object using the Observer design pattern.
+     * Constructs the EditMapController object and links the view to the GameGrid object using the Observer design
+     * pattern.
      *
-     * @param gameGrid   GameGrid edited by the view.
+     * @param gameGrid GameGrid edited by the view.
      */
     public EditMapController(GameGrid gameGrid) {
         this.gameGrid = gameGrid;
@@ -95,7 +95,7 @@ public class EditMapController implements ActionListener, MouseListener {
      *
      * Toggles the case type of the tile between grass and road.
      *
-     * @param row    Row of the tile to toggle.
+     * @param row Row of the tile to toggle.
      * @param column Column of the tile to toggle.
      */
     private void toggleTile(int row, int column) {

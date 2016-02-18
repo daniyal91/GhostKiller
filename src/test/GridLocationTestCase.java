@@ -25,8 +25,8 @@ public class GridLocationTestCase extends TestCase {
     public void testToString() {
         GridLocation mygridloc = new GridLocation(2, 3);
         String result = mygridloc.toString();
-        TestCase.assertEquals("toString() method test failed",
-                        "Grid [xCoordinate=" + 2 + ", yCoordinate=" + 3 + "]", result);
+        TestCase.assertEquals("toString() method test failed", "Grid [xCoordinate=" + 2 + ", yCoordinate=" + 3 + "]",
+                        result);
     }
 
 }
