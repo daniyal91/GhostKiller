@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -108,6 +109,20 @@ public class GameGridTestCase {
             assertEquals(e.getMessage(), "Invalid grid : too many entry points.");
             throw e;
         }
+    }
+
+    @Test
+    public void testValidExitPoint() {
+        GridLocation testgridl = testgamegird.exitPoint();
+        assertTrue("GridValid test failed for a valid GridLocation", testgamegird.isValidExitPoint(testgridl));
+        assertFalse("GridValid test failed for a valid GridLocation", testgamegird.isValidEntryPoint(testgridl));
+    }
+
+    @Test
+    public void testValidEntryPoint() {
+        GridLocation testgridl = testgamegird.entryPoint();
+        assertFalse("GridValid test failed for a valid GridLocation", testgamegird.isValidExitPoint(testgridl));
+        assertTrue("GridValid test failed for a valid GridLocation", testgamegird.isValidEntryPoint(testgridl));
     }
 
 

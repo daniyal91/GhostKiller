@@ -180,6 +180,17 @@ public class GameGrid {
             throw new GameGridException("Invalid grid : no exit point.");
         }
 
+        GridLocation entryPoint = this.entryPoint();
+        GridLocation exitPoint = this.exitPoint();
+
+        if (!this.isValidEntryPoint(entryPoint)) {
+            throw new GameGridException("Invalid entry point : must be on the left or top edge!");
+        }
+
+        if (!this.isValidExitPoint(exitPoint)) {
+            throw new GameGridException("Invalid exit point : must be on the right or bottom edge!");
+        }
+
         if (!this.isConnected()) {
             throw new GameGridException("Invalid grid : no connecting path between exit point and entry point.");
         }
@@ -309,6 +320,36 @@ public class GameGrid {
             this.connect(connectivites, line, column - 1);
         }
 
+    }
+
+    /**
+     * Determines if a location is valid as an entry point of the grid.
+     * Must be on the left edge or top edge to be a valid entry point.
+     *
+     * @param gridLocation The grid location entry point candidate
+     *
+     * @return True if the location is a valid entry point, false otherwise.
+     */
+    public boolean isValidEntryPoint(GridLocation gridLocation) {
+        if (gridLocation.xCoordinate == 0 || gridLocation.yCoordinate == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if a location is valid as an exit point of the grid.
+     * Must be on the right edge or bottom edge to be a valid entry point.
+     *
+     * @param gridLocation The grid location exit point candidate
+     *
+     * @return True if the location is a valid exit point, false otherwise.
+     */
+    public boolean isValidExitPoint(GridLocation gridLocation) {
+        if (gridLocation.xCoordinate == this.cases.length - 1 || gridLocation.yCoordinate == this.cases[0].length - 1) {
+            return true;
+        }
+        return false;
     }
 
 }
