@@ -8,8 +8,9 @@ package model;
  */
 public class GridLocation {
 
-    public int xCoordinate;
+    public int xCoordinate;  //actually is height of the map
     public int yCoordinate;
+    public Boolean full;   // if there is critter in that location or not
 
     /**
      * Constructs the GridLocation object. Will default to an invalid location (-1, -1).
@@ -17,6 +18,7 @@ public class GridLocation {
     public GridLocation() {
         this.xCoordinate = -1;
         this.yCoordinate = -1;
+        this.full=false;
     }
 
     /**
@@ -29,6 +31,7 @@ public class GridLocation {
         super();
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
+       
     }
 
     /**

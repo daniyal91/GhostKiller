@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import misc.utils;
 import model.Game;
+import model.Path;
 import model.GameGrid;
 import views.MainView;
 
@@ -67,7 +68,10 @@ public class MainController implements Runnable, ActionListener {
                 Game game = new Game();
                 game.grid.readFromFile(filePath, true);
                 GameController gameController = new GameController(game);
-
+              
+                Path t=new Path(game.grid);
+                System.out.println(t.shortestPath(t.gamegrid));
+                System.out.println("xcoordinate :"+game.grid.entryPoint().xCoordinate);
             }
         }
     }

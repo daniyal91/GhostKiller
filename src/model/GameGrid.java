@@ -18,6 +18,8 @@ import java.util.Random;
 public class GameGrid {
 
 
+    public int pathindex=1;
+
     /**
      * Different types of cases a GameGrid object can hold.
      */
@@ -29,10 +31,10 @@ public class GameGrid {
      * Images used to represent the different types of case types
      */
     public static String[] CASE_TYPES_ICON_PATHS =
-                    {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
+        {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     // FIXME : this variable should be private once editMap is refactored!
-    public CASE_TYPES[][] cases;
+    private CASE_TYPES[][] cases;
 
     Random randomGenerator = new Random();
 
@@ -64,6 +66,9 @@ public class GameGrid {
      * @param filename name of the file to store the grid to.
      */
     public void writeToFile(String filename) {
+
+
+
         PrintWriter pr;
         try {
             pr = new PrintWriter(filename);
@@ -80,6 +85,7 @@ public class GameGrid {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
+
     }
 
     /**
@@ -138,7 +144,7 @@ public class GameGrid {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
                     if (addRandomBushes && this.cases[linenumber][i] == CASE_TYPES.GRASS
-                                    && randomGenerator.nextInt(100) > 92) {
+                            && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }
                 }
@@ -202,18 +208,29 @@ public class GameGrid {
      * exit point and one entry point before calling this function!
      */
     public boolean isConnected() {
-
-        GridLocation entryPoint = this.entryPoint();
         GridLocation exitPoint = this.exitPoint();
-
-        // a new int[][] with the same dimension for tracking the connectivity
-        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][1];
-
-        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
-        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);
-        return connectivities[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
-
+        int [][][] cnctvt=this.connectivities(); 
+        return cnctvt[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
     }
+
+
+    /**
+     * Returns an array with represents the connections between entry and exit points
+     *
+     * @returns Connectivity Array
+     */
+
+    public int[][][] connectivities(){
+        GridLocation entryPoint = this.entryPoint();
+        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][3];
+        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
+        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][1] = pathindex++;
+        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);        
+
+        return connectivities;
+    }
+
+
 
     /**
      * Gets the cases of the grid corresponding to a certain type.
@@ -250,6 +267,16 @@ public class GameGrid {
     }
 
     /**
+     * Returns the path grid. 
+     *
+     * @returns an arraylist of GridLocation
+     */
+    public ArrayList<GridLocation> road() {
+        return this.getCasesByType(CASE_TYPES.ROAD);
+    }
+
+
+    /**
      * Returns the exit point of the grid. The exit point is assumed to be at the right edge of the map.
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
@@ -257,6 +284,8 @@ public class GameGrid {
     public GridLocation exitPoint() {
         return this.getCasesByType(CASE_TYPES.END).get(0);
     }
+
+
 
     /**
      * Determines if the location specified is a valid road location.
@@ -267,7 +296,7 @@ public class GameGrid {
      *
      * @return True if the location is a valid road location, false otherwise.
      */
-    private boolean isRoad(int line, int column, int[][][] connectivities) {
+    public boolean isRoad(int line, int column, int[][][] connectivities) {
 
         if (line < 0) {
             return false;
@@ -294,29 +323,33 @@ public class GameGrid {
      * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if they are path tiles,
      * from the entrance to the exit point
      */
-    private void connect(int[][][] connectivites, int line, int column) {
+    public void connect(int[][][] connectivites, int line, int column) {
 
         // check the right neighbor
         if (this.isRoad(line, column + 1, connectivites)) {
-            connectivites[line][column + 1][0] = 1;
+            connectivites[line][column + 1][0] =1 ; 
+            connectivites[line][column+1][1] = pathindex++;
             this.connect(connectivites, line, column + 1);
         }
 
         // check the below neighbor
         if (this.isRoad(line + 1, column, connectivites)) {
             connectivites[line + 1][column][0] = 1;
+            connectivites[line+1][column][1] = pathindex++; 
             this.connect(connectivites, line + 1, column);
         }
 
         // check the above neighbor
         if (this.isRoad(line - 1, column, connectivites)) {
             connectivites[line - 1][column][0] = 1;
+            connectivites[line-1][column][1] = pathindex++; 
             this.connect(connectivites, line - 1, column);
         }
 
         // check the left neighbor
         if (this.isRoad(line, column - 1, connectivites)) {
             connectivites[line][column - 1][0] = 1;
+            connectivites[line][column-1][1] = pathindex++; 
             this.connect(connectivites, line, column - 1);
         }
 
