@@ -16,12 +16,20 @@ public class Path {
 
     public int[][] shortestPath(GameGrid gamegrid) {
         int[][][] cntivity=gamegrid.connectivities();
+        
+        for (int i=0;i<gamegrid.getCases().length;i++){
+            for (int j=0;j<gamegrid.getCases()[0].length;j++) {
+                System.out.print(cntivity[i][j][1]+"  ");
+                
+            }
+            System.out.println();
+                      }
         pathRelax(cntivity , gamegrid.exitPoint().xCoordinate , gamegrid.exitPoint().yCoordinate);
         int[][] shoretst=new int[cntivity.length][cntivity[0].length];
         for (int i =0 ; i<cntivity.length ; i++) {
             for (int j =0 ; j<cntivity[0].length ; j++) {
                 shoretst[i][j]=cntivity[i][j][2];
-            }
+             }
         }
             
         return shoretst;
@@ -33,9 +41,12 @@ public class Path {
        
       GridLocation grid=gamegrid.exitPoint();
       connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
-      while(grid.xCoordinate!= gamegrid.entryPoint().xCoordinate && grid.yCoordinate!= gamegrid.entryPoint().yCoordinate) {
+      while(!(grid.xCoordinate== gamegrid.entryPoint().xCoordinate && grid.yCoordinate== gamegrid.entryPoint().yCoordinate)) {
           grid=minNeighbor(grid ,connectivites);
+        
           connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
+      
+  //       
        }   
     }
 
@@ -48,21 +59,21 @@ public class Path {
          // check the left 
          if (isPath(line, column - 1, connectivites)) {
              if (connectivites[line][column - 1][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                 minNeighbor=new GridLocation(column - 1,line);
+                 minNeighbor=new GridLocation(line,column-1);
              }   
          }
          
          //check above
          if (isPath(line-1, column, connectivites)) {
              if (connectivites[line-1][column][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                 minNeighbor=new GridLocation(column,line-1);
+                 minNeighbor=new GridLocation(line-1,column);
              }
          }
          
          //check below
          if (isPath(line+1, column, connectivites)) {
              if (connectivites[line+1][column][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                 minNeighbor=new GridLocation(column,line+11);
+                 minNeighbor=new GridLocation(line+1,column);
              }
          }
          
@@ -70,7 +81,7 @@ public class Path {
          // check the right 
          if (isPath(line, column + 1, connectivites)) {
              if (connectivites[line][column + 1][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                 minNeighbor=new GridLocation(column + 1,line);
+                 minNeighbor=new GridLocation(line,column+1);
              }   
          }
                   
@@ -101,11 +112,7 @@ public class Path {
         if (column > connectivities[0].length - 1) {
             return false;
         }
-        
-        if(line==gamegrid.entryPoint().xCoordinate && column==gamegrid.entryPoint().yCoordinate) {
-            return true;
-        }
-            
+                 
         if (connectivities[line][column][0]==0 ) {
             return false;
         }

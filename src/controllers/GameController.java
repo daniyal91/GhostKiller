@@ -50,9 +50,23 @@ public class GameController implements MouseListener {
             this.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
             this.gameView.showTowerDetails(this.selectedTower, false, 0, 0, game);
 
+         
+        
+            
+            
             // The user clicked on a tile on the game grid.
-        } else {
-            JButton buttonClicked = (JButton) event.getSource();
+            
+         
+            
+        } 
+        
+        else if (event.getSource()==this.gameView.play){
+         System.out.print("play");
+     } 
+        
+        else {
+            JButton buttonClicked = (JButton) event.getSource();   
+        //   if (buttonClicked) {}
             Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
             GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
             if (caseType == GameGrid.CASE_TYPES.GRASS) {

@@ -34,6 +34,7 @@ public class GameView implements Observer {
     private JFrame gameFrame;
     public ArrayList<JLabel> towerLabels;
     private JButton[][] tiles;
+    public JButton play;
     private JLabel cashLabel;
     private JFrame inspFrame;
 
@@ -128,6 +129,11 @@ public class GameView implements Observer {
         JLabel lifeTxt = new JLabel("75%");
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
+        
+        
+        this.play=new JButton("play");
+        play.addMouseListener(controller);
+        healthBankPanel.add(play);
         this.gameFrame.setResizable(false);
 
     }
