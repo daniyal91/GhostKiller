@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Observable;
 
+import model.GameGrid.CASE_TYPES;
+
 /**
  * This class implements the main gaming logic in which user can buy, sell, upgrade towers. It is also observable so
  * that a view class can be notified of internal changes.
@@ -25,6 +27,8 @@ public class Game extends Observable {
 
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
+
+    public  HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
 
     private int money;
 
@@ -134,5 +138,39 @@ public class Game extends Observable {
             this.notifyObservers();
         }
     }
+
+    public void sendWave() {
+    
+       Path path=new Path(this.grid);
+       GridLocation st=path.nextStep(this.grid.entryPoint(),path.pathList(this.grid.connectivities()));
+        
+       Critter newcritter = new Critter(st);
+        this.addCritter(newcritter);
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+    public void addCritter(Critter c) {
+        Point location = new Point(c.gridl.xCoordinate,c.gridl.yCoordinate);
+        this.critters.put(location, c);
+        this.setChanged();
+        this.notifyObservers();
+    }
+    
+    
+    
+    
+    
+    public boolean hasCritter(int i, int j) {
+        Point location = new Point(i, j);
+        return this.critters.get(location) != null;
+
+    }
+
+    public boolean noCritter(int i, int j) {
+        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && this.hasCritter(i, j)); 
+    }
+
 
 }

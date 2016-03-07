@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Critter;
 import model.Game;
 import model.GameGrid;
 import model.Tower;
@@ -158,11 +159,33 @@ public class GameView implements Observer {
                 if (game.hasTower(i, j)) {
                     this.placeTower(i, j, game.getTower(i, j));
                 }
+                 
+               if (game.hasCritter(i,j)){
+                   this.placeCritter(i, j);  
+               }
+               
+               if(game.noCritter(i,j)) {
+                   this.removeCritter(i, j);   
+               }
+                
             }
         }
         this.cashLabel.setText("$" + game.getMoney());
+    } 
+    
+    private void removeCritter(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
+        
     }
 
+    private void placeCritter(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
+        
+    }
+
+    
+    
+    
     /**
      * Places the selected tower on the game grid.
      *

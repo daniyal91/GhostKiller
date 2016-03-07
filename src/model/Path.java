@@ -1,9 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-
-import model.GameGrid.CASE_TYPES;
 
 public class Path {
 
@@ -15,7 +12,7 @@ public class Path {
 
 
     public GridLocation nextStep(GridLocation gridl ,  ArrayList<GridLocation>  pathlist) {          
-        return pathlist.get(pathlist.indexOf(gridl)+1);
+        return pathlist.get(pathlist.indexOf(gridl)+1);       
     }
 
 
@@ -47,13 +44,12 @@ public class Path {
         ArrayList <GridLocation> pathlist=new ArrayList<GridLocation>();
 
         GridLocation grid=gamegrid.exitPoint();
-        //    connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
         while(!(grid.xCoordinate== gamegrid.entryPoint().xCoordinate && grid.yCoordinate== gamegrid.entryPoint().yCoordinate)) {
             pathlist.add(0,grid);
             grid=minNeighbor(grid ,connectivites);
 
         }
-        pathlist.add(0,gamegrid.entryPoint());
+        pathlist.add(0,this.gamegrid.entryPoint());
         return pathlist;
     }
 
@@ -72,7 +68,8 @@ public class Path {
             connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
 
             //       
-        }   
+        }
+        
     }
 
 

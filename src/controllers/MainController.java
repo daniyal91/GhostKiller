@@ -71,8 +71,8 @@ public class MainController implements Runnable, ActionListener {
               
                 Path t=new Path(game.grid);
                 System.out.println(t.pathList(t.gamegrid.connectivities()));
-                System.out.println("xcoordinate :"+game.grid.entryPoint().xCoordinate);
-                System.out.println("ycoordinate :"+game.grid.entryPoint().yCoordinate);
+                System.out.println(t.pathList(t.gamegrid.connectivities()).get(0));
+       
             }
         }
     }
