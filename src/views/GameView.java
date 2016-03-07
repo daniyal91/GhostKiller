@@ -165,7 +165,7 @@ public class GameView implements Observer {
                }
                
                if(game.noCritter(i,j)) {
-                   this.removeCritter(i, j);   
+                   this.moveCritter(i, j);   
                }
                 
             }
@@ -173,7 +173,7 @@ public class GameView implements Observer {
         this.cashLabel.setText("$" + game.getMoney());
     } 
     
-    private void removeCritter(int line, int column) {
+    public void moveCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
         
     }

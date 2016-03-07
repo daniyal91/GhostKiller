@@ -139,22 +139,21 @@ public class Game extends Observable {
         }
     }
 
+    
+    
+    
+    
+    
+    
     public void sendWave() {
     
-       Path path=new Path(this.grid);
-       GridLocation st=this.grid.entryPoint();
-        st=path.nextStep(st,path.pathList(this.grid.connectivities()));
-        st=path.nextStep(st,path.pathList(this.grid.connectivities()));
-        System.out.println(st);
-        Critter newcritter = new Critter(st);
-        this.addCritter(newcritter);
-        this.setChanged();
-        this.notifyObservers();
- 
-
+      Path path=new Path(this.grid);
+      this.moveCritter(path);
     }
 
-    public void addCritter(Critter c) {
+    
+    
+    public void addCritter(Critter c ) {
         Point location = new Point(c.gridl.xCoordinate,c.gridl.yCoordinate);
         this.critters.put(location, c);
         this.setChanged();
@@ -162,18 +161,55 @@ public class Game extends Observable {
     }
     
     
-    
-    
+   
     
     public boolean hasCritter(int i, int j) {
         Point location = new Point(i, j);
         return (this.critters.get(location) != null);
-
     }
 
     public boolean noCritter(int i, int j) {
-        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && !this.hasCritter(i, j)); 
+        Point location = new Point(i, j);
+        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && this.critters.get(location) == null); 
     }
 
 
+  
+    
+    public void moveCritter(Path path) {
+
+        
+        GridLocation st=path.nextStep(this.grid.entryPoint(),path.pathList(this.grid.connectivities()));
+              
+        Critter critty = new Critter(st, 10);
+        
+          
+        for (int i=0;i<5;i++) {
+
+            
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ie) {
+            //Handle exception
+        }
+
+        GridLocation nextgrid=path.nextStep(critty.gridl,path.pathList(this.grid.connectivities()));
+       
+        Point p=new Point(critty.gridl.xCoordinate,critty.gridl.yCoordinate);  //current poisition
+        System.out.println(p);
+       
+        critty=new Critter (nextgrid,critty.health);
+        
+        this.addCritter(critty);
+        this.critters.remove(p);
+                
+        this.setChanged();
+        this.notifyObservers();
+        }
+    }
+
+  
+    
+    
+    
 }

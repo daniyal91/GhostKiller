@@ -50,4 +50,10 @@ public class GridLocation {
        
     }
     
+    
+    public boolean sameAs(GridLocation gl){
+        
+        return (this.xCoordinate==gl.xCoordinate && this.yCoordinate==gl.yCoordinate);
+    }
+    
 }
