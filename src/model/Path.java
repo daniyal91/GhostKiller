@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import model.GridLocation;
 
 public class Path {
 
@@ -12,7 +13,13 @@ public class Path {
 
 
     public GridLocation nextStep(GridLocation gridl ,  ArrayList<GridLocation>  pathlist) {          
-        return pathlist.get(pathlist.indexOf(gridl)+1);       
+     
+  //it does not work ! why !!!?
+
+        System.out.println(gridl);
+        System.out.println(pathlist.indexOf(gridl));  // it returns -1 instead of zero as gridl does not exist
+        return pathlist.get((pathlist.indexOf(new GridLocation(gridl))+2));       
+        
     }
 
 

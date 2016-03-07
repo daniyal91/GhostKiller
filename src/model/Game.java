@@ -28,7 +28,7 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
-    public  HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
+    public final  HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
 
     private int money;
 
@@ -142,12 +142,15 @@ public class Game extends Observable {
     public void sendWave() {
     
        Path path=new Path(this.grid);
-       GridLocation st=path.nextStep(this.grid.entryPoint(),path.pathList(this.grid.connectivities()));
-        
-       Critter newcritter = new Critter(st);
+       GridLocation st=this.grid.entryPoint();
+        st=path.nextStep(st,path.pathList(this.grid.connectivities()));
+        st=path.nextStep(st,path.pathList(this.grid.connectivities()));
+        System.out.println(st);
+        Critter newcritter = new Critter(st);
         this.addCritter(newcritter);
         this.setChanged();
         this.notifyObservers();
+ 
 
     }
 
@@ -164,12 +167,12 @@ public class Game extends Observable {
     
     public boolean hasCritter(int i, int j) {
         Point location = new Point(i, j);
-        return this.critters.get(location) != null;
+        return (this.critters.get(location) != null);
 
     }
 
     public boolean noCritter(int i, int j) {
-        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && this.hasCritter(i, j)); 
+        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && !this.hasCritter(i, j)); 
     }
 
 

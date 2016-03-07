@@ -42,4 +42,12 @@ public class GridLocation {
         return "Grid [xCoordinate=" + xCoordinate + ", yCoordinate=" + yCoordinate + "]";
     }
 
+    
+    public GridLocation(GridLocation gl) {
+        super();
+        this.xCoordinate = gl.xCoordinate;
+        this.yCoordinate = gl.yCoordinate;
+       
+    }
+    
 }
