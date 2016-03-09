@@ -58,13 +58,14 @@ public class Path {
     public ArrayList<GridLocation> pathList(int[][][] connectivites) {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
         GridLocation grid = gamegrid.exitPoint();
+        grid = minNeighbor(grid, connectivites);
         while (!(grid.x == gamegrid.entryPoint().x
                 && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
             grid = minNeighbor(grid, connectivites);
 
         }
-        pathlist.add(0, this.gamegrid.entryPoint());
+        //pathlist.add(0, this.gamegrid.entryPoint());
         return pathlist;
     }
 
@@ -74,6 +75,7 @@ public class Path {
     public void pathRelax(int[][][] connectivites) {
 
         GridLocation grid = gamegrid.exitPoint();
+        grid = minNeighbor(grid, connectivites);
         connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
         while (!(grid.x == gamegrid.entryPoint().x
                 && grid.y == gamegrid.entryPoint().y)) {
