@@ -38,6 +38,8 @@ public class Game extends Observable {
 
     private int crittersPerWave = 1;
 
+    private int crittersReleased;
+
     /**
      * Constructs the Game object with an empty 100x100 grid.
      */
@@ -146,8 +148,13 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * Initiates a new wave of critters.
+     */
     public void sendWave() {
-        GameThread gameThread = new GameThread(this);
+        this.crittersReleased = 0;
+        // FIXME : Remove hardcoded delay.
+        this.gameThread = new GameThread(this, 1000);
         gameThread.start();
     }
 
@@ -188,11 +195,19 @@ public class Game extends Observable {
 
         }
 
-        if (this.crittersPerWave > this.critters.size()) {
+        if (this.crittersPerWave > this.crittersReleased) {
             GridLocation start = this.grid.entryPoint();
             Critter critty = new Critter(start, 10);
             this.addCritter(critty);
+            this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
+        }
+
+        // This turn is over.
+        if (this.critters.size() == 0 && this.crittersReleased == this.crittersPerWave) {
+            System.out.print("Current turn is over.");
+            this.gameThread.interrupt();
+
         }
 
         this.setChanged();
