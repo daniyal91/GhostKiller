@@ -196,7 +196,9 @@ public class Game extends Observable {
         }
 
         if (this.crittersPerWave > this.crittersReleased) {
-            GridLocation start = this.grid.entryPoint();
+
+            GridLocation start = this.shortestPath.pathList(this.grid.connectivities()).get(0);
+
             Critter critty = new Critter(start, 10);
             this.addCritter(critty);
             this.crittersReleased++;

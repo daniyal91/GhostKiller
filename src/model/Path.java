@@ -31,6 +31,7 @@ public class Path {
     }
 
     // return the shortest path as an array
+    //let's keep it for a while might be needed for shooting strategies
     public int[][] shortestPath(GameGrid gamegrid) {
         int[][][] cntivity = gamegrid.connectivities();
 
@@ -56,10 +57,9 @@ public class Path {
     // returns the shortest path as an array list starts with the entry point
     public ArrayList<GridLocation> pathList(int[][][] connectivites) {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
-
         GridLocation grid = gamegrid.exitPoint();
         while (!(grid.x == gamegrid.entryPoint().x
-                        && grid.y == gamegrid.entryPoint().y)) {
+                && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
             grid = minNeighbor(grid, connectivites);
 
@@ -76,7 +76,7 @@ public class Path {
         GridLocation grid = gamegrid.exitPoint();
         connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
         while (!(grid.x == gamegrid.entryPoint().x
-                        && grid.y == gamegrid.entryPoint().y)) {
+                && grid.y == gamegrid.entryPoint().y)) {
             grid = minNeighbor(grid, connectivites);
 
             connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
@@ -97,7 +97,7 @@ public class Path {
         // check the left
         if (isPath(line, column - 1, connectivites)) {
             if (connectivites[line][column
-                            - 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
+                                    - 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line, column - 1);
             }
         }
@@ -105,7 +105,7 @@ public class Path {
         // check above
         if (isPath(line - 1, column, connectivites)) {
             if (connectivites[line
-                            - 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
+                              - 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line - 1, column);
             }
         }
