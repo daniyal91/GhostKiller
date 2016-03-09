@@ -28,9 +28,15 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
-    public final  HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
+    public final HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
 
     private int money;
+
+    private Path shortestPath;
+
+    private Thread gameThread;
+
+    private int crittersPerWave = 1;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -38,6 +44,7 @@ public class Game extends Observable {
     public Game() {
         this.grid = new GameGrid(100, 100);
         this.money = Game.INITIAL_MONEY;
+        this.shortestPath = new Path(this.grid);
     }
 
     /**
@@ -139,30 +146,18 @@ public class Game extends Observable {
         }
     }
 
-    
-    
-    
-    
-    
-    
     public void sendWave() {
-    
-      Path path=new Path(this.grid);
-      this.moveCritter(path);
+        GameThread gameThread = new GameThread(this);
+        gameThread.start();
     }
 
-    
-    
-    public void addCritter(Critter c ) {
-        Point location = new Point(c.gridl.xCoordinate,c.gridl.yCoordinate);
+    public void addCritter(Critter c) {
+        Point location = new Point(c.gridl.xCoordinate, c.gridl.yCoordinate);
         this.critters.put(location, c);
         this.setChanged();
         this.notifyObservers();
     }
-    
-    
-   
-    
+
     public boolean hasCritter(int i, int j) {
         Point location = new Point(i, j);
         return (this.critters.get(location) != null);
@@ -170,46 +165,41 @@ public class Game extends Observable {
 
     public boolean noCritter(int i, int j) {
         Point location = new Point(i, j);
-        return (this.grid.getCases()[i][j]==CASE_TYPES.ROAD && this.critters.get(location) == null); 
+        return (this.grid.getCases()[i][j] == CASE_TYPES.ROAD && this.critters.get(location) == null);
     }
 
+    public void moveCritter() {
 
-  
-    
-    public void moveCritter(Path path) {
+        System.out.println("moveCritter");
+        for (Object critterLocation : this.critters.keySet().toArray()) {
 
-        
-        GridLocation st=path.nextStep(this.grid.entryPoint(),path.pathList(this.grid.connectivities()));
-              
-        Critter critty = new Critter(st, 10);
-        
-          
-        for (int i=0;i<5;i++) {
+            this.critters.remove(critterLocation);
 
-            
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ie) {
-            //Handle exception
+            GridLocation currentLocation = new GridLocation(((Point) critterLocation).x, ((Point) critterLocation).y);
+            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation,
+                            this.shortestPath.pathList(this.grid.connectivities()));
+
+            if (nextLocation != null) {
+                Critter critty = new Critter(nextLocation, 10);
+                Point newLocation = new Point(nextLocation.xCoordinate, nextLocation.yCoordinate);
+
+                this.addCritter(critty);
+
+                System.out.println(nextLocation);
+            }
+
         }
 
-        GridLocation nextgrid=path.nextStep(critty.gridl,path.pathList(this.grid.connectivities()));
-       
-        Point p=new Point(critty.gridl.xCoordinate,critty.gridl.yCoordinate);  //current poisition
-        System.out.println(p);
-       
-        critty=new Critter (nextgrid,critty.health);
-        
-        this.addCritter(critty);
-        this.critters.remove(p);
-                
+        if (this.crittersPerWave > this.critters.size()) {
+            GridLocation start = this.grid.entryPoint();
+            Critter critty = new Critter(start, 10);
+            this.addCritter(critty);
+            System.out.println("Adding a new critter on the grid.");
+        }
+
         this.setChanged();
         this.notifyObservers();
-        }
+
     }
 
-  
-    
-    
-    
 }

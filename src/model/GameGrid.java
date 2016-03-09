@@ -18,7 +18,7 @@ import java.util.Random;
 public class GameGrid {
 
 
-    public int pathindex=1;
+    public int pathindex = 1;
 
     /**
      * Different types of cases a GameGrid object can hold.
@@ -31,7 +31,7 @@ public class GameGrid {
      * Images used to represent the different types of case types
      */
     public static String[] CASE_TYPES_ICON_PATHS =
-        {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
+                    {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     // FIXME : this variable should be private once editMap is refactored!
     private CASE_TYPES[][] cases;
@@ -144,7 +144,7 @@ public class GameGrid {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
                     if (addRandomBushes && this.cases[linenumber][i] == CASE_TYPES.GRASS
-                            && randomGenerator.nextInt(100) > 92) {
+                                    && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }
                 }
@@ -209,7 +209,7 @@ public class GameGrid {
      */
     public boolean isConnected() {
         GridLocation exitPoint = this.exitPoint();
-        int [][][] cnctvt=this.connectivities(); 
+        int[][][] cnctvt = this.connectivities();
         return cnctvt[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
     }
 
@@ -220,12 +220,12 @@ public class GameGrid {
      * @returns Connectivity Array
      */
 
-    public int[][][] connectivities(){
+    public int[][][] connectivities() {
         GridLocation entryPoint = this.entryPoint();
         int[][][] connectivities = new int[this.cases.length][this.cases[0].length][3];
         connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
         connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][1] = pathindex++;
-        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);        
+        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);
 
         return connectivities;
     }
@@ -267,7 +267,7 @@ public class GameGrid {
     }
 
     /**
-     * Returns the path grid. 
+     * Returns the path grid.
      *
      * @returns an arraylist of GridLocation
      */
@@ -327,37 +327,37 @@ public class GameGrid {
 
         // check the right neighbor
         if (this.isRoad(line, column + 1, connectivites)) {
-            connectivites[line][column + 1][0] =1 ; 
-            connectivites[line][column+1][1] = pathindex++;
+            connectivites[line][column + 1][0] = 1;
+            connectivites[line][column + 1][1] = pathindex++;
             this.connect(connectivites, line, column + 1);
         }
 
         // check the below neighbor
         if (this.isRoad(line + 1, column, connectivites)) {
             connectivites[line + 1][column][0] = 1;
-            connectivites[line+1][column][1] = pathindex++; 
+            connectivites[line + 1][column][1] = pathindex++;
             this.connect(connectivites, line + 1, column);
         }
 
         // check the above neighbor
         if (this.isRoad(line - 1, column, connectivites)) {
             connectivites[line - 1][column][0] = 1;
-            connectivites[line-1][column][1] = pathindex++; 
+            connectivites[line - 1][column][1] = pathindex++;
             this.connect(connectivites, line - 1, column);
         }
 
         // check the left neighbor
         if (this.isRoad(line, column - 1, connectivites)) {
             connectivites[line][column - 1][0] = 1;
-            connectivites[line][column-1][1] = pathindex++; 
+            connectivites[line][column - 1][1] = pathindex++;
             this.connect(connectivites, line, column - 1);
         }
 
     }
 
     /**
-     * Determines if a location is valid as an entry point of the grid.
-     * Must be on the left edge or top edge to be a valid entry point.
+     * Determines if a location is valid as an entry point of the grid. Must be on the left edge or top edge to be a
+     * valid entry point.
      *
      * @param gridLocation The grid location entry point candidate
      *
@@ -371,8 +371,8 @@ public class GameGrid {
     }
 
     /**
-     * Determines if a location is valid as an exit point of the grid.
-     * Must be on the right edge or bottom edge to be a valid entry point.
+     * Determines if a location is valid as an exit point of the grid. Must be on the right edge or bottom edge to be a
+     * valid entry point.
      *
      * @param gridLocation The grid location exit point candidate
      *

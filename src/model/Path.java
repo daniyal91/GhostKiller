@@ -3,125 +3,128 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import model.GridLocation;
-
 public class Path {
 
     public GameGrid gamegrid;
 
-    public Path(GameGrid gamegrid){
-        this.gamegrid=gamegrid;
+    public Path(GameGrid gamegrid) {
+        this.gamegrid = gamegrid;
     }
 
+    public GridLocation nextStep(GridLocation gridl, ArrayList<GridLocation> pathlist) {
 
-    public GridLocation nextStep(GridLocation gridl ,  ArrayList<GridLocation>  pathlist) {          
-          
-        int index=-1;
+        int index = -1;
         Iterator<GridLocation> itr = pathlist.iterator();
-        while (itr.hasNext()) { 
-             if (itr.next().sameAs(gridl)) {
-               index=pathlist.indexOf(itr.next());
-             break;
-         }
-            
+        while (itr.hasNext()) {
+            if (itr.next().sameAs(gridl)) {
+                if (!itr.hasNext()) {
+                    return null;
+                }
+                index = pathlist.indexOf(itr.next());
+                break;
+            }
+
         }
-      
-        return pathlist.get(index);           
-        
+
+        return pathlist.get(index);
+
     }
 
-
-    //  return the shortest path as an array
+    // return the shortest path as an array
     public int[][] shortestPath(GameGrid gamegrid) {
-        int[][][] cntivity=gamegrid.connectivities();
+        int[][][] cntivity = gamegrid.connectivities();
 
-        for (int i=0;i<gamegrid.getCases().length;i++){
-            for (int j=0;j<gamegrid.getCases()[0].length;j++) {
-                System.out.print(cntivity[i][j][1]+"  ");
+        for (int i = 0; i < gamegrid.getCases().length; i++) {
+            for (int j = 0; j < gamegrid.getCases()[0].length; j++) {
+                System.out.print(cntivity[i][j][1] + "  ");
 
             }
             System.out.println();
         }
         pathRelax(cntivity);
-        int[][] shoretst=new int[cntivity.length][cntivity[0].length];
-        for (int i =0 ; i<cntivity.length ; i++) {
-            for (int j =0 ; j<cntivity[0].length ; j++) {
-                shoretst[i][j]=cntivity[i][j][2];
+        int[][] shoretst = new int[cntivity.length][cntivity[0].length];
+        for (int i = 0; i < cntivity.length; i++) {
+            for (int j = 0; j < cntivity[0].length; j++) {
+                shoretst[i][j] = cntivity[i][j][2];
             }
         }
         return shoretst;
     }
 
-    
-    
-    // returns the shortest path as an array list starts with the entry point  
-    public ArrayList<GridLocation> pathList(int[][][] connectivites) {
-        ArrayList <GridLocation> pathlist=new ArrayList<GridLocation>();
 
-        GridLocation grid=gamegrid.exitPoint();
-        while(!(grid.xCoordinate== gamegrid.entryPoint().xCoordinate && grid.yCoordinate== gamegrid.entryPoint().yCoordinate)) {
-            pathlist.add(0,grid);
-            grid=minNeighbor(grid ,connectivites);
+
+    // returns the shortest path as an array list starts with the entry point
+    public ArrayList<GridLocation> pathList(int[][][] connectivites) {
+        ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
+
+        GridLocation grid = gamegrid.exitPoint();
+        while (!(grid.xCoordinate == gamegrid.entryPoint().xCoordinate
+                        && grid.yCoordinate == gamegrid.entryPoint().yCoordinate)) {
+            pathlist.add(0, grid);
+            grid = minNeighbor(grid, connectivites);
 
         }
-        pathlist.add(0,this.gamegrid.entryPoint());
+        pathlist.add(0, this.gamegrid.entryPoint());
         return pathlist;
     }
-
-
 
 
 
     // calculate the shortest path in connectivities[][][2] cells
     public void pathRelax(int[][][] connectivites) {
 
-        GridLocation grid=gamegrid.exitPoint();
-        connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
-        while(!(grid.xCoordinate== gamegrid.entryPoint().xCoordinate && grid.yCoordinate== gamegrid.entryPoint().yCoordinate)) {
-            grid=minNeighbor(grid ,connectivites);
+        GridLocation grid = gamegrid.exitPoint();
+        connectivites[grid.xCoordinate][grid.yCoordinate][2] = connectivites[grid.xCoordinate][grid.yCoordinate][1];
+        while (!(grid.xCoordinate == gamegrid.entryPoint().xCoordinate
+                        && grid.yCoordinate == gamegrid.entryPoint().yCoordinate)) {
+            grid = minNeighbor(grid, connectivites);
 
-            connectivites [grid.xCoordinate][grid.yCoordinate][2]=connectivites [grid.xCoordinate][grid.yCoordinate][1];
+            connectivites[grid.xCoordinate][grid.yCoordinate][2] = connectivites[grid.xCoordinate][grid.yCoordinate][1];
 
-            //       
+            //
         }
-        
+
     }
 
 
-    
-    //find the neighbor with the minimum distance from the entry ( closest)
+
+    // find the neighbor with the minimum distance from the entry ( closest)
     public GridLocation minNeighbor(GridLocation gridl, int[][][] connectivites) {
-        int line=gridl.xCoordinate;
-        int column=gridl.yCoordinate;
-        GridLocation minNeighbor=gridl; 
+        int line = gridl.xCoordinate;
+        int column = gridl.yCoordinate;
+        GridLocation minNeighbor = gridl;
 
-        // check the left 
+        // check the left
         if (isPath(line, column - 1, connectivites)) {
-            if (connectivites[line][column - 1][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                minNeighbor=new GridLocation(line,column-1);
-            }   
-        }
-
-        //check above
-        if (isPath(line-1, column, connectivites)) {
-            if (connectivites[line-1][column][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                minNeighbor=new GridLocation(line-1,column);
+            if (connectivites[line][column
+                            - 1][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                minNeighbor = new GridLocation(line, column - 1);
             }
         }
 
-        //check below
-        if (isPath(line+1, column, connectivites)) {
-            if (connectivites[line+1][column][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                minNeighbor=new GridLocation(line+1,column);
+        // check above
+        if (isPath(line - 1, column, connectivites)) {
+            if (connectivites[line
+                            - 1][column][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                minNeighbor = new GridLocation(line - 1, column);
+            }
+        }
+
+        // check below
+        if (isPath(line + 1, column, connectivites)) {
+            if (connectivites[line
+                            + 1][column][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                minNeighbor = new GridLocation(line + 1, column);
             }
         }
 
 
-        // check the right 
+        // check the right
         if (isPath(line, column + 1, connectivites)) {
-            if (connectivites[line][column + 1][1]<connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1] ) {
-                minNeighbor=new GridLocation(line,column+1);
-            }   
+            if (connectivites[line][column
+                            + 1][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                minNeighbor = new GridLocation(line, column + 1);
+            }
         }
 
         return minNeighbor;
@@ -152,7 +155,7 @@ public class Path {
             return false;
         }
 
-        if (connectivities[line][column][0]==0 ) {
+        if (connectivities[line][column][0] == 0) {
             return false;
         }
 
@@ -161,7 +164,5 @@ public class Path {
 
 
 }
-
-
 
 
