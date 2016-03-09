@@ -16,7 +16,7 @@ public class Path {
         int index = -1;
         Iterator<GridLocation> itr = pathlist.iterator();
         while (itr.hasNext()) {
-            if (itr.next().sameAs(gridl)) {
+            if (itr.next().equals(gridl)) {
                 if (!itr.hasNext()) {
                     return null;
                 }
@@ -58,8 +58,8 @@ public class Path {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
 
         GridLocation grid = gamegrid.exitPoint();
-        while (!(grid.xCoordinate == gamegrid.entryPoint().xCoordinate
-                        && grid.yCoordinate == gamegrid.entryPoint().yCoordinate)) {
+        while (!(grid.x == gamegrid.entryPoint().x
+                        && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
             grid = minNeighbor(grid, connectivites);
 
@@ -74,12 +74,12 @@ public class Path {
     public void pathRelax(int[][][] connectivites) {
 
         GridLocation grid = gamegrid.exitPoint();
-        connectivites[grid.xCoordinate][grid.yCoordinate][2] = connectivites[grid.xCoordinate][grid.yCoordinate][1];
-        while (!(grid.xCoordinate == gamegrid.entryPoint().xCoordinate
-                        && grid.yCoordinate == gamegrid.entryPoint().yCoordinate)) {
+        connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
+        while (!(grid.x == gamegrid.entryPoint().x
+                        && grid.y == gamegrid.entryPoint().y)) {
             grid = minNeighbor(grid, connectivites);
 
-            connectivites[grid.xCoordinate][grid.yCoordinate][2] = connectivites[grid.xCoordinate][grid.yCoordinate][1];
+            connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
 
             //
         }
@@ -90,14 +90,14 @@ public class Path {
 
     // find the neighbor with the minimum distance from the entry ( closest)
     public GridLocation minNeighbor(GridLocation gridl, int[][][] connectivites) {
-        int line = gridl.xCoordinate;
-        int column = gridl.yCoordinate;
+        int line = gridl.x;
+        int column = gridl.y;
         GridLocation minNeighbor = gridl;
 
         // check the left
         if (isPath(line, column - 1, connectivites)) {
             if (connectivites[line][column
-                            - 1][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                            - 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line, column - 1);
             }
         }
@@ -105,15 +105,14 @@ public class Path {
         // check above
         if (isPath(line - 1, column, connectivites)) {
             if (connectivites[line
-                            - 1][column][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+                            - 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line - 1, column);
             }
         }
 
         // check below
         if (isPath(line + 1, column, connectivites)) {
-            if (connectivites[line
-                            + 1][column][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+            if (connectivites[line + 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line + 1, column);
             }
         }
@@ -121,8 +120,7 @@ public class Path {
 
         // check the right
         if (isPath(line, column + 1, connectivites)) {
-            if (connectivites[line][column
-                            + 1][1] < connectivites[minNeighbor.xCoordinate][minNeighbor.yCoordinate][1]) {
+            if (connectivites[line][column + 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line, column + 1);
             }
         }

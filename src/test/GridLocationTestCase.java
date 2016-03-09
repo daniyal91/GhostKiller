@@ -9,24 +9,24 @@ public class GridLocationTestCase extends TestCase {
 
     @Test
     public void testDefaultConstructor() {
-        GridLocation mygridloc = new GridLocation();
-        TestCase.assertTrue("default constructor test failed",
-                        mygridloc.xCoordinate == -1 && mygridloc.yCoordinate == -1);
+        GridLocation gridLocation = new GridLocation();
+        TestCase.assertEquals(-1, gridLocation.x);
+        TestCase.assertEquals(-1, gridLocation.y);
     }
 
     @Test
     public void testConstructor() {
-        GridLocation mygridloc = new GridLocation(4, 5);
-        TestCase.assertTrue("default constructor test failed",
-                        mygridloc.xCoordinate == 4 && mygridloc.yCoordinate == 5);
+        GridLocation gridLocation = new GridLocation(4, 5);
+        TestCase.assertEquals(4, gridLocation.x);
+        TestCase.assertEquals(5, gridLocation.y);
     }
 
     @Test
     public void testToString() {
-        GridLocation mygridloc = new GridLocation(2, 3);
-        String result = mygridloc.toString();
-        TestCase.assertEquals("toString() method test failed", "Grid [xCoordinate=" + 2 + ", yCoordinate=" + 3 + "]",
-                        result);
+        GridLocation gridLocation = new GridLocation(2, 3);
+        String result = gridLocation.toString();
+        String expected = "GridLocation (2, 3)";
+        TestCase.assertEquals(result, expected);
     }
 
 }

@@ -57,14 +57,14 @@ public class GameGridTestCase {
     @Test
     public void testEntryPoint() {
         GridLocation entry = testgamegird.entryPoint();
-        assertTrue("entryPoint() failed to work", entry.xCoordinate > -1 && entry.yCoordinate > -1);
+        assertTrue("entryPoint() failed to work", entry.x > -1 && entry.y > -1);
 
     }
 
     @Test
     public void testExitPoint() {
         GridLocation exit = testgamegird.exitPoint();
-        assertTrue("exitPoint() failed to work", exit.xCoordinate > -1 && exit.yCoordinate > -1);
+        assertTrue("exitPoint() failed to work", exit.x > -1 && exit.y > -1);
 
     }
 
@@ -84,7 +84,7 @@ public class GameGridTestCase {
         // Replacing all the entry points by grass.
         ArrayList<GridLocation> entryPoints = this.badgamegird.getCasesByType(CASE_TYPES.START);
         for (GridLocation entryPoint : entryPoints) {
-            this.badgamegird.getCases()[entryPoint.xCoordinate][entryPoint.yCoordinate] = CASE_TYPES.GRASS;
+            this.badgamegird.getCases()[entryPoint.x][entryPoint.y] = CASE_TYPES.GRASS;
         }
 
         try {

@@ -152,8 +152,7 @@ public class Game extends Observable {
     }
 
     public void addCritter(Critter c) {
-        Point location = new Point(c.gridl.xCoordinate, c.gridl.yCoordinate);
-        this.critters.put(location, c);
+        this.critters.put(c.gridl, c);
         this.setChanged();
         this.notifyObservers();
     }
@@ -171,17 +170,16 @@ public class Game extends Observable {
     public void moveCritter() {
 
         System.out.println("moveCritter");
-        for (Object critterLocation : this.critters.keySet().toArray()) {
+        for (Object o : this.critters.keySet().toArray()) {
 
-            this.critters.remove(critterLocation);
+            GridLocation currentLocation = (GridLocation) o;
+            this.critters.remove(currentLocation);
 
-            GridLocation currentLocation = new GridLocation(((Point) critterLocation).x, ((Point) critterLocation).y);
-            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation,
-                            this.shortestPath.pathList(this.grid.connectivities()));
+            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation, this.shortestPath.pathList(this.grid.connectivities()));
 
             if (nextLocation != null) {
                 Critter critty = new Critter(nextLocation, 10);
-                Point newLocation = new Point(nextLocation.xCoordinate, nextLocation.yCoordinate);
+                Point newLocation = new GridLocation(nextLocation.x, nextLocation.y);
 
                 this.addCritter(critty);
 

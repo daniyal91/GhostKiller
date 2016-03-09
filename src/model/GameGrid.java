@@ -210,7 +210,7 @@ public class GameGrid {
     public boolean isConnected() {
         GridLocation exitPoint = this.exitPoint();
         int[][][] cnctvt = this.connectivities();
-        return cnctvt[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
+        return cnctvt[exitPoint.x][exitPoint.y][0] == 1;
     }
 
 
@@ -223,9 +223,9 @@ public class GameGrid {
     public int[][][] connectivities() {
         GridLocation entryPoint = this.entryPoint();
         int[][][] connectivities = new int[this.cases.length][this.cases[0].length][3];
-        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
-        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][1] = pathindex++;
-        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);
+        connectivities[entryPoint.x][entryPoint.y][0] = 1;
+        connectivities[entryPoint.x][entryPoint.y][1] = pathindex++;
+        this.connect(connectivities, entryPoint.x, entryPoint.y);
 
         return connectivities;
     }
@@ -364,7 +364,7 @@ public class GameGrid {
      * @return True if the location is a valid entry point, false otherwise.
      */
     public boolean isValidEntryPoint(GridLocation gridLocation) {
-        if (gridLocation.xCoordinate == 0 || gridLocation.yCoordinate == 0) {
+        if (gridLocation.x == 0 || gridLocation.y == 0) {
             return true;
         }
         return false;
@@ -379,7 +379,7 @@ public class GameGrid {
      * @return True if the location is a valid exit point, false otherwise.
      */
     public boolean isValidExitPoint(GridLocation gridLocation) {
-        if (gridLocation.xCoordinate == this.cases.length - 1 || gridLocation.yCoordinate == this.cases[0].length - 1) {
+        if (gridLocation.x == this.cases.length - 1 || gridLocation.y == this.cases[0].length - 1) {
             return true;
         }
         return false;
