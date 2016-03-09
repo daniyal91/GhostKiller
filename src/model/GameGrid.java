@@ -18,6 +18,8 @@ import java.util.Random;
 public class GameGrid {
 
 
+    public int pathindex = 1;
+
     /**
      * Different types of cases a GameGrid object can hold.
      */
@@ -32,7 +34,7 @@ public class GameGrid {
                     {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     // FIXME : this variable should be private once editMap is refactored!
-    public CASE_TYPES[][] cases;
+    private CASE_TYPES[][] cases;
 
     Random randomGenerator = new Random();
 
@@ -64,6 +66,9 @@ public class GameGrid {
      * @param filename name of the file to store the grid to.
      */
     public void writeToFile(String filename) {
+
+
+
         PrintWriter pr;
         try {
             pr = new PrintWriter(filename);
@@ -80,6 +85,7 @@ public class GameGrid {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
+
     }
 
     /**
@@ -202,18 +208,29 @@ public class GameGrid {
      * exit point and one entry point before calling this function!
      */
     public boolean isConnected() {
-
-        GridLocation entryPoint = this.entryPoint();
         GridLocation exitPoint = this.exitPoint();
-
-        // a new int[][] with the same dimension for tracking the connectivity
-        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][1];
-
-        connectivities[entryPoint.xCoordinate][entryPoint.yCoordinate][0] = 1;
-        this.connect(connectivities, entryPoint.xCoordinate, entryPoint.yCoordinate);
-        return connectivities[exitPoint.xCoordinate][exitPoint.yCoordinate][0] == 1;
-
+        int[][][] cnctvt = this.connectivities();
+        return cnctvt[exitPoint.x][exitPoint.y][0] == 1;
     }
+
+
+    /**
+     * Returns an array with represents the connections between entry and exit points
+     *
+     * @returns Connectivity Array
+     */
+
+    public int[][][] connectivities() {
+        GridLocation entryPoint = this.entryPoint();
+        int[][][] connectivities = new int[this.cases.length][this.cases[0].length][3];
+        connectivities[entryPoint.x][entryPoint.y][0] = 1;
+        connectivities[entryPoint.x][entryPoint.y][1] = pathindex++;
+        this.connect(connectivities, entryPoint.x, entryPoint.y);
+
+        return connectivities;
+    }
+
+
 
     /**
      * Gets the cases of the grid corresponding to a certain type.
@@ -250,6 +267,16 @@ public class GameGrid {
     }
 
     /**
+     * Returns the path grid.
+     *
+     * @returns an arraylist of GridLocation
+     */
+    public ArrayList<GridLocation> road() {
+        return this.getCasesByType(CASE_TYPES.ROAD);
+    }
+
+
+    /**
      * Returns the exit point of the grid. The exit point is assumed to be at the right edge of the map.
      *
      * @returns the height of the exit point, or -1 if no valid exit point.
@@ -257,6 +284,8 @@ public class GameGrid {
     public GridLocation exitPoint() {
         return this.getCasesByType(CASE_TYPES.END).get(0);
     }
+
+
 
     /**
      * Determines if the location specified is a valid road location.
@@ -267,7 +296,7 @@ public class GameGrid {
      *
      * @return True if the location is a valid road location, false otherwise.
      */
-    private boolean isRoad(int line, int column, int[][][] connectivities) {
+    public boolean isRoad(int line, int column, int[][][] connectivities) {
 
         if (line < 0) {
             return false;
@@ -294,59 +323,63 @@ public class GameGrid {
      * Side method for isConnected method, it connects the neighbor of the tile(i,j) together if they are path tiles,
      * from the entrance to the exit point
      */
-    private void connect(int[][][] connectivites, int line, int column) {
+    public void connect(int[][][] connectivites, int line, int column) {
 
         // check the right neighbor
         if (this.isRoad(line, column + 1, connectivites)) {
             connectivites[line][column + 1][0] = 1;
+            connectivites[line][column + 1][1] = pathindex++;
             this.connect(connectivites, line, column + 1);
         }
 
         // check the below neighbor
         if (this.isRoad(line + 1, column, connectivites)) {
             connectivites[line + 1][column][0] = 1;
+            connectivites[line + 1][column][1] = pathindex++;
             this.connect(connectivites, line + 1, column);
         }
 
         // check the above neighbor
         if (this.isRoad(line - 1, column, connectivites)) {
             connectivites[line - 1][column][0] = 1;
+            connectivites[line - 1][column][1] = pathindex++;
             this.connect(connectivites, line - 1, column);
         }
 
         // check the left neighbor
         if (this.isRoad(line, column - 1, connectivites)) {
             connectivites[line][column - 1][0] = 1;
+            connectivites[line][column - 1][1] = pathindex++;
             this.connect(connectivites, line, column - 1);
         }
 
     }
 
     /**
-     * Determines if a location is valid as an entry point of the grid.
-     * Must be on the left edge or top edge to be a valid entry point.
+     * Determines if a location is valid as an entry point of the grid. Must be on the left edge or top edge to be a
+     * valid entry point.
      *
      * @param gridLocation The grid location entry point candidate
      *
      * @return True if the location is a valid entry point, false otherwise.
      */
     public boolean isValidEntryPoint(GridLocation gridLocation) {
-        if (gridLocation.xCoordinate == 0 || gridLocation.yCoordinate == 0) {
+        if (gridLocation.x == 0 || gridLocation.y == 0) {
             return true;
         }
         return false;
     }
 
     /**
-     * Determines if a location is valid as an exit point of the grid.
-     * Must be on the right edge or bottom edge to be a valid entry point.
+     * Determines if a location is valid as an exit point of the grid. Must be on the right edge or bottom edge to be a
+     * valid entry point.
      *
      * @param gridLocation The grid location exit point candidate
      *
      * @return True if the location is a valid exit point, false otherwise.
      */
     public boolean isValidExitPoint(GridLocation gridLocation) {
-        if (gridLocation.xCoordinate == this.cases.length - 1 || gridLocation.yCoordinate == this.cases[0].length - 1) {
+        if (gridLocation.x == this.cases.length - 1 || gridLocation.y == this.cases[0].length - 1) {
             return true;
         }
         return false;

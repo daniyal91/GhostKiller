@@ -40,8 +40,8 @@ public class EditMapView<T extends ActionListener & MouseListener> {
      */
     public EditMapView(GameGrid gameGrid, T controller) {
 
-        final int row = gameGrid.cases.length;
-        final int col = gameGrid.cases[0].length;
+        final int row = gameGrid.getCases().length;
+        final int col = gameGrid.getCases()[0].length;
 
         this.frame = new JFrame("Create or Edit map");
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,7 +80,7 @@ public class EditMapView<T extends ActionListener & MouseListener> {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[gameGrid.cases[i][j].ordinal()];
+                String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[gameGrid.getCases()[i][j].ordinal()];
                 ImageIcon tileIcon = new ImageIcon(iconPath);
 
                 this.tiles[i][j] = new JButton();

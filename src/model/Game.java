@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Observable;
 
+import model.GameGrid.CASE_TYPES;
+
 /**
  * This class implements the main gaming logic in which user can buy, sell, upgrade towers. It is also observable so
  * that a view class can be notified of internal changes.
@@ -26,7 +28,17 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
+    public final HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
+
     private int money;
+
+    private Path shortestPath;
+
+    private Thread gameThread;
+
+    private int crittersPerWave = 1;
+
+    private int crittersReleased;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -34,6 +46,7 @@ public class Game extends Observable {
     public Game() {
         this.grid = new GameGrid(100, 100);
         this.money = Game.INITIAL_MONEY;
+        this.shortestPath = new Path(this.grid);
     }
 
     /**
@@ -133,6 +146,75 @@ public class Game extends Observable {
             this.setChanged();
             this.notifyObservers();
         }
+    }
+
+    /**
+     * Initiates a new wave of critters.
+     */
+    public void sendWave() {
+        this.crittersReleased = 0;
+        // FIXME : Remove hardcoded delay.
+        this.gameThread = new GameThread(this, 1000);
+        gameThread.start();
+    }
+
+    public void addCritter(Critter c) {
+        this.critters.put(c.gridl, c);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public boolean hasCritter(int i, int j) {
+        Point location = new Point(i, j);
+        return (this.critters.get(location) != null);
+    }
+
+    public boolean noCritter(int i, int j) {
+        Point location = new Point(i, j);
+        return (this.grid.getCases()[i][j] == CASE_TYPES.ROAD && this.critters.get(location) == null);
+    }
+
+    public void moveCritter() {
+
+        System.out.println("moveCritter");
+        for (Object o : this.critters.keySet().toArray()) {
+
+            GridLocation currentLocation = (GridLocation) o;
+            this.critters.remove(currentLocation);
+
+            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation, this.shortestPath.pathList(this.grid.connectivities()));
+
+            if (nextLocation != null) {
+                Critter critty = new Critter(nextLocation, 10);
+                Point newLocation = new GridLocation(nextLocation.x, nextLocation.y);
+
+                this.addCritter(critty);
+
+                System.out.println(nextLocation);
+            }
+
+        }
+
+        if (this.crittersPerWave > this.crittersReleased) {
+
+            GridLocation start = this.shortestPath.pathList(this.grid.connectivities()).get(0);
+
+            Critter critty = new Critter(start, 10);
+            this.addCritter(critty);
+            this.crittersReleased++;
+            System.out.println("Adding a new critter on the grid.");
+        }
+
+        // This turn is over.
+        if (this.critters.size() == 0 && this.crittersReleased == this.crittersPerWave) {
+            System.out.print("Current turn is over.");
+            this.gameThread.interrupt();
+
+        }
+
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
 }

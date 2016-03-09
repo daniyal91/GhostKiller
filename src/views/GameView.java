@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Critter;
 import model.Game;
 import model.GameGrid;
 import model.Tower;
@@ -34,6 +35,7 @@ public class GameView implements Observer {
     private JFrame gameFrame;
     public ArrayList<JLabel> towerLabels;
     private JButton[][] tiles;
+    public JButton play;
     private JLabel cashLabel;
     private JFrame inspFrame;
 
@@ -128,6 +130,11 @@ public class GameView implements Observer {
         JLabel lifeTxt = new JLabel("75%");
         lifeTxt.setForeground(Color.green);
         healthBankPanel.add(lifeTxt);
+        
+        
+        this.play=new JButton("play");
+        play.addMouseListener(controller);
+        healthBankPanel.add(play);
         this.gameFrame.setResizable(false);
 
     }
@@ -152,11 +159,33 @@ public class GameView implements Observer {
                 if (game.hasTower(i, j)) {
                     this.placeTower(i, j, game.getTower(i, j));
                 }
+                 
+               if (game.hasCritter(i,j)){
+                   this.placeCritter(i, j);  
+               }
+               
+               if(game.noCritter(i,j)) {
+                   this.moveCritter(i, j);   
+               }
+                
             }
         }
         this.cashLabel.setText("$" + game.getMoney());
+    } 
+    
+    public void moveCritter(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
+        
     }
 
+    private void placeCritter(int line, int column) {
+        this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
+        
+    }
+
+    
+    
+    
     /**
      * Places the selected tower on the game grid.
      *

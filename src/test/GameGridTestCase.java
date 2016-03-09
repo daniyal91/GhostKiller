@@ -29,7 +29,7 @@ public class GameGridTestCase {
 
     @Test
     public void testReadFromFile() throws IOException {
-        assertTrue("The information could not be read from the file", testgamegird.cases.length == 10);
+        assertTrue("The information could not be read from the file", testgamegird.getCases().length == 10);
     }
 
     @Test
@@ -57,14 +57,14 @@ public class GameGridTestCase {
     @Test
     public void testEntryPoint() {
         GridLocation entry = testgamegird.entryPoint();
-        assertTrue("entryPoint() failed to work", entry.xCoordinate > -1 && entry.yCoordinate > -1);
+        assertTrue("entryPoint() failed to work", entry.x > -1 && entry.y > -1);
 
     }
 
     @Test
     public void testExitPoint() {
         GridLocation exit = testgamegird.exitPoint();
-        assertTrue("exitPoint() failed to work", exit.xCoordinate > -1 && exit.yCoordinate > -1);
+        assertTrue("exitPoint() failed to work", exit.x > -1 && exit.y > -1);
 
     }
 
@@ -84,7 +84,7 @@ public class GameGridTestCase {
         // Replacing all the entry points by grass.
         ArrayList<GridLocation> entryPoints = this.badgamegird.getCasesByType(CASE_TYPES.START);
         for (GridLocation entryPoint : entryPoints) {
-            this.badgamegird.cases[entryPoint.xCoordinate][entryPoint.yCoordinate] = CASE_TYPES.GRASS;
+            this.badgamegird.getCases()[entryPoint.x][entryPoint.y] = CASE_TYPES.GRASS;
         }
 
         try {
@@ -99,9 +99,9 @@ public class GameGridTestCase {
     public void testTooManyEntryPoints() throws GameGridException {
 
         // Manually adding 3 entry points.
-        this.badgamegird.cases[0][0] = CASE_TYPES.START;
-        this.badgamegird.cases[0][1] = CASE_TYPES.START;
-        this.badgamegird.cases[0][2] = CASE_TYPES.START;
+        this.badgamegird.getCases()[0][0] = CASE_TYPES.START;
+        this.badgamegird.getCases()[0][1] = CASE_TYPES.START;
+        this.badgamegird.getCases()[0][2] = CASE_TYPES.START;
 
         try {
             this.badgamegird.validateMap();

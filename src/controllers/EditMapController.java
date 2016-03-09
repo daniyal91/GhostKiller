@@ -81,8 +81,8 @@ public class EditMapController implements ActionListener, MouseListener {
      */
     private void updateTile(Object source) {
 
-        for (int i = 0; i < this.gameGrid.cases.length; i++) {
-            for (int j = 0; j < this.gameGrid.cases[0].length; j++) {
+        for (int i = 0; i < this.gameGrid.getCases().length; i++) {
+            for (int j = 0; j < this.gameGrid.getCases()[0].length; j++) {
                 if (source == this.editMapView.tiles[i][j]) {
                     this.toggleTile(i, j);
                 }
@@ -109,7 +109,7 @@ public class EditMapController implements ActionListener, MouseListener {
 
             // No special case type was selected, we will toggle between grass and road.
         } else {
-            if (this.gameGrid.cases[row][column] == CASE_TYPES.ROAD) {
+            if (this.gameGrid.getCases()[row][column] == CASE_TYPES.ROAD) {
                 selectedCaseType = CASE_TYPES.GRASS;
             } else {
                 selectedCaseType = CASE_TYPES.ROAD;
@@ -118,7 +118,7 @@ public class EditMapController implements ActionListener, MouseListener {
 
         String iconPath = GameGrid.CASE_TYPES_ICON_PATHS[selectedCaseType.ordinal()];
         this.editMapView.tiles[row][column].setIcon(new ImageIcon(iconPath));
-        this.gameGrid.cases[row][column] = selectedCaseType;
+        this.gameGrid.getCases()[row][column] = selectedCaseType;
 
     }
 

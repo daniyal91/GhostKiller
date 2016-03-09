@@ -1,34 +1,31 @@
 package model;
 
+import java.awt.Point;
+
 /**
- * This class implements grid location which assign x and y to each cell map.
+ * This class implements a location on the game grid.
  *
  * @author Team 6
  *
  */
-public class GridLocation {
+public class GridLocation extends Point {
 
-    public int xCoordinate;
-    public int yCoordinate;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs the GridLocation object. Will default to an invalid location (-1, -1).
      */
     public GridLocation() {
-        this.xCoordinate = -1;
-        this.yCoordinate = -1;
+        this.x = -1;
+        this.y = -1;
     }
 
-    /**
-     * Constructs the GridLocation with the specified coordinates.
-     *
-     * @param xCoordinate x coordinate of the new location.
-     * @param yCoordinate y coordinate of the new location.
-     */
-    public GridLocation(int xCoordinate, int yCoordinate) {
-        super();
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+    public GridLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -36,7 +33,8 @@ public class GridLocation {
      */
     @Override
     public String toString() {
-        return "Grid [xCoordinate=" + xCoordinate + ", yCoordinate=" + yCoordinate + "]";
+        String template = "GridLocation (%s, %s)";
+        return String.format(template, this.x, this.y);
     }
 
 }
