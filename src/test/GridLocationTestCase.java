@@ -29,4 +29,18 @@ public class GridLocationTestCase extends TestCase {
         TestCase.assertEquals(result, expected);
     }
 
+    public void testDistance() {
+        GridLocation gridLocation1 = new GridLocation(2, 3);
+        GridLocation gridLocation2 = new GridLocation(4, 5);
+        TestCase.assertEquals(GridLocation.distance(gridLocation1, gridLocation2), 4);
+
+        GridLocation gridLocation3 = new GridLocation(2, 7);
+        GridLocation gridLocation4 = new GridLocation(4, 5);
+        TestCase.assertEquals(GridLocation.distance(gridLocation3, gridLocation4), 4);
+
+        GridLocation gridLocation5 = new GridLocation(2, 2);
+        GridLocation gridLocation6 = new GridLocation(2, 2);
+        TestCase.assertEquals(GridLocation.distance(gridLocation5, gridLocation6), 0);
+    }
+
 }

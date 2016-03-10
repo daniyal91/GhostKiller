@@ -65,7 +65,6 @@ public class Game extends Observable {
      * @param column Column where to place the new tower.
      */
     public void buyTower(Tower tower, int line, int column) {
-        ;
         if (tower.getInitialCost() > this.money) {
             // TODO maybe raise an exception to notify there is not enough money left.
             return;
@@ -74,7 +73,7 @@ public class Game extends Observable {
             return;
         }
         this.money -= tower.getInitialCost();
-        Tower newTower = new Tower(tower);
+        Tower newTower = new Tower(tower, new GridLocation(line, column));
         this.addTower(newTower, line, column);
     }
 
@@ -159,7 +158,7 @@ public class Game extends Observable {
     }
 
     public void addCritter(Critter c) {
-        this.critters.put(c.gridl, c);
+        this.critters.put(c.gridLocation, c);
         this.setChanged();
         this.notifyObservers();
     }
@@ -174,22 +173,24 @@ public class Game extends Observable {
         return (this.grid.getCases()[i][j] == CASE_TYPES.ROAD && this.critters.get(location) == null);
     }
 
-    public void moveCritter() {
+    /**
+     * Makes a game turn. A turn consists of critters moving, towers shooting,
+     * the player earning money and losing life points, etc.
+     */
+    public void makeTurn() {
 
         System.out.println("moveCritter");
         for (Object o : this.critters.keySet().toArray()) {
 
-            GridLocation currentLocation = (GridLocation) o;
-            this.critters.remove(currentLocation);
+            Critter critter = this.critters.get(o);
+            this.critters.remove(critter.gridLocation);
 
-            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation, this.shortestPath.pathList(this.grid.connectivities()));
+            GridLocation nextLocation = this.shortestPath.nextStep(critter.gridLocation, this.shortestPath.pathList(this.grid.connectivities()));
 
+            // There is another location the critter can move to.
             if (nextLocation != null) {
-                Critter critty = new Critter(nextLocation, 10);
-                Point newLocation = new GridLocation(nextLocation.x, nextLocation.y);
-
-                this.addCritter(critty);
-
+                critter.setLocation(nextLocation);
+                this.addCritter(critter);
                 System.out.println(nextLocation);
             }
 
@@ -199,10 +200,11 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.pathList(this.grid.connectivities()).get(0);
 
-            Critter critty = new Critter(start, 10);
+            Critter critty = new Critter(start, 1);
             this.addCritter(critty);
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
+
         }
 
         // This turn is over.
@@ -210,6 +212,19 @@ public class Game extends Observable {
             System.out.print("Current turn is over.");
             this.gameThread.interrupt();
 
+        }
+
+        // Towers attacking if the turn is not over.
+        for (Tower tower: this.towers.values()) {
+            tower.attack(this.critters.values());
+        }
+
+        for (Critter critter: this.critters.values()) {
+            System.out.println(critter);
+            if (critter.isDead()) {
+                this.money += critter.getReward();
+                this.critters.remove(critter.gridLocation);
+            }
         }
 
         this.setChanged();

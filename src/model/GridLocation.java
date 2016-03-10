@@ -23,6 +23,9 @@ public class GridLocation extends Point {
         this.y = -1;
     }
 
+    /**
+     * Constructs the GridLocation object from a set of coordinates.
+     */
     public GridLocation(int x, int y) {
         this.x = x;
         this.y = y;
@@ -35,6 +38,20 @@ public class GridLocation extends Point {
     public String toString() {
         String template = "GridLocation (%s, %s)";
         return String.format(template, this.x, this.y);
+    }
+
+    /**
+     * Calculates the Manhattan distance between 2 GridLocation objects.
+     *
+     * @param location1 first GridLocation object
+     * @param location2 second GridLocation object
+     *
+     * @return The Manhattan distance between the 2 objects.
+     */
+    public static int distance(GridLocation location1, GridLocation location2) {
+        int distanceX = Math.max(location1.x, location2.x) - Math.min(location1.x, location2.x);
+        int distanceY = Math.max(location1.y, location2.y) - Math.min(location1.y, location2.y);
+        return distanceX + distanceY;
     }
 
 }

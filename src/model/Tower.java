@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Collection;
+
 /**
  * Base class for game towers
  *
@@ -32,6 +34,9 @@ public class Tower {
     protected int rateOfFire;
     protected SPECIAL_EFFECTS specialEffects;
 
+    private AttackStrategy attackStrategy;
+    private GridLocation location;
+
 
     /**
      * Default constructor for the Tower class.
@@ -43,7 +48,7 @@ public class Tower {
      *
      * @param T Tower instance to create the new instance from.
      */
-    public Tower(Tower T) {
+    public Tower(Tower T, GridLocation location) {
         super();
         this.name = T.name;
         this.iconPath = T.iconPath;
@@ -53,9 +58,21 @@ public class Tower {
         this.range = T.range;
         this.power = T.power;
         this.rateOfFire = T.rateOfFire;
+        this.location = location;
 
+        // FIXME remove hardcoded strategy.
+        this.attackStrategy = new DumbStrategy();
     }
 
+    public void attack(Collection<Critter> critters) {
+
+        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters);
+        if (critterToAttack != null) {
+            System.out.println("Attacking critter" + critterToAttack.toString());
+            critterToAttack.takeDamage(this.power);
+        }
+
+    }
 
     /**
      * Gets the special effects of the tower.
@@ -93,6 +110,10 @@ public class Tower {
         return level;
     }
 
+    public GridLocation getLocation() {
+        return this.location;
+    }
+
     /**
      * Gets the cost to upgrade the level of the tower.
      *
@@ -122,6 +143,13 @@ public class Tower {
         return rateOfFire;
     }
 
+    public AttackStrategy getAttackStrategy() {
+        return this.attackStrategy;
+    }
+
+    public void setAttackStrategy(AttackStrategy attackStrategy) {
+        this.attackStrategy = attackStrategy;
+    }
 
     /**
      * Returns a textual representation of the tower.
