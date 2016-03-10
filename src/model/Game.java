@@ -159,7 +159,7 @@ public class Game extends Observable {
     }
 
     public void addCritter(Critter c) {
-        this.critters.put(c.gridl, c);
+        this.critters.put(c.gridLocation, c);
         this.setChanged();
         this.notifyObservers();
     }
@@ -174,7 +174,11 @@ public class Game extends Observable {
         return (this.grid.getCases()[i][j] == CASE_TYPES.ROAD && this.critters.get(location) == null);
     }
 
-    public void moveCritter() {
+    /**
+     * Makes a game turn. A turn consists of critters moving, towers shooting,
+     * the player earning money and losing life points, etc.
+     */
+    public void makeTurn() {
 
         System.out.println("moveCritter");
         for (Object o : this.critters.keySet().toArray()) {
@@ -184,12 +188,10 @@ public class Game extends Observable {
 
             GridLocation nextLocation = this.shortestPath.nextStep(currentLocation, this.shortestPath.pathList(this.grid.connectivities()));
 
+            // There is another location the critter can move to.
             if (nextLocation != null) {
-                Critter critty = new Critter(nextLocation, 10);
-                Point newLocation = new GridLocation(nextLocation.x, nextLocation.y);
-
+                Critter critty = new Critter(nextLocation, 1);
                 this.addCritter(critty);
-
                 System.out.println(nextLocation);
             }
 
@@ -199,7 +201,7 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.pathList(this.grid.connectivities()).get(0);
 
-            Critter critty = new Critter(start, 10);
+            Critter critty = new Critter(start, 1);
             this.addCritter(critty);
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");

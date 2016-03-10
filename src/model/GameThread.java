@@ -30,7 +30,7 @@ public class GameThread extends Thread {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        this.game.moveCritter();
+        this.game.makeTurn();
         this.run();
     }
 
