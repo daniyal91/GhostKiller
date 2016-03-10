@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Base class for game towers
@@ -48,7 +48,7 @@ public class Tower {
      *
      * @param T Tower instance to create the new instance from.
      */
-    public Tower(Tower T) {
+    public Tower(Tower T, GridLocation location) {
         super();
         this.name = T.name;
         this.iconPath = T.iconPath;
@@ -58,11 +58,20 @@ public class Tower {
         this.range = T.range;
         this.power = T.power;
         this.rateOfFire = T.rateOfFire;
+        this.location = location;
+
+        // FIXME remove hardcoded strategy.
+        this.attackStrategy = new DumbStrategy();
     }
 
-    public void attack(ArrayList<Critter> critters) {
+    public void attack(Collection<Critter> critters) {
 
-        return;
+        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters);
+        if (critterToAttack != null) {
+            System.out.println("Attacking critter" + critterToAttack.toString());
+            critterToAttack.takeDamage(this.power);
+        }
+
     }
 
     /**

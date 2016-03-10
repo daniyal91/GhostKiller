@@ -65,7 +65,6 @@ public class Game extends Observable {
      * @param column Column where to place the new tower.
      */
     public void buyTower(Tower tower, int line, int column) {
-        ;
         if (tower.getInitialCost() > this.money) {
             // TODO maybe raise an exception to notify there is not enough money left.
             return;
@@ -74,7 +73,7 @@ public class Game extends Observable {
             return;
         }
         this.money -= tower.getInitialCost();
-        Tower newTower = new Tower(tower);
+        Tower newTower = new Tower(tower, new GridLocation(line, column));
         this.addTower(newTower, line, column);
     }
 
@@ -183,15 +182,15 @@ public class Game extends Observable {
         System.out.println("moveCritter");
         for (Object o : this.critters.keySet().toArray()) {
 
-            GridLocation currentLocation = (GridLocation) o;
-            this.critters.remove(currentLocation);
+            Critter critter = this.critters.get(o);
+            this.critters.remove(critter.gridLocation);
 
-            GridLocation nextLocation = this.shortestPath.nextStep(currentLocation, this.shortestPath.pathList(this.grid.connectivities()));
+            GridLocation nextLocation = this.shortestPath.nextStep(critter.gridLocation, this.shortestPath.pathList(this.grid.connectivities()));
 
             // There is another location the critter can move to.
             if (nextLocation != null) {
-                Critter critty = new Critter(nextLocation, 1);
-                this.addCritter(critty);
+                critter.setLocation(nextLocation);
+                this.addCritter(critter);
                 System.out.println(nextLocation);
             }
 
@@ -217,7 +216,15 @@ public class Game extends Observable {
 
         // Towers attacking if the turn is not over.
         for (Tower tower: this.towers.values()) {
-            // lol
+            tower.attack(this.critters.values());
+        }
+
+        for (Critter critter: this.critters.values()) {
+            System.out.println(critter);
+            if (critter.isDead()) {
+                this.money += critter.getReward();
+                this.critters.remove(critter.gridLocation);
+            }
         }
 
         this.setChanged();

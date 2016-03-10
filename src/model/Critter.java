@@ -37,4 +37,18 @@ public class Critter {
         this.healthPoints -= damage;
     }
 
+    public int getReward() {
+        return Critter.REWARD_PER_LEVEL * this.level;
+    }
+
+    public void setLocation(GridLocation newLocation) {
+        this.gridLocation = newLocation;
+    }
+
+    @Override
+    public String toString() {
+        String template = "Critter level %s at position %s with %s remaining health points";
+        return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
+    }
+
 }

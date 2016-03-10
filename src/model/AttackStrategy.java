@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Base class for an attack strategy
@@ -17,6 +17,6 @@ public abstract class AttackStrategy {
      * @param critters Critters that are currently on the grid.
      * @return The critter that the tower should shoot according to the strategy.
      */
-    public abstract Critter attackCritter(Tower tower, ArrayList<Critter> critters);
+    public abstract Critter attackCritter(Tower tower, Collection<Critter> critters);
 
 }
