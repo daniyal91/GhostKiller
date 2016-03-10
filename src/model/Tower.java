@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Base class for game towers
  *
@@ -32,6 +34,9 @@ public class Tower {
     protected int rateOfFire;
     protected SPECIAL_EFFECTS specialEffects;
 
+    private AttackStrategy attackStrategy;
+    private GridLocation location;
+
 
     /**
      * Default constructor for the Tower class.
@@ -53,9 +58,12 @@ public class Tower {
         this.range = T.range;
         this.power = T.power;
         this.rateOfFire = T.rateOfFire;
-
     }
 
+    public void attack(ArrayList<Critter> critters) {
+
+        return;
+    }
 
     /**
      * Gets the special effects of the tower.
@@ -93,6 +101,10 @@ public class Tower {
         return level;
     }
 
+    public GridLocation getLocation() {
+        return this.location;
+    }
+
     /**
      * Gets the cost to upgrade the level of the tower.
      *
@@ -122,6 +134,13 @@ public class Tower {
         return rateOfFire;
     }
 
+    public AttackStrategy getAttackStrategy() {
+        return this.attackStrategy;
+    }
+
+    public void setAttackStrategy(AttackStrategy attackStrategy) {
+        this.attackStrategy = attackStrategy;
+    }
 
     /**
      * Returns a textual representation of the tower.

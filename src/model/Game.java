@@ -205,6 +205,7 @@ public class Game extends Observable {
             this.addCritter(critty);
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
+
         }
 
         // This turn is over.
@@ -212,6 +213,11 @@ public class Game extends Observable {
             System.out.print("Current turn is over.");
             this.gameThread.interrupt();
 
+        }
+
+        // Towers attacking if the turn is not over.
+        for (Tower tower: this.towers.values()) {
+            // lol
         }
 
         this.setChanged();
