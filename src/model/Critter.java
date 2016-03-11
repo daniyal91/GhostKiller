@@ -10,7 +10,7 @@ public class Critter {
 
     public GridLocation gridLocation;
 
-    public static int HEALTH_POINTS_PER_LEVEL = 100;
+    public static int HEALTH_POINTS_PER_LEVEL = 30;
     public static int SPEED_PER_LEVEL = 20;
     public static int REWARD_PER_LEVEL = 50;
 

@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Chooses the closest critter in range to attack.
@@ -15,8 +17,21 @@ public class ClosestStrategy extends AttackStrategy {
      */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters) {
-        // TODO Auto-generated method stub
-        return null;
+
+        Critter[] critterList = (Critter[]) critters.toArray();  
+        int index=0;
+        int target=0;
+        int distance=GridLocation.distance(tower.getLocation(), critterList[0].gridLocation);
+
+        for (Critter critter: critters) {
+            if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <distance) {
+                distance=GridLocation.distance(tower.getLocation(), critter.gridLocation);
+                target=index;              
+            }
+            index++;
+        }
+        
+        return critterList[target];
     }
 
 }
