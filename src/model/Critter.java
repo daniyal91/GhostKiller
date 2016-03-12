@@ -45,6 +45,10 @@ public class Critter {
         this.gridLocation = newLocation;
     }
 
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+    
     @Override
     public String toString() {
         String template = "Critter level %s at position %s with %s remaining health points";

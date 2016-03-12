@@ -3,27 +3,28 @@ package model;
 import java.util.Collection;
 
 /**
- * Chooses the closest critter in range to attack.
+ * Chooses the weakest (with minimum health points) critter in range to attack.
  *
  * @author Team 6
  *
  */
-public class ClosestStrategy extends AttackStrategy {
+public class WeakestStrategy extends AttackStrategy {
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters) {
+
         Critter[] critterList = (Critter[]) critters.toArray();  
         int index=0;
         int target=-1;
-        int mindistance=1000;  // Attention required ! should be replaced 
+        int minhealth=critterList[0].HEALTH_POINTS_PER_LEVEL;
 
         for (Critter critter: critters) {
-            if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <mindistance &&
+            if (critter.getHealthPoints() < minhealth &&
                     GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
-                mindistance=GridLocation.distance(tower.getLocation(), critter.gridLocation);
+                minhealth=critter.getHealthPoints();
                 target=index;              
             }
             index++;

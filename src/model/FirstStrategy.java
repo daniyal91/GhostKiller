@@ -1,27 +1,24 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Dumb strategy. Returns a random critter in range.
+ * Chooses the farther (closest to the end point) critter in range to attack.
  *
  * @author Team 6
  *
  */
-public class DumbStrategy extends AttackStrategy {
+public class FirstStrategy extends AttackStrategy {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters) {
-        ArrayList<Critter> inrange=new ArrayList<Critter>();
-
         for (Critter critter: critters) {
             if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
-                inrange.add(critter);
+                return critter;
             }
-        }
-        if (!inrange.isEmpty()) {
-            return inrange.get((int)(Math.random() * inrange.size())); 
         }
         return null;
     }

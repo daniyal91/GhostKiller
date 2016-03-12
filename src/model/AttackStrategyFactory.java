@@ -6,8 +6,10 @@ package model;
 public class AttackStrategyFactory {
 
     private static String[] availableStrategies = {
-        "dumb",
-        "closest"
+            "dumb",
+            "closest",
+            "first",
+            "weakest"
     };
 
     public static String[] getAvailableStrategies() {
@@ -17,9 +19,18 @@ public class AttackStrategyFactory {
     public static AttackStrategy createStrategy(String strategyName) {
         if (strategyName == "dumb") {
             return new DumbStrategy();
-        } else if (strategyName == "closest") {
+        } 
+        else if (strategyName == "closest") {
             return new ClosestStrategy();
-        } else {
+
+        }
+        else if (strategyName == "first") {
+            return new FirstStrategy();
+        }
+        else if (strategyName == "weakest") {
+            return new WeakestStrategy();
+        }  
+        else {
             throw new IllegalArgumentException("Invalid strategy name.");
         }
     }
