@@ -7,7 +7,7 @@ import model.GridLocation;
 import model.tower.Tower;
 
 /**
- * Chooses the farther (closest to the end point) critter in range to attack.
+ * Chooses the first (nearest to the end point) critter in range to attack.
  *
  * @author Team 6
  *
@@ -19,12 +19,27 @@ public class FirstStrategy extends AttackStrategy {
      */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
+
+        int minimum = Integer.MAX_VALUE;
+        Critter target = null;
+
         for (Critter critter: critters) {
-            if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
-                return critter;
+
+            int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
+
+            if (distance > tower.getRange()) {
+                continue;
+            }
+
+            distance = GridLocation.distance(endPoint, critter.gridLocation);
+
+            if (distance < minimum) {
+                minimum = distance;
+                target = critter;
             }
         }
-        return null;
+        return target;
+
     }
 
 }

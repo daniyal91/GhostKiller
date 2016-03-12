@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import model.Critter;
 import model.GridLocation;
 import model.strategy.AttackStrategy;
+import model.strategy.FirstStrategy;
 import model.strategy.NearestStrategy;
 import model.strategy.StrongestStrategy;
 import model.strategy.WeakestStrategy;
@@ -18,7 +19,7 @@ import model.tower.Tower;
 public class StrategyTestCase extends TestCase {
 
     @Test
-    public void testClosestStrategy() {
+    public void testNearestStrategy() {
         AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
@@ -36,7 +37,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     @Test
-    public void testClosestStrategyNoCritters() {
+    public void testNearestStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
@@ -47,7 +48,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     @Test
-    public void testClosestStrategyNoCrittersInRange() {
+    public void testNearestStrategyNoCrittersInRange() {
         AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
@@ -119,6 +120,29 @@ public class StrategyTestCase extends TestCase {
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertEquals(closest.gridLocation.x, 6);
         assertEquals(closest.gridLocation.y, 6);
+
+    }
+
+    @Test
+    public void testFirstStrategy() {
+        AttackStrategy strategy = new FirstStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(3, 3));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        critters.add(new Critter(new GridLocation(1, 1), 1));
+        critters.add(new Critter(new GridLocation(2, 2), 1));
+        critters.add(new Critter(new GridLocation(3, 3), 1));
+        critters.add(new Critter(new GridLocation(4, 4), 1));
+
+        // Even though this critter is the first, it is out of range for the tower.
+        // It should not be returned.
+        GridLocation outOfRange = new GridLocation(19, 19);
+        critters.add(new Critter(outOfRange, 1));
+
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(20, 20));
+        assertEquals(closest.gridLocation.x, 4);
+        assertEquals(closest.gridLocation.y, 4);
 
     }
 
