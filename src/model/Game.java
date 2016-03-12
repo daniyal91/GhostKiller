@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Observable;
 
 import model.GameGrid.CASE_TYPES;
+import model.tower.AncientTower;
+import model.tower.KingTower;
+import model.tower.ModernTower;
+import model.tower.Tower;
 
 /**
  * This class implements the main gaming logic in which user can buy, sell, upgrade towers. It is also observable so
@@ -216,7 +220,7 @@ public class Game extends Observable {
 
         // Towers attacking if the turn is not over.
         for (Tower tower: this.towers.values()) {
-            tower.attack(this.critters.values());
+            tower.attack(this.critters.values(), this.grid.exitPoint());
         }
 
         for (Critter critter: this.critters.values()) {

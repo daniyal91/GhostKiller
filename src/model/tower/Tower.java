@@ -1,6 +1,11 @@
-package model;
+package model.tower;
 
 import java.util.Collection;
+
+import model.Critter;
+import model.GridLocation;
+import model.strategy.AttackStrategy;
+import model.strategy.RandomStrategy;
 
 /**
  * Base class for game towers
@@ -45,6 +50,7 @@ public class Tower {
 
     /**
      * Creates a Tower instance from an existing instance.
+     * FIXME should find another way to create a Tower!
      *
      * @param T Tower instance to create the new instance from.
      */
@@ -61,12 +67,12 @@ public class Tower {
         this.location = location;
 
         // FIXME remove hardcoded strategy.
-        this.attackStrategy = new DumbStrategy();
+        this.attackStrategy = new RandomStrategy();
     }
 
-    public void attack(Collection<Critter> critters) {
+    public void attack(Collection<Critter> critters, GridLocation endPoint) {
 
-        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters);
+        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
         if (critterToAttack != null) {
             System.out.println("Attacking critter" + critterToAttack.toString());
             critterToAttack.takeDamage(this.power);

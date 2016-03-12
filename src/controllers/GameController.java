@@ -8,7 +8,7 @@ import javax.swing.JButton;
 
 import model.Game;
 import model.GameGrid;
-import model.Tower;
+import model.tower.Tower;
 import views.GameView;
 
 /**
