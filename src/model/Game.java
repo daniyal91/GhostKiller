@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -183,12 +184,24 @@ public class Game extends Observable {
      */
     public void makeTurn() {
 
-        System.out.println("moveCritter");
-        for (Object o : this.critters.keySet().toArray()) {
+        System.out.println("Making a new game turn.");
 
-            Critter critter = this.critters.get(o);
+        ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
+
+        // We go through the shortest path in reverse order. This is
+        // to make sure that moving a critter forward does not overwrite
+        // another critter that was on the next location on the path.
+        for (int i = shortestPath.size() - 1; i >= 0; i--) {
+
+            GridLocation pathLocation = shortestPath.get(i);
+            Critter critter = this.critters.get(pathLocation);
+
+            // No critter to more forward on the path at this location.
+            if (critter == null) {
+                continue;
+            }
+
             this.critters.remove(critter.gridLocation);
-
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
             // There is another location the critter can move to.
@@ -196,6 +209,9 @@ public class Game extends Observable {
                 critter.setLocation(nextLocation);
                 this.addCritter(critter);
                 System.out.println(nextLocation);
+            // The critter has reached the exit!
+            } else {
+                System.out.println("The player just lost a life!!!");
             }
 
         }
