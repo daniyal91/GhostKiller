@@ -23,7 +23,18 @@ public class Game extends Observable {
     /**
      * Initial amount of money that the player has to buy towers.
      */
-    public static int INITIAL_MONEY = 100;
+    public static final int INITIAL_MONEY = 100;
+
+    /**
+     * Initial amount of lives the player has.
+     */
+    public static final int INITIAL_LIVES = 15;
+
+
+    /**
+     * Number of critters released per wave.
+     */
+    private static final int CRITTERS_PER_WAVE = 2;
 
     /**
      * List of available towers that the user can buy.
@@ -41,9 +52,9 @@ public class Game extends Observable {
 
     private Thread gameThread;
 
-    private int crittersPerWave = 1;
-
     private int crittersReleased;
+
+    private int lives;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -51,6 +62,7 @@ public class Game extends Observable {
     public Game() {
         this.grid = new GameGrid(100, 100);
         this.money = Game.INITIAL_MONEY;
+        this.lives = Game.INITIAL_LIVES;
         this.shortestPath = new Path(this.grid);
     }
 
@@ -216,7 +228,7 @@ public class Game extends Observable {
 
         }
 
-        if (this.crittersPerWave > this.crittersReleased) {
+        if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
 
@@ -228,7 +240,7 @@ public class Game extends Observable {
         }
 
         // This turn is over.
-        if (this.critters.size() == 0 && this.crittersReleased == this.crittersPerWave) {
+        if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
             System.out.print("Current turn is over.");
             this.gameThread.interrupt();
 
@@ -250,6 +262,10 @@ public class Game extends Observable {
         this.setChanged();
         this.notifyObservers();
 
+    }
+
+    public int getLives() {
+        return lives;
     }
 
 }
