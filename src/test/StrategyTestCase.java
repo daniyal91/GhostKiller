@@ -37,6 +37,34 @@ public class StrategyTestCase extends TestCase {
     }
 
     @Test
+    public void testRandomStrategy() {
+        AttackStrategy strategy = new NearestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        critters.add(new Critter(new GridLocation(4, 4), 1));
+
+        Critter unlucky = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertEquals(unlucky.gridLocation.x, 4);
+        assertEquals(unlucky.gridLocation.y, 4);
+
+    }
+
+    @Test
+    public void testRandomStrategyNoCritters() {
+        AttackStrategy strategy = new NearestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        Critter unlucky = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+
+        assertNull(unlucky);
+
+    }
+
+    @Test
     public void testNearestStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
 

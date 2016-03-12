@@ -6,7 +6,7 @@ package model.strategy;
 public class AttackStrategyFactory {
 
     private static String[] availableStrategies = {
-            "dumb",
+            "random",
             "nearest",
             "first",
             "weakest",
@@ -18,8 +18,8 @@ public class AttackStrategyFactory {
     }
 
     public static AttackStrategy createStrategy(String strategyName) {
-        if (strategyName == "dumb") {
-            return new DumbStrategy();
+        if (strategyName == "random") {
+            return new RandomStrategy();
         } else if (strategyName == "nearest") {
             return new NearestStrategy();
         } else if (strategyName == "first") {

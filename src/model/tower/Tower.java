@@ -5,7 +5,7 @@ import java.util.Collection;
 import model.Critter;
 import model.GridLocation;
 import model.strategy.AttackStrategy;
-import model.strategy.DumbStrategy;
+import model.strategy.RandomStrategy;
 
 /**
  * Base class for game towers
@@ -67,7 +67,7 @@ public class Tower {
         this.location = location;
 
         // FIXME remove hardcoded strategy.
-        this.attackStrategy = new DumbStrategy();
+        this.attackStrategy = new RandomStrategy();
     }
 
     public void attack(Collection<Critter> critters, GridLocation endPoint) {
