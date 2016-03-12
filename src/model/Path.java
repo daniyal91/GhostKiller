@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class Path {
 
     public GameGrid gamegrid;
+    private ArrayList<GridLocation> shortestPath;
 
     public Path(GameGrid gamegrid) {
         this.gamegrid = gamegrid;
@@ -30,40 +31,21 @@ public class Path {
 
     }
 
-    // return the shortest path as an array
-    //let's keep it for a while might be needed for shooting strategies
-    public int[][] shortestPath() {
-        int[][][] cntivity = gamegrid.connectivities();
-
-        for (int i = 0; i < gamegrid.getCases().length; i++) {
-            for (int j = 0; j < gamegrid.getCases()[0].length; j++) {
-                System.out.print(cntivity[i][j][1] + "  ");
-
-            }
-            System.out.println();
-        }
-        pathRelax(cntivity);
-        int[][] shoretst = new int[cntivity.length][cntivity[0].length];
-        for (int i = 0; i < cntivity.length; i++) {
-            for (int j = 0; j < cntivity[0].length; j++) {
-                shoretst[i][j] = cntivity[i][j][2];
-            }
-        }
-        return shoretst;
+    public ArrayList<GridLocation> getShortestPath() {
+        return this.shortestPath;
     }
 
     // returns the shortest path as an array list starts with the entry point
-    public ArrayList<GridLocation> pathList(int[][][] connectivites) {
+    public ArrayList<GridLocation> pathList() {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
         GridLocation grid = gamegrid.exitPoint();
-        grid = minNeighbor(grid, connectivites);
+        grid = minNeighbor(grid, this.gamegrid.connectivities());
         while (!(grid.x == gamegrid.entryPoint().x
                 && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
-            grid = minNeighbor(grid, connectivites);
+            grid = minNeighbor(grid, this.gamegrid.connectivities());
 
         }
-        //pathlist.add(0, this.gamegrid.entryPoint());
         return pathlist;
     }
 
