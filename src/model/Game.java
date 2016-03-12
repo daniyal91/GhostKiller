@@ -189,7 +189,7 @@ public class Game extends Observable {
             Critter critter = this.critters.get(o);
             this.critters.remove(critter.gridLocation);
 
-            GridLocation nextLocation = this.shortestPath.nextStep(critter.gridLocation);
+            GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
             // There is another location the critter can move to.
             if (nextLocation != null) {
@@ -202,7 +202,7 @@ public class Game extends Observable {
 
         if (this.crittersPerWave > this.crittersReleased) {
 
-            GridLocation start = this.shortestPath.pathList().get(0);
+            GridLocation start = this.shortestPath.getShortestPath().get(0);
 
             Critter critty = new Critter(start, 1);
             this.addCritter(critty);

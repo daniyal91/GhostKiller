@@ -71,7 +71,7 @@ public class MainController implements Runnable, ActionListener {
 
                 Path t=new Path(game.grid);
                 System.out.println("shortest path , critters' path towrad exit point :");
-                System.out.println(t.pathList());
+                System.out.println(t.getShortestPath());
 
 
 
