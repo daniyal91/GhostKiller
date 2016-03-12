@@ -33,8 +33,14 @@ public class Critter {
         return this.healthPoints <= 0;
     }
 
+    /**
+     * Attacks the current critter with the specified damage.
+     * The critter's health can never go below 0.
+     *
+     * @param damage Damage to deal to the critter.
+     */
     public void takeDamage(int damage) {
-        this.healthPoints -= damage;
+        this.healthPoints = Math.max(this.healthPoints - damage, 0);
     }
 
     public int getReward() {
@@ -48,7 +54,7 @@ public class Critter {
     public int getHealthPoints() {
         return healthPoints;
     }
-    
+
     @Override
     public String toString() {
         String template = "Critter level %s at position %s with %s remaining health points";
