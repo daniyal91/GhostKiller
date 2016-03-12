@@ -10,6 +10,7 @@ import model.Critter;
 import model.GridLocation;
 import model.strategy.AttackStrategy;
 import model.strategy.ClosestStrategy;
+import model.strategy.StrongestStrategy;
 import model.strategy.WeakestStrategy;
 import model.tower.KingTower;
 import model.tower.Tower;
@@ -98,6 +99,27 @@ public class StrategyTestCase extends TestCase {
 
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
+    }
+
+    @Test
+    public void testStrongestStrategy() {
+        AttackStrategy strategy = new StrongestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        ArrayList<Critter> critters = new ArrayList<Critter>();
+        Critter weakest = new Critter(new GridLocation(4, 4), 1);
+        Critter strongest = new Critter(new GridLocation(6, 6), 1);
+
+        weakest.takeDamage(20);
+
+        critters.add(strongest);
+        critters.add(weakest);
+
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertEquals(closest.gridLocation.x, 6);
+        assertEquals(closest.gridLocation.y, 6);
+
     }
 
 
