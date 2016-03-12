@@ -12,6 +12,7 @@ import model.Critter;
 import model.GridLocation;
 import model.KingTower;
 import model.Tower;
+import model.WeakestStrategy;
 
 public class StrategyTestCase extends TestCase {
 
@@ -47,6 +48,44 @@ public class StrategyTestCase extends TestCase {
     @Test
     public void testClosestStrategyNoCrittersInRange() {
         AttackStrategy strategy = new ClosestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        // Creating a location just out of range for the tower.
+        int range = tower.getRange();
+        GridLocation outOfRange = new GridLocation(tower.getLocation().x, tower.getLocation().y + range + 1);
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        critters.add(new Critter(outOfRange, 1));
+
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertNull(closest);
+    }
+
+    @Test
+    public void testWeakestStrategy() {
+        AttackStrategy strategy = new WeakestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        ArrayList<Critter> critters = new ArrayList<Critter>();
+        Critter weakest = new Critter(new GridLocation(4, 4), 1);
+        Critter strongest = new Critter(new GridLocation(6, 6), 1);
+
+        weakest.takeDamage(20);
+
+        critters.add(strongest);
+        critters.add(weakest);
+
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertEquals(closest.gridLocation.x, 4);
+        assertEquals(closest.gridLocation.y, 4);
+
+    }
+
+    @Test
+    public void testWeakestStrategyNoCrittersInRange() {
+        AttackStrategy strategy = new WeakestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
 
