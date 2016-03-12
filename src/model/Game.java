@@ -28,7 +28,7 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 15;
+    public static final int INITIAL_LIVES = 2;
 
 
     /**
@@ -223,6 +223,7 @@ public class Game extends Observable {
                 System.out.println(nextLocation);
             // The critter has reached the exit!
             } else {
+                this.lives--;
                 System.out.println("The player just lost a life!!!");
             }
 
@@ -266,6 +267,16 @@ public class Game extends Observable {
 
     public int getLives() {
         return lives;
+    }
+
+    /**
+     * Determines if the current game is over. That is, if the player
+     * has no more lives.
+     *
+     * @return true is the game is over, false otherwise.
+     */
+    public boolean isOver() {
+        return this.lives <= 0;
     }
 
 }

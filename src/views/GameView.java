@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.Critter;
 import model.Game;
 import model.GameGrid;
 import model.tower.Tower;
@@ -38,6 +37,7 @@ public class GameView implements Observer {
     public JButton play;
     private JLabel cashLabel;
     private JFrame inspFrame;
+    private JLabel lifeLabel;
 
 
     /**
@@ -127,12 +127,11 @@ public class GameView implements Observer {
         // Health image
         JLabel lifeImgLabel = new JLabel(new ImageIcon("icons/life_icon.png"));
         healthBankPanel.add(lifeImgLabel);
-        JLabel lifeTxt = new JLabel("75%");
-        lifeTxt.setForeground(Color.green);
-        healthBankPanel.add(lifeTxt);
-        
-        
-        this.play=new JButton("play");
+        this.lifeLabel = new JLabel("" + game.getLives());
+        this.lifeLabel.setForeground(Color.green);
+        healthBankPanel.add(this.lifeLabel);
+
+        this.play = new JButton("play");
         play.addMouseListener(controller);
         healthBankPanel.add(play);
         this.gameFrame.setResizable(false);
@@ -159,33 +158,37 @@ public class GameView implements Observer {
                 if (game.hasTower(i, j)) {
                     this.placeTower(i, j, game.getTower(i, j));
                 }
-                 
-               if (game.hasCritter(i,j)){
-                   this.placeCritter(i, j);  
-               }
-               
-               if(game.noCritter(i,j)) {
-                   this.moveCritter(i, j);   
-               }
-                
+
+                if (game.hasCritter(i, j)) {
+                    this.placeCritter(i, j);
+                }
+
+                if (game.noCritter(i, j)) {
+                    this.moveCritter(i, j);
+                }
+
             }
         }
         this.cashLabel.setText("$" + game.getMoney());
-    } 
-    
+        this.lifeLabel.setText("" + game.getLives());
+        if (game.isOver()) {
+            // TODO display that the game is over and exit cleanly!
+            this.gameFrame.setVisible(false);
+        }
+    }
+
     public void moveCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
-        
+
     }
 
     private void placeCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
-        
+
     }
 
-    
-    
-    
+
+
     /**
      * Places the selected tower on the game grid.
      *
