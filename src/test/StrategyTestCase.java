@@ -33,4 +33,34 @@ public class StrategyTestCase extends TestCase {
 
     }
 
+    @Test
+    public void testClosestStrategyNoCritters() {
+        AttackStrategy strategy = new ClosestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        Critter closest = strategy.attackCritter(tower, critters);
+        assertNull(closest);
+    }
+
+    @Test
+    public void testClosestStrategyNoCrittersInRange() {
+        AttackStrategy strategy = new ClosestStrategy();
+
+        Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
+
+        // Creating a location just out of range for the tower.
+        int range = tower.getRange();
+        GridLocation outOfRange = new GridLocation(tower.getLocation().x, tower.getLocation().y + range + 1);
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        critters.add(new Critter(outOfRange, 1));
+
+        Critter closest = strategy.attackCritter(tower, critters);
+        assertNull(closest);
+    }
+
+
+
 }
