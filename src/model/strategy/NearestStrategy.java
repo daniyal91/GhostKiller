@@ -12,7 +12,7 @@ import model.tower.Tower;
  * @author Team 6
  *
  */
-public class ClosestStrategy extends AttackStrategy {
+public class NearestStrategy extends AttackStrategy {
 
     /**
      * {@inheritDoc}

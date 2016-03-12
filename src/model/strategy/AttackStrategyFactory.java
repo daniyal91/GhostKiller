@@ -21,7 +21,7 @@ public class AttackStrategyFactory {
             return new DumbStrategy();
         } 
         else if (strategyName == "closest") {
-            return new ClosestStrategy();
+            return new NearestStrategy();
 
         }
         else if (strategyName == "first") {

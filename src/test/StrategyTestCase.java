@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import model.Critter;
 import model.GridLocation;
 import model.strategy.AttackStrategy;
-import model.strategy.ClosestStrategy;
+import model.strategy.NearestStrategy;
 import model.strategy.StrongestStrategy;
 import model.strategy.WeakestStrategy;
 import model.tower.KingTower;
@@ -19,7 +19,7 @@ public class StrategyTestCase extends TestCase {
 
     @Test
     public void testClosestStrategy() {
-        AttackStrategy strategy = new ClosestStrategy();
+        AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
 
@@ -37,7 +37,7 @@ public class StrategyTestCase extends TestCase {
 
     @Test
     public void testClosestStrategyNoCritters() {
-        AttackStrategy strategy = new ClosestStrategy();
+        AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
 
@@ -48,7 +48,7 @@ public class StrategyTestCase extends TestCase {
 
     @Test
     public void testClosestStrategyNoCrittersInRange() {
-        AttackStrategy strategy = new ClosestStrategy();
+        AttackStrategy strategy = new NearestStrategy();
 
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
 
