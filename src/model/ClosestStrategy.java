@@ -15,22 +15,25 @@ public class ClosestStrategy extends AttackStrategy {
      */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters) {
-        Critter[] critterList = (Critter[]) critters.toArray();  
-        int index=0;
-        int target=-1;
-        int mindistance=1000;  // Attention required ! should be replaced 
+
+        int minimum = Integer.MAX_VALUE;
+        Critter target = null;
 
         for (Critter critter: critters) {
-            if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <mindistance &&
-                    GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
-                mindistance=GridLocation.distance(tower.getLocation(), critter.gridLocation);
-                target=index;              
+
+            int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
+
+            if (distance > tower.getRange()) {
+                continue;
             }
-            index++;
-        }   
-        if (target >-1) 
-            return critterList[target];
-        else
-            return null;
+
+
+            if (distance < minimum) {
+                minimum = distance;
+                target = critter;
+            }
+        }
+        return target;
+
     }
 }

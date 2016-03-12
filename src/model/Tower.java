@@ -45,6 +45,7 @@ public class Tower {
 
     /**
      * Creates a Tower instance from an existing instance.
+     * FIXME should find another way to create a Tower!
      *
      * @param T Tower instance to create the new instance from.
      */
