@@ -10,7 +10,7 @@ import javax.swing.JFileChooser;
  * @author Team 6
  *
  */
-public class utils {
+public class Utils {
 
     /**
      * Wrapper around JFileChooser.

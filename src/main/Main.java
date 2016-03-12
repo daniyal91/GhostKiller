@@ -7,7 +7,7 @@ import controllers.MainController;
 /**
  * This class is the main class containing the entry point of the program.
  */
-public class main {
+public class Main {
 
     /**
      * Entry point of the program.

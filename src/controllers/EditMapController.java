@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 
-import misc.utils;
+import misc.Utils;
 import model.GameGrid;
 import model.GameGrid.CASE_TYPES;
 import model.GameGridException;
@@ -52,7 +52,7 @@ public class EditMapController implements ActionListener, MouseListener {
             return false;
         }
 
-        String filePath = utils.selectFile();
+        String filePath = Utils.selectFile();
         if (filePath != null) {
             this.gameGrid.writeToFile(filePath);
         }

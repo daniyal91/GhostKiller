@@ -3,7 +3,7 @@ package controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import misc.utils;
+import misc.Utils;
 import model.Game;
 import model.Path;
 import model.GameGrid;
@@ -52,7 +52,7 @@ public class MainController implements Runnable, ActionListener {
 
         } else if (event.getSource() == this.mainFrame.buttonEdit) {
 
-            String filePath = utils.selectFile();
+            String filePath = Utils.selectFile();
             if (filePath != null) {
 
                 GameGrid gameGrid = new GameGrid();
@@ -62,7 +62,7 @@ public class MainController implements Runnable, ActionListener {
             }
 
         } else if (event.getSource() == this.mainFrame.buttonLoad) {
-            String filePath = utils.selectFile();
+            String filePath = Utils.selectFile();
             if (filePath != null) {
 
                 Game game = new Game();
