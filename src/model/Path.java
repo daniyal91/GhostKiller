@@ -32,7 +32,7 @@ public class Path {
 
     // return the shortest path as an array
     //let's keep it for a while might be needed for shooting strategies
-    public int[][] shortestPath(GameGrid gamegrid) {
+    public int[][] shortestPath() {
         int[][][] cntivity = gamegrid.connectivities();
 
         for (int i = 0; i < gamegrid.getCases().length; i++) {
@@ -52,8 +52,6 @@ public class Path {
         return shoretst;
     }
 
-
-
     // returns the shortest path as an array list starts with the entry point
     public ArrayList<GridLocation> pathList(int[][][] connectivites) {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
@@ -68,8 +66,6 @@ public class Path {
         //pathlist.add(0, this.gamegrid.entryPoint());
         return pathlist;
     }
-
-
 
     // calculate the shortest path in connectivities[][][2] cells
     public void pathRelax(int[][][] connectivites) {
@@ -87,8 +83,6 @@ public class Path {
         }
 
     }
-
-
 
     // find the neighbor with the minimum distance from the entry ( closest)
     public GridLocation minNeighbor(GridLocation gridl, int[][][] connectivites) {
@@ -129,8 +123,6 @@ public class Path {
 
         return minNeighbor;
     }
-
-
 
     /**
      * Determines if the location specified belongs to the path
