@@ -1,7 +1,11 @@
-package model;
+package model.strategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import model.Critter;
+import model.GridLocation;
+import model.tower.Tower;
 
 /**
  * Dumb strategy. Returns a random critter in range.

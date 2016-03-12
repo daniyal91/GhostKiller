@@ -1,6 +1,11 @@
-package model;
+package model.tower;
 
 import java.util.Collection;
+
+import model.Critter;
+import model.GridLocation;
+import model.strategy.AttackStrategy;
+import model.strategy.DumbStrategy;
 
 /**
  * Base class for game towers

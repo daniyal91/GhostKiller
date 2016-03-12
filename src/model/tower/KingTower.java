@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 /**
  * King tower is a subclass of the Tower class and can be placed on the grid during the game.

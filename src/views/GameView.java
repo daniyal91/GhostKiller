@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 import model.Critter;
 import model.Game;
 import model.GameGrid;
-import model.Tower;
+import model.tower.Tower;
 
 /**
  * This class is the main user interface view used to play the game. It implements the Observer interface to get

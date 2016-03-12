@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.AncientTower;
 import model.Game;
-import model.Tower;
+import model.tower.AncientTower;
+import model.tower.Tower;
 
 public class GameTestCase {
 

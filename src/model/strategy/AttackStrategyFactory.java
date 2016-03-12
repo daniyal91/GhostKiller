@@ -1,4 +1,4 @@
-package model;
+package model.strategy;
 
 /*
  * Factory for creating AttackStrategy classes.

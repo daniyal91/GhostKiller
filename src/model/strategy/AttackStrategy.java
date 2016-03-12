@@ -1,6 +1,10 @@
-package model;
+package model.strategy;
 
 import java.util.Collection;
+
+import model.Critter;
+import model.GridLocation;
+import model.tower.Tower;
 
 /**
  * Base class for an attack strategy

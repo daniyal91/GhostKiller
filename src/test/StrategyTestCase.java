@@ -6,13 +6,13 @@ import java.util.Collection;
 import org.junit.Test;
 
 import junit.framework.TestCase;
-import model.AttackStrategy;
-import model.ClosestStrategy;
 import model.Critter;
 import model.GridLocation;
-import model.KingTower;
-import model.Tower;
-import model.WeakestStrategy;
+import model.strategy.AttackStrategy;
+import model.strategy.ClosestStrategy;
+import model.strategy.WeakestStrategy;
+import model.tower.KingTower;
+import model.tower.Tower;
 
 public class StrategyTestCase extends TestCase {
 
