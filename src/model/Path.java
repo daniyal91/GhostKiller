@@ -12,22 +12,23 @@ public class Path {
         this.gamegrid = gamegrid;
     }
 
-    public GridLocation nextStep(GridLocation gridl, ArrayList<GridLocation> pathlist) {
+    public GridLocation nextStep(GridLocation gridl) {
 
+        ArrayList <GridLocation> shortestPath = this.pathList();
         int index = -1;
-        Iterator<GridLocation> itr = pathlist.iterator();
+        Iterator<GridLocation> itr = shortestPath.iterator();
         while (itr.hasNext()) {
             if (itr.next().equals(gridl)) {
                 if (!itr.hasNext()) {
                     return null;
                 }
-                index = pathlist.indexOf(itr.next());
+                index = shortestPath.indexOf(itr.next());
                 break;
             }
 
         }
 
-        return pathlist.get(index);
+        return shortestPath.get(index);
 
     }
 
