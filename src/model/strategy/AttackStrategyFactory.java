@@ -7,9 +7,10 @@ public class AttackStrategyFactory {
 
     private static String[] availableStrategies = {
             "dumb",
-            "closest",
+            "nearest",
             "first",
-            "weakest"
+            "weakest",
+            "strongest"
     };
 
     public static String[] getAvailableStrategies() {
@@ -19,18 +20,15 @@ public class AttackStrategyFactory {
     public static AttackStrategy createStrategy(String strategyName) {
         if (strategyName == "dumb") {
             return new DumbStrategy();
-        } 
-        else if (strategyName == "closest") {
+        } else if (strategyName == "nearest") {
             return new NearestStrategy();
-
-        }
-        else if (strategyName == "first") {
+        } else if (strategyName == "first") {
             return new FirstStrategy();
-        }
-        else if (strategyName == "weakest") {
+        } else if (strategyName == "weakest") {
             return new WeakestStrategy();
-        }  
-        else {
+        } else if (strategyName == "strongest") {
+            return new StrongestStrategy();
+        } else {
             throw new IllegalArgumentException("Invalid strategy name.");
         }
     }
