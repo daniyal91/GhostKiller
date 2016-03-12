@@ -12,7 +12,7 @@ import java.util.Collection;
 public class DumbStrategy extends AttackStrategy {
 
     @Override
-    public Critter attackCritter(Tower tower, Collection<Critter> critters) {
+    public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
         ArrayList<Critter> inrange=new ArrayList<Critter>();
 
         for (Critter critter: critters) {
@@ -21,7 +21,7 @@ public class DumbStrategy extends AttackStrategy {
             }
         }
         if (!inrange.isEmpty()) {
-            return inrange.get((int)(Math.random() * inrange.size())); 
+            return inrange.get((int)(Math.random() * inrange.size()));
         }
         return null;
     }

@@ -27,7 +27,7 @@ public class StrategyTestCase extends TestCase {
         critters.add(new Critter(new GridLocation(3, 3), 1));
         critters.add(new Critter(new GridLocation(4, 4), 1));
 
-        Critter closest = strategy.attackCritter(tower, critters);
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertEquals(closest.gridLocation.x, 4);
         assertEquals(closest.gridLocation.y, 4);
 
@@ -40,7 +40,7 @@ public class StrategyTestCase extends TestCase {
         Tower tower = new Tower(new KingTower(), new GridLocation(5, 5));
 
         Collection<Critter> critters = new ArrayList<Critter>();
-        Critter closest = strategy.attackCritter(tower, critters);
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
 
@@ -57,7 +57,7 @@ public class StrategyTestCase extends TestCase {
         Collection<Critter> critters = new ArrayList<Critter>();
         critters.add(new Critter(outOfRange, 1));
 
-        Critter closest = strategy.attackCritter(tower, critters);
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
 

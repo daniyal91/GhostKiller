@@ -14,9 +14,9 @@ public class WeakestStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public Critter attackCritter(Tower tower, Collection<Critter> critters) {
+    public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
 
-        Critter[] critterList = (Critter[]) critters.toArray();  
+        Critter[] critterList = (Critter[]) critters.toArray();
         int index=0;
         int target=-1;
         int minhealth=critterList[0].HEALTH_POINTS_PER_LEVEL;
@@ -25,11 +25,11 @@ public class WeakestStrategy extends AttackStrategy {
             if (critter.getHealthPoints() < minhealth &&
                     GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
                 minhealth=critter.getHealthPoints();
-                target=index;              
+                target=index;
             }
             index++;
-        }   
-        if (target >-1) 
+        }
+        if (target >-1)
             return critterList[target];
         else
             return null;

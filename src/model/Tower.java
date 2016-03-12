@@ -65,9 +65,9 @@ public class Tower {
         this.attackStrategy = new DumbStrategy();
     }
 
-    public void attack(Collection<Critter> critters) {
+    public void attack(Collection<Critter> critters, GridLocation endPoint) {
 
-        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters);
+        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
         if (critterToAttack != null) {
             System.out.println("Attacking critter" + critterToAttack.toString());
             critterToAttack.takeDamage(this.power);

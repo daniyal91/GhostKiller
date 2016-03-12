@@ -216,7 +216,7 @@ public class Game extends Observable {
 
         // Towers attacking if the turn is not over.
         for (Tower tower: this.towers.values()) {
-            tower.attack(this.critters.values());
+            tower.attack(this.critters.values(), this.grid.exitPoint());
         }
 
         for (Critter critter: this.critters.values()) {

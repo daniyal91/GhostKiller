@@ -14,7 +14,7 @@ public class ClosestStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public Critter attackCritter(Tower tower, Collection<Critter> critters) {
+    public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
 
         int minimum = Integer.MAX_VALUE;
         Critter target = null;
