@@ -44,7 +44,7 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
-    public final HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
+    public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
 
     private int money;
 
@@ -171,9 +171,12 @@ public class Game extends Observable {
      * Initiates a new wave of critters.
      */
     public void sendWave() {
+        if (this.gameThread != null) {
+            System.out.println("Already in a wave, should wait before this one finishes.");
+            return;
+        }
         this.crittersReleased = 0;
-        // FIXME : Remove hardcoded delay.
-        this.gameThread = new GameThread(this, 1000);
+        this.gameThread = new GameThread(this);
         gameThread.start();
     }
 
@@ -203,18 +206,13 @@ public class Game extends Observable {
         this.moveCritters();
         this.removeDeadCritters();
         this.addNewCritters();
+        this.attackCritters();
 
         // This turn is over.
         if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
             System.out.print("Current turn is over.");
             this.gameThread.interrupt();
-            return;
-
-        }
-
-        // Towers attacking if the turn is not over.
-        for (Tower tower: this.towers.values()) {
-            tower.attack(this.critters.values(), this.grid.exitPoint());
+            this.gameThread = null;
         }
 
         this.turn++;
@@ -223,7 +221,20 @@ public class Game extends Observable {
 
     }
 
-    private void addNewCritters() {
+    private synchronized void attackCritters() {
+        // Towers attacking if the turn is not over.
+        for (Tower tower: this.towers.values()) {
+            ArrayList<Critter> aliveCritters = new ArrayList<Critter>();
+            for (Critter critter: this.critters.values()) {
+                if (!critter.isDead()) {
+                    aliveCritters.add(critter);
+                }
+            }
+            tower.attack(aliveCritters, this.grid.exitPoint());
+        }
+    }
+
+    private synchronized void addNewCritters() {
         if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
@@ -235,7 +246,8 @@ public class Game extends Observable {
 
         }
     }
-    private void moveCritters() {
+
+    private synchronized void moveCritters() {
         ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
 
         // We go through the shortest path in reverse order. This is
@@ -269,13 +281,15 @@ public class Game extends Observable {
     }
 
     private synchronized void removeDeadCritters() {
+        HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
         for (Critter critter: this.critters.values()) {
-            System.out.println(critter);
-            if (critter.isDead()) {
+            if (!critter.isDead()) {
+                critters.put(critter.gridLocation, critter);
+            } else {
                 this.money += critter.getReward();
-                this.critters.remove(critter.gridLocation);
             }
         }
+        this.critters = critters;
     }
 
     public int getLives() {

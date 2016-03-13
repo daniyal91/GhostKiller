@@ -9,11 +9,10 @@ package model;
  */
 public class GameThread extends Thread {
 
-    private int delay;
+    public static int DEFAULT_DELAY = 1000;
     private Game game;
 
-    public GameThread(Game game, int delay) {
-        this.delay = delay;
+    public GameThread(Game game) {
         this.game = game;
     }
 
@@ -25,7 +24,7 @@ public class GameThread extends Thread {
         }
 
         try {
-            this.wait(this.delay);
+            this.wait(GameThread.DEFAULT_DELAY);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
