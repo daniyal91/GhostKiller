@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controllers.GameController;
 import model.Game;
 import model.GameGrid;
 import model.GridLocation;
@@ -50,6 +50,11 @@ public class GameView implements Observer {
     private JLabel lifeLabel;
     private JFrame towerInspectionFrame;
 
+    public JComboBox<String> strategyComboBox;
+    public Tower selectedTower;
+
+    private GameController gameController;
+
 
     /**
      * Constructs the GameView object.
@@ -58,9 +63,10 @@ public class GameView implements Observer {
      * @param controller The controller receiving the user inputs.
      *
      */
-    public GameView(Game game, MouseListener controller) {
+    public GameView(Game game, GameController controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
+        this.gameController = controller;
         this.towerInspectionFrame = new JFrame("Tower Inspection");
 
         // mainPane to add all other panels
@@ -261,6 +267,7 @@ public class GameView implements Observer {
      * @param game Game object associated with the current view.
      */
     public void showTowerDetails(final Tower t, boolean placedOnTile, final int x, final int y, final Game game) {
+        this.selectedTower = t;
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
@@ -383,22 +390,13 @@ public class GameView implements Observer {
             JLabel strategyTxt = new JLabel("Attack Strategy: ");
             strategyTxt.setForeground(Color.white);
             towerDetailsPanel.add(strategyTxt);
-            JComboBox<String> strategycombo = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
-            strategycombo.setPreferredSize(new Dimension(10, 10));
-            towerDetailsPanel.add(strategycombo);
+            this.strategyComboBox = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
+            this.strategyComboBox.setPreferredSize(new Dimension(10, 10));
+            towerDetailsPanel.add(this.strategyComboBox);
 
-            strategycombo.setSelectedIndex(0);
-            ActionListener strategyListener = new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
-                    t.setAttackStrategy((String) strategyCombo.getSelectedItem());
-                }
-            };
-            strategycombo.addActionListener(strategyListener);
+            this.strategyComboBox.setSelectedIndex(0);
+            this.strategyComboBox.addActionListener(this.gameController);
         }
-
 
         towerInspectionFrame.setVisible(true);
     }

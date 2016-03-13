@@ -1,10 +1,13 @@
 package controllers;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 import model.Game;
 import model.GameGrid;
@@ -17,7 +20,7 @@ import views.GameView;
  * @author Team 6
  *
  */
-public class GameController implements MouseListener {
+public class GameController implements MouseListener, ActionListener {
 
     private Game game;
     private GameView gameView;
@@ -115,6 +118,16 @@ public class GameController implements MouseListener {
      */
     @Override
     public void mouseReleased(MouseEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.gameView.strategyComboBox) {
+            JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
+            gameView.selectedTower.setAttackStrategy((String) strategyCombo.getSelectedItem());
+        }
         // TODO Auto-generated method stub
 
     }
