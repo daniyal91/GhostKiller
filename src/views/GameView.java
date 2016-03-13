@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.GameGrid;
+import model.GridLocation;
 import model.tower.Tower;
 
 /**
@@ -152,6 +153,17 @@ public class GameView implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         Game game = (Game) observable;
+
+        for (GridLocation attackLocation: game.attackedCritters) {
+            this.tiles[attackLocation.x][attackLocation.y].setIcon(new ImageIcon("icons/fire.png"));
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
         // For now, we only update the locations of the towers.
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles[0].length; j++) {
@@ -186,8 +198,6 @@ public class GameView implements Observer {
         this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
 
     }
-
-
 
     /**
      * Places the selected tower on the game grid.

@@ -70,13 +70,15 @@ public class Tower {
         this.attackStrategy = new RandomStrategy();
     }
 
-    public void attack(Collection<Critter> critters, GridLocation endPoint) {
+    public GridLocation attack(Collection<Critter> critters, GridLocation endPoint) {
 
         Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
         if (critterToAttack != null) {
             System.out.println("Attacking critter" + critterToAttack.toString());
             critterToAttack.takeDamage(this.power);
+            return critterToAttack.gridLocation;
         }
+        return null;
 
     }
 

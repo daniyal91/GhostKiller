@@ -58,6 +58,8 @@ public class Game extends Observable {
 
     private int turn;
 
+    public ArrayList<GridLocation> attackedCritters;
+
     /**
      * Constructs the Game object with an empty 100x100 grid.
      */
@@ -67,6 +69,7 @@ public class Game extends Observable {
         this.lives = Game.INITIAL_LIVES;
         this.shortestPath = new Path(this.grid);
         this.turn = 1;
+        this.attackedCritters = new ArrayList<GridLocation>();
     }
 
     /**
@@ -203,6 +206,8 @@ public class Game extends Observable {
     public void makeTurn() {
 
         System.out.println("Making a new game turn.");
+        this.attackedCritters.clear();
+
         this.moveCritters();
         this.removeDeadCritters();
         this.addNewCritters();
@@ -223,6 +228,7 @@ public class Game extends Observable {
 
     private synchronized void attackCritters() {
         // Towers attacking if the turn is not over.
+        GridLocation attackedLocation = null;
         for (Tower tower: this.towers.values()) {
             ArrayList<Critter> aliveCritters = new ArrayList<Critter>();
             for (Critter critter: this.critters.values()) {
@@ -230,8 +236,13 @@ public class Game extends Observable {
                     aliveCritters.add(critter);
                 }
             }
-            tower.attack(aliveCritters, this.grid.exitPoint());
+            attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
+            if (attackedLocation != null) {
+                this.attackedCritters.add(attackedLocation);
+            }
         }
+
+
     }
 
     private synchronized void addNewCritters() {
