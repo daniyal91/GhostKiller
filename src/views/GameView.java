@@ -390,7 +390,7 @@ public class GameView implements Observer {
             towerDetailsPanel.add(strategyTxt);
             this.strategyComboBox = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
             this.strategyComboBox.setPreferredSize(new Dimension(10, 10));
-            this.strategyComboBox.setSelectedIndex(0);
+            this.strategyComboBox.setSelectedItem(t.getAttackStrategy().getName());;
             this.strategyComboBox.addActionListener(this.gameController);
             towerDetailsPanel.add(this.strategyComboBox);
         }

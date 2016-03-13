@@ -39,4 +39,7 @@ public class WeakestStrategy extends AttackStrategy {
         }
         return target;
     }
+    public String getName(){
+        return "weakest";
+    }
 }

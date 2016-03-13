@@ -38,6 +38,8 @@ public class NearestStrategy extends AttackStrategy {
             }
         }
         return target;
-
+    }
+    public String getName(){
+        return "nearest";
     }
 }

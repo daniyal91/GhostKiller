@@ -34,4 +34,7 @@ public class RandomStrategy extends AttackStrategy {
         return crittersInRange.get(randomIndex);
     }
 
+    public String getName(){
+        return "random";
+    }
 }
