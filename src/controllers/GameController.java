@@ -128,7 +128,6 @@ public class GameController implements MouseListener, ActionListener {
             JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
             gameView.selectedTower.setAttackStrategy((String) strategyCombo.getSelectedItem());
         }
-        // TODO Auto-generated method stub
 
     }
 

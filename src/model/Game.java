@@ -10,6 +10,7 @@ import model.tower.ExplosionTower;
 import model.tower.FireTower;
 import model.tower.IceTower;
 import model.tower.Tower;
+import model.tower.TowerFactory;
 
 /**
  * This class implements the main gaming logic in which user can buy, sell, upgrade towers. It is also observable so
@@ -28,13 +29,13 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 2;
+    public static final int INITIAL_LIVES = 3;
 
 
     /**
      * Number of critters released per wave.
      */
-    private static final int CRITTERS_PER_WAVE = 2;
+    private static final int CRITTERS_PER_WAVE = 3;
 
     /**
      * List of available towers that the user can buy.
@@ -96,7 +97,8 @@ public class Game extends Observable {
             return;
         }
         this.money -= tower.getInitialCost();
-        Tower newTower = new Tower(tower, new GridLocation(line, column));
+        Tower newTower = TowerFactory.createTower(tower.getName());
+        newTower.setLocation(new GridLocation(line, column));
         this.addTower(newTower, line, column);
     }
 

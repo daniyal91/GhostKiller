@@ -377,25 +377,22 @@ public class GameView implements Observer {
         towerDetailsPanel.add(towerSpecialEffects);
 
         if (placedOnTile) {
+
             JLabel refundAmountTxt = new JLabel("Refund Amount: ");
             refundAmountTxt.setForeground(Color.white);
             towerDetailsPanel.add(refundAmountTxt);
             JLabel refundAmount = new JLabel(Integer.toString(t.refundAmout()));
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
-        }
 
-
-        if (placedOnTile) {
             JLabel strategyTxt = new JLabel("Attack Strategy: ");
             strategyTxt.setForeground(Color.white);
             towerDetailsPanel.add(strategyTxt);
             this.strategyComboBox = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
             this.strategyComboBox.setPreferredSize(new Dimension(10, 10));
-            towerDetailsPanel.add(this.strategyComboBox);
-
             this.strategyComboBox.setSelectedIndex(0);
             this.strategyComboBox.addActionListener(this.gameController);
+            towerDetailsPanel.add(this.strategyComboBox);
         }
 
         towerInspectionFrame.setVisible(true);

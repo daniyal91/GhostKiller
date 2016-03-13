@@ -14,8 +14,7 @@ import model.strategy.RandomStrategy;
  * @author Team 6
  *
  */
-public class Tower {
-
+public abstract class Tower {
 
     /**
      * Refund rate of the towers.
@@ -38,48 +37,26 @@ public class Tower {
      */
     protected String specialEffect;
 
-    private AttackStrategy attackStrategy;
-    private GridLocation location;
+    protected AttackStrategy attackStrategy = new RandomStrategy();;
+    protected GridLocation location;
 
 
     /**
      * Default constructor for the Tower class.
      */
-    public Tower() {}
+    public Tower() {
+        this.setDetails();
+    }
 
-    /**
-     * Creates a Tower instance from an existing instance.
-     * FIXME should find another way to create a Tower!
-     *
-     * @param T Tower instance to create the new instance from.
-     */
-    public Tower(Tower T, GridLocation location) {
-        super();
-        this.name = T.name;
-        this.iconPath = T.iconPath;
-        this.initialCost = T.initialCost;
-        this.level = T.level;
-        this.levelCost = T.levelCost;
-        this.range = T.range;
-        this.power = T.power;
-        this.rateOfFire = T.rateOfFire;
+    public Tower(GridLocation location) {
+        this.setDetails();
         this.location = location;
-
-        // FIXME remove hardcoded strategy.
-        this.attackStrategy = new RandomStrategy();
+        System.out.println("Setting the gridlocation" + this.location);
     }
 
-    public GridLocation attack(Collection<Critter> critters, GridLocation endPoint) {
+    protected abstract void setDetails();
 
-        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
-        if (critterToAttack != null) {
-            System.out.println("Attacking critter" + critterToAttack.toString());
-            critterToAttack.takeDamage(this.power, false);
-            return critterToAttack.gridLocation;
-        }
-        return null;
-
-    }
+    public abstract GridLocation attack (Collection<Critter> critters, GridLocation endPoint);
 
     /**
      * Gets the name of the tower.
@@ -189,6 +166,10 @@ public class Tower {
 
     public String getSpecialEffect() {
         return this.specialEffect;
+    }
+
+    public void setLocation(GridLocation gridLocation) {
+        this.location = gridLocation;
     }
 
 }

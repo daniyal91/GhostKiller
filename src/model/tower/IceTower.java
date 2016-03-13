@@ -1,5 +1,10 @@
 package model.tower;
 
+import java.util.Collection;
+
+import model.Critter;
+import model.GridLocation;
+
 /**
  * Ice tower is a subclass of the Tower class and can be placed on the grid during the game.
  *
@@ -8,10 +13,16 @@ package model.tower;
  */
 public class IceTower extends Tower {
 
-    /**
-     * Constructs the IceTower object.
-     */
     public IceTower() {
+        super();
+    }
+
+    public IceTower(GridLocation gridLocation) {
+        super(gridLocation);
+    }
+
+    @Override
+    protected void setDetails() {
         this.name = "Ice tower";
         this.specialEffect = "freezing";
         this.iconPath = "icons/ModernTower.png";
@@ -21,6 +32,20 @@ public class IceTower extends Tower {
         this.power = 1;
         this.range = 3;
         this.rateOfFire = 1;
+    }
+
+    @Override
+    public GridLocation attack(Collection<Critter> critters, GridLocation endPoint) {
+
+        Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
+
+        if (critterToAttack != null) {
+            critterToAttack.takeDamage(this.power, false);
+            critterToAttack.freeze();
+            return critterToAttack.gridLocation;
+        }
+
+        return null;
 
     }
 

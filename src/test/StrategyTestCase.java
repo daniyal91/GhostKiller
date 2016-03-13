@@ -22,7 +22,7 @@ public class StrategyTestCase extends TestCase {
     public void testNearestStrategy() {
         AttackStrategy strategy = new NearestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         Collection<Critter> critters = new ArrayList<Critter>();
         critters.add(new Critter(new GridLocation(1, 1), 1));
@@ -40,7 +40,7 @@ public class StrategyTestCase extends TestCase {
     public void testRandomStrategy() {
         AttackStrategy strategy = new NearestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         Collection<Critter> critters = new ArrayList<Critter>();
         critters.add(new Critter(new GridLocation(4, 4), 1));
@@ -55,7 +55,7 @@ public class StrategyTestCase extends TestCase {
     public void testRandomStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         Collection<Critter> critters = new ArrayList<Critter>();
         Critter unlucky = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
@@ -68,7 +68,7 @@ public class StrategyTestCase extends TestCase {
     public void testNearestStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         Collection<Critter> critters = new ArrayList<Critter>();
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
@@ -79,7 +79,7 @@ public class StrategyTestCase extends TestCase {
     public void testNearestStrategyNoCrittersInRange() {
         AttackStrategy strategy = new NearestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         // Creating a location just out of range for the tower.
         int range = tower.getRange();
@@ -96,7 +96,7 @@ public class StrategyTestCase extends TestCase {
     public void testWeakestStrategy() {
         AttackStrategy strategy = new WeakestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         ArrayList<Critter> critters = new ArrayList<Critter>();
         Critter weakest = new Critter(new GridLocation(4, 4), 1);
@@ -117,7 +117,7 @@ public class StrategyTestCase extends TestCase {
     public void testWeakestStrategyNoCrittersInRange() {
         AttackStrategy strategy = new WeakestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         // Creating a location just out of range for the tower.
         int range = tower.getRange();
@@ -134,7 +134,7 @@ public class StrategyTestCase extends TestCase {
     public void testStrongestStrategy() {
         AttackStrategy strategy = new StrongestStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(5, 5));
+        Tower tower = new FireTower(new GridLocation(5, 5));
 
         ArrayList<Critter> critters = new ArrayList<Critter>();
         Critter weakest = new Critter(new GridLocation(4, 4), 1);
@@ -155,7 +155,7 @@ public class StrategyTestCase extends TestCase {
     public void testFirstStrategy() {
         AttackStrategy strategy = new FirstStrategy();
 
-        Tower tower = new Tower(new FireTower(), new GridLocation(3, 3));
+        Tower tower = new FireTower(new GridLocation(3, 3));
 
         Collection<Critter> critters = new ArrayList<Critter>();
         critters.add(new Critter(new GridLocation(1, 1), 1));
