@@ -200,7 +200,42 @@ public class Game extends Observable {
     public void makeTurn() {
 
         System.out.println("Making a new game turn.");
+        this.moveCritters();
+        this.removeDeadCritters();
+        this.addNewCritters();
 
+        // This turn is over.
+        if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
+            System.out.print("Current turn is over.");
+            this.gameThread.interrupt();
+            return;
+
+        }
+
+        // Towers attacking if the turn is not over.
+        for (Tower tower: this.towers.values()) {
+            tower.attack(this.critters.values(), this.grid.exitPoint());
+        }
+
+        this.turn++;
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+    private void addNewCritters() {
+        if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
+
+            GridLocation start = this.shortestPath.getShortestPath().get(0);
+
+            Critter critty = new Critter(start, this.turn);
+            this.addCritter(critty);
+            this.crittersReleased++;
+            System.out.println("Adding a new critter on the grid.");
+
+        }
+    }
+    private void moveCritters() {
         ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
 
         // We go through the shortest path in reverse order. This is
@@ -231,36 +266,6 @@ public class Game extends Observable {
             }
 
         }
-
-        this.removeDeadCritters();
-
-        if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
-
-            GridLocation start = this.shortestPath.getShortestPath().get(0);
-
-            Critter critty = new Critter(start, this.turn);
-            this.addCritter(critty);
-            this.crittersReleased++;
-            System.out.println("Adding a new critter on the grid.");
-
-        }
-
-        // This turn is over.
-        if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
-            System.out.print("Current turn is over.");
-            this.gameThread.interrupt();
-
-        }
-
-        // Towers attacking if the turn is not over.
-        for (Tower tower: this.towers.values()) {
-            tower.attack(this.critters.values(), this.grid.exitPoint());
-        }
-
-        this.turn++;
-        this.setChanged();
-        this.notifyObservers();
-
     }
 
     private synchronized void removeDeadCritters() {
