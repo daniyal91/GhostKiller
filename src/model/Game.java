@@ -229,6 +229,8 @@ public class Game extends Observable {
 
         }
 
+        this.removeDeadCritters();
+
         if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
@@ -252,6 +254,14 @@ public class Game extends Observable {
             tower.attack(this.critters.values(), this.grid.exitPoint());
         }
 
+
+
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+    private synchronized void removeDeadCritters() {
         for (Critter critter: this.critters.values()) {
             System.out.println(critter);
             if (critter.isDead()) {
@@ -259,10 +269,6 @@ public class Game extends Observable {
                 this.critters.remove(critter.gridLocation);
             }
         }
-
-        this.setChanged();
-        this.notifyObservers();
-
     }
 
     public int getLives() {
