@@ -76,7 +76,7 @@ public class Tower {
         Critter critterToAttack = this.attackStrategy.attackCritter(this, critters, endPoint);
         if (critterToAttack != null) {
             System.out.println("Attacking critter" + critterToAttack.toString());
-            critterToAttack.takeDamage(this.power);
+            critterToAttack.takeDamage(this.power, false);
             return critterToAttack.gridLocation;
         }
         return null;

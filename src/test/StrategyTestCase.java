@@ -102,7 +102,7 @@ public class StrategyTestCase extends TestCase {
         Critter weakest = new Critter(new GridLocation(4, 4), 1);
         Critter strongest = new Critter(new GridLocation(6, 6), 1);
 
-        weakest.takeDamage(20);
+        weakest.takeDamage(20, false);
 
         critters.add(strongest);
         critters.add(weakest);
@@ -140,7 +140,7 @@ public class StrategyTestCase extends TestCase {
         Critter weakest = new Critter(new GridLocation(4, 4), 1);
         Critter strongest = new Critter(new GridLocation(6, 6), 1);
 
-        weakest.takeDamage(20);
+        weakest.takeDamage(20, false);
 
         critters.add(strongest);
         critters.add(weakest);
