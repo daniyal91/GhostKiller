@@ -254,6 +254,12 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
 
+            // This means a critter is blocking the entry.
+            if (this.critters.get(start) != null) {
+                System.out.println("Critter cannot enter the grid.");
+                return;
+            }
+
             Critter critty = new Critter(start, this.wave);
             this.addCritter(critty);
             this.crittersReleased++;
@@ -273,23 +279,24 @@ public class Game extends Observable {
             GridLocation pathLocation = shortestPath.get(i);
             Critter critter = this.critters.get(pathLocation);
 
-            // No critter to more forward on the path at this location.
-            if (critter == null) {
+            // No critter to more forward on the path at this location,
+            // or the critter is frozen!
+            if (critter == null || critter.isFrozen()) {
                 continue;
             }
 
-            this.critters.remove(critter.gridLocation);
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
-            // There is another location the critter can move to.
-            if (nextLocation != null) {
-                critter.setLocation(nextLocation);
-                this.addCritter(critter);
-                System.out.println(nextLocation);
             // The critter has reached the exit!
-            } else {
+            if (nextLocation == null) {
+                this.critters.remove(critter.gridLocation);
                 this.lives--;
                 System.out.println("The player just lost a life!!!");
+            // There is another location the critter can move to, and it is free.
+            }  else if (critters.get(nextLocation) == null) {
+                this.critters.remove(critter.gridLocation);
+                critter.setLocation(nextLocation);
+                this.addCritter(critter);
             }
 
         }
@@ -330,7 +337,7 @@ public class Game extends Observable {
      */
     private void endTurn() {
         if (this.gameThread != null) {
-            System.out.println("interrupting the current game thread.");
+            System.out.println("The current wave is over.");
             this.gameThread.stopThread();
             this.gameThread = null;
         }

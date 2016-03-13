@@ -48,7 +48,7 @@ public class Critter {
      * @return true if the critter is frozen, false otherwise.
      */
     public boolean isFrozen() {
-        return this.isFrozen;
+        return this.wasFreezed;
     }
 
     /**
@@ -70,11 +70,6 @@ public class Critter {
      * Freezes down the current critter.
      */
     public void freeze() {
-        // We don't allow the critter to be frozen
-        // 2 turns in a row.
-        if (this.wasFreezed) {
-            return;
-        }
         this.isFrozen = true;
     }
 
@@ -84,12 +79,12 @@ public class Critter {
      * turn-aware.
      */
     public void makeTurn() {
-        if (this.isFrozen) {
-            this.isFrozen = false;
-            this.wasFreezed = true;
-        } else if (this.wasFreezed) {
+        if (this.wasFreezed) {
             this.wasFreezed = false;
+        } else if (this.isFrozen) {
+            this.wasFreezed = true;
         }
+        this.isFrozen = false;
         this.healthPoints = Math.max(this.healthPoints - this.burningDamage, 0);
         this.burningDamage = 0;
     }

@@ -36,19 +36,21 @@ public class CritterTestCase extends TestCase {
     public void testFreezeCritter() {
         Critter critter = new Critter(new GridLocation(1, 0), 3);
 
+        // Freezing takes effect at the beginning of the next turn!
         critter.freeze();
-        assertTrue(critter.isFrozen());
+        assertFalse(critter.isFrozen());
 
         critter.makeTurn();
-        assertFalse(critter.isFrozen());
+        assertTrue(critter.isFrozen());
 
         // It should be impossible to freeze the critter
         // two turns in a row.
         critter.freeze();
+        critter.makeTurn();
         assertFalse(critter.isFrozen());
 
-        critter.makeTurn();
         critter.freeze();
+        critter.makeTurn();
         assertTrue(critter.isFrozen());
 
     }
