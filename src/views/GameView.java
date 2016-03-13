@@ -56,11 +56,6 @@ public class GameView implements Observer {
         this.gameFrame = new JFrame("Tower defense game");
         this.inspFrame = new JFrame("Tower Inspection");
 
-      
-        gameFrame.setUndecorated( true );
-        gameFrame.getRootPane().setWindowDecorationStyle( JRootPane.COLOR_CHOOSER_DIALOG );
-        
-        
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
