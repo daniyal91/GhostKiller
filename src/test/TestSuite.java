@@ -11,7 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
     GridLocationTestCase.class,
     GameTestCase.class,
     StrategyTestCase.class,
-    CritterTestCase.class
+    CritterTestCase.class,
+    PathTestCase.class
     })
 
 public class TestSuite {
