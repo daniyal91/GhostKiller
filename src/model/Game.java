@@ -56,6 +56,8 @@ public class Game extends Observable {
 
     private int lives;
 
+    private int turn;
+
     /**
      * Constructs the Game object with an empty 100x100 grid.
      */
@@ -64,6 +66,7 @@ public class Game extends Observable {
         this.money = Game.INITIAL_MONEY;
         this.lives = Game.INITIAL_LIVES;
         this.shortestPath = new Path(this.grid);
+        this.turn = 1;
     }
 
     /**
@@ -235,7 +238,7 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
 
-            Critter critty = new Critter(start, 1);
+            Critter critty = new Critter(start, this.turn);
             this.addCritter(critty);
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
@@ -254,8 +257,7 @@ public class Game extends Observable {
             tower.attack(this.critters.values(), this.grid.exitPoint());
         }
 
-
-
+        this.turn++;
         this.setChanged();
         this.notifyObservers();
 
