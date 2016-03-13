@@ -5,6 +5,7 @@ import java.util.Collection;
 import model.Critter;
 import model.GridLocation;
 import model.strategy.AttackStrategy;
+import model.strategy.AttackStrategyFactory;
 import model.strategy.RandomStrategy;
 
 /**
@@ -159,6 +160,13 @@ public class Tower {
         this.attackStrategy = attackStrategy;
     }
 
+    
+    public void setAttackStrategy(String attackStrategy) {
+        this.attackStrategy = AttackStrategyFactory.createStrategy(attackStrategy);
+    }
+
+    
+    
     /**
      * Returns a textual representation of the tower.
      */
