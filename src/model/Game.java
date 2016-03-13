@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -22,7 +23,18 @@ public class Game extends Observable {
     /**
      * Initial amount of money that the player has to buy towers.
      */
-    public static int INITIAL_MONEY = 100;
+    public static final int INITIAL_MONEY = 100;
+
+    /**
+     * Initial amount of lives the player has.
+     */
+    public static final int INITIAL_LIVES = 2;
+
+
+    /**
+     * Number of critters released per wave.
+     */
+    private static final int CRITTERS_PER_WAVE = 2;
 
     /**
      * List of available towers that the user can buy.
@@ -32,17 +44,21 @@ public class Game extends Observable {
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
 
-    public final HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
+    public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
 
     private int money;
 
     private Path shortestPath;
 
-    private Thread gameThread;
-
-    private int crittersPerWave = 1;
+    private GameThread gameThread;
 
     private int crittersReleased;
+
+    private int lives;
+
+    private int wave;
+
+    public ArrayList<GridLocation> attackedCritters;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -50,7 +66,10 @@ public class Game extends Observable {
     public Game() {
         this.grid = new GameGrid(100, 100);
         this.money = Game.INITIAL_MONEY;
+        this.lives = Game.INITIAL_LIVES;
         this.shortestPath = new Path(this.grid);
+        this.wave = 1;
+        this.attackedCritters = new ArrayList<GridLocation>();
     }
 
     /**
@@ -155,9 +174,12 @@ public class Game extends Observable {
      * Initiates a new wave of critters.
      */
     public void sendWave() {
+        if (this.gameThread != null) {
+            System.out.println("Already in a wave, should wait before this one finishes.");
+            return;
+        }
         this.crittersReleased = 0;
-        // FIXME : Remove hardcoded delay.
-        this.gameThread = new GameThread(this, 1000);
+        this.gameThread = new GameThread(this);
         gameThread.start();
     }
 
@@ -183,57 +205,129 @@ public class Game extends Observable {
      */
     public void makeTurn() {
 
-        System.out.println("moveCritter");
-        for (Object o : this.critters.keySet().toArray()) {
+        System.out.println("Making a new game turn.");
+        this.attackedCritters.clear();
 
-            Critter critter = this.critters.get(o);
+        this.moveCritters();
+        this.addNewCritters();
+        this.attackCritters();
+        this.removeDeadCritters();
+
+        if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
+            this.endTurn();
+        }
+
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+    private synchronized void attackCritters() {
+        // Towers attacking if the turn is not over.
+        GridLocation attackedLocation = null;
+        for (Tower tower: this.towers.values()) {
+            ArrayList<Critter> aliveCritters = new ArrayList<Critter>();
+            for (Critter critter: this.critters.values()) {
+                if (!critter.isDead()) {
+                    aliveCritters.add(critter);
+                }
+            }
+            attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
+            if (attackedLocation != null) {
+                this.attackedCritters.add(attackedLocation);
+            }
+        }
+
+
+    }
+
+    private synchronized void addNewCritters() {
+        if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
+
+            GridLocation start = this.shortestPath.getShortestPath().get(0);
+
+            Critter critty = new Critter(start, this.wave);
+            this.addCritter(critty);
+            this.crittersReleased++;
+            System.out.println("Adding a new critter on the grid.");
+
+        }
+    }
+
+    private synchronized void moveCritters() {
+        ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
+
+        // We go through the shortest path in reverse order. This is
+        // to make sure that moving a critter forward does not overwrite
+        // another critter that was on the next location on the path.
+        for (int i = shortestPath.size() - 1; i >= 0; i--) {
+
+            GridLocation pathLocation = shortestPath.get(i);
+            Critter critter = this.critters.get(pathLocation);
+
+            // No critter to more forward on the path at this location.
+            if (critter == null) {
+                continue;
+            }
+
             this.critters.remove(critter.gridLocation);
-
-            GridLocation nextLocation = this.shortestPath.nextStep(critter.gridLocation, this.shortestPath.pathList(this.grid.connectivities()));
+            GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
             // There is another location the critter can move to.
             if (nextLocation != null) {
                 critter.setLocation(nextLocation);
                 this.addCritter(critter);
                 System.out.println(nextLocation);
+            // The critter has reached the exit!
+            } else {
+                this.lives--;
+                System.out.println("The player just lost a life!!!");
             }
 
         }
+    }
 
-        if (this.crittersPerWave > this.crittersReleased) {
-
-            GridLocation start = this.shortestPath.pathList(this.grid.connectivities()).get(0);
-
-            Critter critty = new Critter(start, 1);
-            this.addCritter(critty);
-            this.crittersReleased++;
-            System.out.println("Adding a new critter on the grid.");
-
-        }
-
-        // This turn is over.
-        if (this.critters.size() == 0 && this.crittersReleased == this.crittersPerWave) {
-            System.out.print("Current turn is over.");
-            this.gameThread.interrupt();
-
-        }
-
-        // Towers attacking if the turn is not over.
-        for (Tower tower: this.towers.values()) {
-            tower.attack(this.critters.values(), this.grid.exitPoint());
-        }
-
+    private synchronized void removeDeadCritters() {
+        HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
         for (Critter critter: this.critters.values()) {
-            System.out.println(critter);
-            if (critter.isDead()) {
+            if (!critter.isDead()) {
+                critters.put(critter.gridLocation, critter);
+            } else {
                 this.money += critter.getReward();
-                this.critters.remove(critter.gridLocation);
             }
         }
+        this.critters = critters;
+    }
 
-        this.setChanged();
-        this.notifyObservers();
+    public int getLives() {
+        return lives;
+    }
 
+    /**
+     * Determines if the current game is over. That is, if the player
+     * has no more lives.
+     *
+     * @return true is the game is over, false otherwise.
+     */
+    public boolean isOver() {
+        return this.lives <= 0;
+    }
+
+    public boolean isMakingTurn() {
+        return this.gameThread != null;
+    }
+
+    /**
+     * Ends the current game turn.
+     */
+    private void endTurn() {
+        if (this.gameThread != null) {
+            System.out.println("interrupting the current game thread.");
+            this.gameThread.stopThread();
+            this.gameThread = null;
+        }
+        this.wave++;
+        this.crittersReleased = 0;
     }
 
 }

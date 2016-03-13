@@ -9,29 +9,44 @@ package model;
  */
 public class GameThread extends Thread {
 
-    private int delay;
+    public static int DEFAULT_DELAY = 1000;
     private Game game;
 
-    public GameThread(Game game, int delay) {
-        this.delay = delay;
+    /**
+     * We don't use the interrupted mechanism of the Thread class
+     * because of it's side effects. We want the current thread to
+     * finish it's current executing instead of brutally interrupting
+     * it.
+     */
+    private boolean isStopped = false;
+
+    public GameThread(Game game) {
         this.game = game;
     }
 
     @Override
     public synchronized void run() {
 
-        if (this.isInterrupted()) {
+        if (this.isStopped) {
             return;
         }
 
         try {
-            this.wait(this.delay);
+            this.wait(GameThread.DEFAULT_DELAY);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         this.game.makeTurn();
         this.run();
+    }
+
+    /**
+     * Stops the current thread from executing another
+     * game turn. The current turn will not be interrupted.
+     */
+    public void stopThread() {
+        this.isStopped = true;
     }
 
 }

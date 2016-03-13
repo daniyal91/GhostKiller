@@ -5,96 +5,92 @@ import java.util.Iterator;
 
 public class Path {
 
+    /**
+     * Game grid in which to find the shortest path.
+     */
     public GameGrid gamegrid;
+
+    /**
+     * Cached version of the shortest path in the grid.
+     */
+    private ArrayList<GridLocation> shortestPath;
 
     public Path(GameGrid gamegrid) {
         this.gamegrid = gamegrid;
     }
 
-    public GridLocation nextStep(GridLocation gridl, ArrayList<GridLocation> pathlist) {
+    /**
+     * Gets the location coming after the current location in
+     * the shortest path.
+     *
+     * @param currentLocation current location in the path.
+     * @return The next location in the path after the specified
+     *         GridLocation.
+     */
+    public GridLocation getNextLocation(GridLocation currentLocation) {
+
+        // Lazy initializes the shortest path.
+        if (this.shortestPath == null) {
+            this.shortestPath = this.calculateShortestPath();
+        }
 
         int index = -1;
-        Iterator<GridLocation> itr = pathlist.iterator();
+        Iterator<GridLocation> itr = shortestPath.iterator();
         while (itr.hasNext()) {
-            if (itr.next().equals(gridl)) {
+            if (itr.next().equals(currentLocation)) {
                 if (!itr.hasNext()) {
                     return null;
                 }
-                index = pathlist.indexOf(itr.next());
+                index = shortestPath.indexOf(itr.next());
                 break;
             }
 
         }
 
-        return pathlist.get(index);
+        return shortestPath.get(index);
 
     }
 
-    // return the shortest path as an array
-    //let's keep it for a while might be needed for shooting strategies
-    public int[][] shortestPath(GameGrid gamegrid) {
-        int[][][] cntivity = gamegrid.connectivities();
-
-        for (int i = 0; i < gamegrid.getCases().length; i++) {
-            for (int j = 0; j < gamegrid.getCases()[0].length; j++) {
-                System.out.print(cntivity[i][j][1] + "  ");
-
-            }
-            System.out.println();
+    /**
+     * Gets the shortest path associated with the grid.
+     * @return An array list of GridLocation representing the shortest
+     *         path from the entry point to the exit point in the grid.
+     */
+    public ArrayList<GridLocation> getShortestPath() {
+        // Lazy initializes the shortest path.
+        if (this.shortestPath == null) {
+            this.shortestPath = this.calculateShortestPath();
         }
-        pathRelax(cntivity);
-        int[][] shoretst = new int[cntivity.length][cntivity[0].length];
-        for (int i = 0; i < cntivity.length; i++) {
-            for (int j = 0; j < cntivity[0].length; j++) {
-                shoretst[i][j] = cntivity[i][j][2];
-            }
-        }
-        return shoretst;
+        return this.shortestPath;
     }
 
-
-
-    // returns the shortest path as an array list starts with the entry point
-    public ArrayList<GridLocation> pathList(int[][][] connectivites) {
+    /**
+     * Returns the shortest path as an array list starts with the entry point
+     */
+    private ArrayList<GridLocation> calculateShortestPath() {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
         GridLocation grid = gamegrid.exitPoint();
-        grid = minNeighbor(grid, connectivites);
+        grid = minNeighbor(grid, this.gamegrid.connectivities());
         while (!(grid.x == gamegrid.entryPoint().x
                 && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
-            grid = minNeighbor(grid, connectivites);
+            grid = minNeighbor(grid, this.gamegrid.connectivities());
 
         }
-        //pathlist.add(0, this.gamegrid.entryPoint());
         return pathlist;
     }
 
-
-
-    // calculate the shortest path in connectivities[][][2] cells
-    public void pathRelax(int[][][] connectivites) {
-
-        GridLocation grid = gamegrid.exitPoint();
-        grid = minNeighbor(grid, connectivites);
-        connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
-        while (!(grid.x == gamegrid.entryPoint().x
-                && grid.y == gamegrid.entryPoint().y)) {
-            grid = minNeighbor(grid, connectivites);
-
-            connectivites[grid.x][grid.y][2] = connectivites[grid.x][grid.y][1];
-
-            //
-        }
-
-    }
-
-
-
-    // find the neighbor with the minimum distance from the entry ( closest)
-    public GridLocation minNeighbor(GridLocation gridl, int[][][] connectivites) {
-        int line = gridl.x;
-        int column = gridl.y;
-        GridLocation minNeighbor = gridl;
+    /**
+     * Finds the neighbor with the minimum distance from the entry (nearest).
+     * @param gridLocation The current grid location.
+     * @param connectivites Grid connectivities.
+     *
+     * @return neighbor nearest the entry point.
+     */
+    private GridLocation minNeighbor(GridLocation gridLocation, int[][][] connectivites) {
+        int line = gridLocation.x;
+        int column = gridLocation.y;
+        GridLocation minNeighbor = gridLocation;
 
         // check the left
         if (isPath(line, column - 1, connectivites)) {
@@ -130,8 +126,6 @@ public class Path {
         return minNeighbor;
     }
 
-
-
     /**
      * Determines if the location specified belongs to the path
      *
@@ -140,7 +134,7 @@ public class Path {
      * @param connectivities Matrix used for the connectivity check.
      * @return True if the location is a valid path location
      */
-    public boolean isPath(int line, int column, int[][][] connectivities) {
+    private boolean isPath(int line, int column, int[][][] connectivities) {
 
         if (line < 0) {
             return false;

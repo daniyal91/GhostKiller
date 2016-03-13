@@ -18,9 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.Critter;
 import model.Game;
 import model.GameGrid;
+import model.GridLocation;
 import model.tower.Tower;
 
 /**
@@ -32,12 +32,20 @@ import model.tower.Tower;
  */
 public class GameView implements Observer {
 
-    private JFrame gameFrame;
+    /**
+     * Amount of time, in milliseconds, to show the attacking
+     * effects on the critters.
+     */
+    public static int ATTACK_EFFECTS_DELAY = 15;
+
     public ArrayList<JLabel> towerLabels;
+    public JButton playButton;
+
     private JButton[][] tiles;
-    public JButton play;
+    private JFrame gameFrame;
     private JLabel cashLabel;
-    private JFrame inspFrame;
+    private JLabel lifeLabel;
+    private JFrame towerInspectionFrame;
 
 
     /**
@@ -50,7 +58,7 @@ public class GameView implements Observer {
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-        this.inspFrame = new JFrame("Tower Inspection");
+        this.towerInspectionFrame = new JFrame("Tower Inspection");
 
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
@@ -60,7 +68,7 @@ public class GameView implements Observer {
 
         int row = game.grid.getCases().length;
         int col = game.grid.getCases()[0].length;
-        this.inspFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
+        this.towerInspectionFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -127,14 +135,13 @@ public class GameView implements Observer {
         // Health image
         JLabel lifeImgLabel = new JLabel(new ImageIcon("icons/life_icon.png"));
         healthBankPanel.add(lifeImgLabel);
-        JLabel lifeTxt = new JLabel("75%");
-        lifeTxt.setForeground(Color.green);
-        healthBankPanel.add(lifeTxt);
-        
-        
-        this.play=new JButton("play");
-        play.addMouseListener(controller);
-        healthBankPanel.add(play);
+        this.lifeLabel = new JLabel("" + game.getLives());
+        this.lifeLabel.setForeground(Color.green);
+        healthBankPanel.add(this.lifeLabel);
+
+        this.playButton = new JButton("play");
+        playButton.addMouseListener(controller);
+        healthBankPanel.add(playButton);
         this.gameFrame.setResizable(false);
 
     }
@@ -153,39 +160,51 @@ public class GameView implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         Game game = (Game) observable;
+
+        for (GridLocation attackLocation: game.attackedCritters) {
+            this.tiles[attackLocation.x][attackLocation.y].setIcon(new ImageIcon("icons/fire.png"));
+            try {
+                Thread.sleep(GameView.ATTACK_EFFECTS_DELAY);
+            } catch (InterruptedException e) {
+                System.out.println("This can happen if we interrupt the thread in the game.");
+            }
+        }
+
         // For now, we only update the locations of the towers.
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles[0].length; j++) {
                 if (game.hasTower(i, j)) {
                     this.placeTower(i, j, game.getTower(i, j));
                 }
-                 
-               if (game.hasCritter(i,j)){
-                   this.placeCritter(i, j);  
-               }
-               
-               if(game.noCritter(i,j)) {
-                   this.moveCritter(i, j);   
-               }
-                
+
+                if (game.hasCritter(i, j)) {
+                    this.placeCritter(i, j);
+                }
+
+                if (game.noCritter(i, j)) {
+                    this.removeCritter(i, j);
+                }
+
             }
         }
         this.cashLabel.setText("$" + game.getMoney());
-    } 
-    
-    public void moveCritter(int line, int column) {
+        this.lifeLabel.setText("" + game.getLives());
+        if (game.isOver()) {
+            // TODO display that the game is over and exit cleanly!
+            this.gameFrame.setVisible(false);
+        }
+    }
+
+    public void removeCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
-        
+
     }
 
     private void placeCritter(int line, int column) {
-        this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
-        
+        this.tiles[line][column].setIcon(new ImageIcon("icons/critter.jpg"));
+
     }
 
-    
-    
-    
     /**
      * Places the selected tower on the game grid.
      *
@@ -242,7 +261,7 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
-        this.inspFrame.setContentPane(towerInspectionPanel);
+        this.towerInspectionFrame.setContentPane(towerInspectionPanel);
 
         // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
@@ -261,7 +280,6 @@ public class GameView implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     game.sellTower(x, y);
                     removeTower(x, y);
-                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(sellTower);
@@ -273,7 +291,6 @@ public class GameView implements Observer {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     game.upgradeTower(x, y);
-                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(upgradeTower);
@@ -357,7 +374,7 @@ public class GameView implements Observer {
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
         }
-        inspFrame.setVisible(true);
+        towerInspectionFrame.setVisible(true);
     }
 
 }
