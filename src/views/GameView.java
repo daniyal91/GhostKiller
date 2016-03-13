@@ -2,6 +2,7 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -11,17 +12,22 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.GameGrid;
 import model.GridLocation;
 import model.tower.Tower;
+import model.strategy.AttackStrategy;
+import model.strategy.AttackStrategyFactory;
 
 /**
  * This class is the main user interface view used to play the game. It implements the Observer interface to get
@@ -374,6 +380,28 @@ public class GameView implements Observer {
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
         }
+
+
+        if (placedOnTile) {
+            JLabel strategyTxt = new JLabel("Attack Strategy: ");
+            strategyTxt.setForeground(Color.white);
+            towerDetailsPanel.add(strategyTxt);
+            JComboBox strategycombo = new JComboBox(AttackStrategyFactory.getAvailableStrategies());
+            strategycombo.setPreferredSize(new Dimension(10, 10));
+            towerDetailsPanel.add(strategycombo);
+
+            strategycombo.setSelectedIndex(0);
+            ActionListener strategyListener = new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    t.setAttackStrategy(AttackStrategyFactory.getAvailableStrategies()[strategycombo.getSelectedIndex()]);
+                }
+            };
+            strategycombo.addActionListener(strategyListener);   
+        } 
+        
+        
         towerInspectionFrame.setVisible(true);
     }
 
