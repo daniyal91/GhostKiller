@@ -59,7 +59,7 @@ public class GameController implements MouseListener {
         }
 
         //just a temporary test to move a critter
-        else if (event.getSource()==this.gameView.play){
+        else if (event.getSource()==this.gameView.playButton){
             this.game.sendWave();
             System.out.print("play");
         }

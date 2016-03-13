@@ -16,10 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
 
 import model.Game;
 import model.GameGrid;
@@ -35,13 +32,20 @@ import model.tower.Tower;
  */
 public class GameView implements Observer {
 
-    private JFrame gameFrame;
+    /**
+     * Amount of time, in milliseconds, to show the attacking
+     * effects on the critters.
+     */
+    public static int ATTACK_EFFECTS_DELAY = 50;
+
     public ArrayList<JLabel> towerLabels;
+    public JButton playButton;
+
     private JButton[][] tiles;
-    public JButton play;
+    private JFrame gameFrame;
     private JLabel cashLabel;
-    private JFrame inspFrame;
     private JLabel lifeLabel;
+    private JFrame towerInspectionFrame;
 
 
     /**
@@ -54,7 +58,7 @@ public class GameView implements Observer {
     public GameView(Game game, MouseListener controller) {
 
         this.gameFrame = new JFrame("Tower defense game");
-        this.inspFrame = new JFrame("Tower Inspection");
+        this.towerInspectionFrame = new JFrame("Tower Inspection");
 
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
@@ -64,7 +68,7 @@ public class GameView implements Observer {
 
         int row = game.grid.getCases().length;
         int col = game.grid.getCases()[0].length;
-        this.inspFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
+        this.towerInspectionFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
 
         this.tiles = new JButton[row][col];
@@ -135,9 +139,9 @@ public class GameView implements Observer {
         this.lifeLabel.setForeground(Color.green);
         healthBankPanel.add(this.lifeLabel);
 
-        this.play = new JButton("play");
-        play.addMouseListener(controller);
-        healthBankPanel.add(play);
+        this.playButton = new JButton("play");
+        playButton.addMouseListener(controller);
+        healthBankPanel.add(playButton);
         this.gameFrame.setResizable(false);
 
     }
@@ -160,7 +164,7 @@ public class GameView implements Observer {
         for (GridLocation attackLocation: game.attackedCritters) {
             this.tiles[attackLocation.x][attackLocation.y].setIcon(new ImageIcon("icons/fire.png"));
             try {
-                Thread.sleep(100);
+                Thread.sleep(GameView.ATTACK_EFFECTS_DELAY);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -179,7 +183,7 @@ public class GameView implements Observer {
                 }
 
                 if (game.noCritter(i, j)) {
-                    this.moveCritter(i, j);
+                    this.removeCritter(i, j);
                 }
 
             }
@@ -192,7 +196,7 @@ public class GameView implements Observer {
         }
     }
 
-    public void moveCritter(int line, int column) {
+    public void removeCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
 
     }
@@ -258,7 +262,7 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
-        this.inspFrame.setContentPane(towerInspectionPanel);
+        this.towerInspectionFrame.setContentPane(towerInspectionPanel);
 
         // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
@@ -371,7 +375,7 @@ public class GameView implements Observer {
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
         }
-        inspFrame.setVisible(true);
+        towerInspectionFrame.setVisible(true);
     }
 
 }
