@@ -317,4 +317,8 @@ public class Game extends Observable {
         return this.lives <= 0;
     }
 
+    public boolean isMakingTurn() {
+        return this.gameThread != null;
+    }
+
 }

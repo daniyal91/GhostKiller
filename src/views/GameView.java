@@ -274,7 +274,6 @@ public class GameView implements Observer {
                 public void actionPerformed(ActionEvent e) {
                     game.sellTower(x, y);
                     removeTower(x, y);
-                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(sellTower);
@@ -286,7 +285,6 @@ public class GameView implements Observer {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     game.upgradeTower(x, y);
-                    inspFrame.dispose();
                 }
             });
             towerImagePanel.add(upgradeTower);

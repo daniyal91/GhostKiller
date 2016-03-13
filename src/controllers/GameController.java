@@ -44,6 +44,12 @@ public class GameController implements MouseListener {
      */
     @Override
     public void mouseClicked(MouseEvent event) {
+
+        // We refuse to listen to the user actions during a wave.
+        if (this.game.isMakingTurn()) {
+            return;
+        }
+
         // The user clicked on one of the tower images.
         if (this.gameView.towerLabels.indexOf(event.getSource()) != -1) {
             int selectedTowerIndex = this.gameView.towerLabels.indexOf(event.getSource());
