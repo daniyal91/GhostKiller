@@ -151,13 +151,14 @@ public class Tower {
         this.attackStrategy = attackStrategy;
     }
 
-    
+
     public void setAttackStrategy(String attackStrategy) {
+        System.out.println("Setting new attack strategy" + attackStrategy.toString());
         this.attackStrategy = AttackStrategyFactory.createStrategy(attackStrategy);
     }
 
-    
-    
+
+
     /**
      * Returns a textual representation of the tower.
      */
