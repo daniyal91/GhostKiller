@@ -36,7 +36,7 @@ public class GameView implements Observer {
      * Amount of time, in milliseconds, to show the attacking
      * effects on the critters.
      */
-    public static int ATTACK_EFFECTS_DELAY = 50;
+    public static int ATTACK_EFFECTS_DELAY = 15;
 
     public ArrayList<JLabel> towerLabels;
     public JButton playButton;
@@ -166,8 +166,7 @@ public class GameView implements Observer {
             try {
                 Thread.sleep(GameView.ATTACK_EFFECTS_DELAY);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println("This can happen if we interrupt the thread in the game.");
             }
         }
 

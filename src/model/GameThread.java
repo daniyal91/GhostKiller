@@ -12,6 +12,14 @@ public class GameThread extends Thread {
     public static int DEFAULT_DELAY = 1000;
     private Game game;
 
+    /**
+     * We don't use the interrupted mechanism of the Thread class
+     * because of it's side effects. We want the current thread to
+     * finish it's current executing instead of brutally interrupting
+     * it.
+     */
+    private boolean isStopped = false;
+
     public GameThread(Game game) {
         this.game = game;
     }
@@ -19,7 +27,7 @@ public class GameThread extends Thread {
     @Override
     public synchronized void run() {
 
-        if (this.isInterrupted()) {
+        if (this.isStopped) {
             return;
         }
 
@@ -31,6 +39,14 @@ public class GameThread extends Thread {
         }
         this.game.makeTurn();
         this.run();
+    }
+
+    /**
+     * Stops the current thread from executing another
+     * game turn. The current turn will not be interrupted.
+     */
+    public void stopThread() {
+        this.isStopped = true;
     }
 
 }

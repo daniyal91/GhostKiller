@@ -50,13 +50,13 @@ public class Game extends Observable {
 
     private Path shortestPath;
 
-    private Thread gameThread;
+    private GameThread gameThread;
 
     private int crittersReleased;
 
     private int lives;
 
-    private int turn;
+    private int wave;
 
     public ArrayList<GridLocation> attackedCritters;
 
@@ -68,7 +68,7 @@ public class Game extends Observable {
         this.money = Game.INITIAL_MONEY;
         this.lives = Game.INITIAL_LIVES;
         this.shortestPath = new Path(this.grid);
-        this.turn = 1;
+        this.wave = 1;
         this.attackedCritters = new ArrayList<GridLocation>();
     }
 
@@ -209,18 +209,14 @@ public class Game extends Observable {
         this.attackedCritters.clear();
 
         this.moveCritters();
-        this.removeDeadCritters();
         this.addNewCritters();
         this.attackCritters();
+        this.removeDeadCritters();
 
-        // This turn is over.
         if (this.critters.size() == 0 && this.crittersReleased == Game.CRITTERS_PER_WAVE) {
-            System.out.print("Current turn is over.");
-            this.gameThread.interrupt();
-            this.gameThread = null;
+            this.endTurn();
         }
 
-        this.turn++;
         this.setChanged();
         this.notifyObservers();
 
@@ -250,7 +246,7 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
 
-            Critter critty = new Critter(start, this.turn);
+            Critter critty = new Critter(start, this.wave);
             this.addCritter(critty);
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
@@ -319,6 +315,19 @@ public class Game extends Observable {
 
     public boolean isMakingTurn() {
         return this.gameThread != null;
+    }
+
+    /**
+     * Ends the current game turn.
+     */
+    private void endTurn() {
+        if (this.gameThread != null) {
+            System.out.println("interrupting the current game thread.");
+            this.gameThread.stopThread();
+            this.gameThread = null;
+        }
+        this.wave++;
+        this.crittersReleased = 0;
     }
 
 }
