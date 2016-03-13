@@ -22,14 +22,6 @@ public class Tower {
      */
     public static double REFUND_RATE = 0.40;
 
-    /**
-     * Special effects available for the towers.
-     *
-     */
-    public static enum SPECIAL_EFFECTS {
-        SLOW, SPLASH, TELEPORT
-    }
-
     protected String name;
     protected String iconPath;
     protected int initialCost;
@@ -38,7 +30,13 @@ public class Tower {
     protected int range;
     protected int power;
     protected int rateOfFire;
-    protected SPECIAL_EFFECTS specialEffects;
+
+    /**
+     * Special effect of the tower.
+     * Currently only 1 special effect per
+     * tower is supported.
+     */
+    protected String specialEffect;
 
     private AttackStrategy attackStrategy;
     private GridLocation location;
@@ -81,13 +79,6 @@ public class Tower {
         }
         return null;
 
-    }
-
-    /**
-     * Gets the special effects of the tower.
-     */
-    public SPECIAL_EFFECTS getSpecialEffects() {
-        return specialEffects;
     }
 
     /**
@@ -193,6 +184,10 @@ public class Tower {
         this.power *= 2;
         this.range *= 2;
         this.rateOfFire *= 2;
+    }
+
+    public String getSpecialEffect() {
+        return this.specialEffect;
     }
 
 }

@@ -368,7 +368,7 @@ public class GameView implements Observer {
         JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
         towerSpecialEffectsTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffectsTxt);
-        JLabel towerSpecialEffects = new JLabel("Effects");
+        JLabel towerSpecialEffects = new JLabel(t.getSpecialEffect());
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
 

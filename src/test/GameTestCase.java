@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Game;
-import model.tower.AncientTower;
+import model.tower.ExplosionTower;
 import model.tower.Tower;
 
 public class GameTestCase {
@@ -22,7 +22,7 @@ public class GameTestCase {
 
     @Test
     public void addTower() {
-        Tower tower = new AncientTower();
+        Tower tower = new ExplosionTower();
         this.game.addTower(tower, 0, 0);
         assertTrue(this.game.hasTower(0, 0));
         assertFalse(this.game.hasTower(0, 1));
@@ -30,7 +30,7 @@ public class GameTestCase {
 
     @Test
     public void buyTower() {
-        Tower tower = new AncientTower();
+        Tower tower = new ExplosionTower();
         int towerCost = tower.getInitialCost();
         int initialGameMoney = this.game.getMoney();
 
@@ -42,7 +42,7 @@ public class GameTestCase {
 
     @Test
     public void sellTower() {
-        Tower tower = new AncientTower();
+        Tower tower = new ExplosionTower();
         int towerCost = tower.getInitialCost();
         int initialGameMoney = this.game.getMoney();
 

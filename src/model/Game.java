@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Observable;
 
 import model.GameGrid.CASE_TYPES;
-import model.tower.AncientTower;
-import model.tower.KingTower;
-import model.tower.ModernTower;
+import model.tower.ExplosionTower;
+import model.tower.FireTower;
+import model.tower.IceTower;
 import model.tower.Tower;
 
 /**
@@ -39,7 +39,7 @@ public class Game extends Observable {
     /**
      * List of available towers that the user can buy.
      */
-    public static Tower[] AVAILABLE_TOWERS = {new KingTower(), new ModernTower(), new AncientTower()};
+    public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
 
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
@@ -207,6 +207,12 @@ public class Game extends Observable {
 
         System.out.println("Making a new game turn.");
         this.attackedCritters.clear();
+
+        // This will apply the effects the critters received at the last
+        // turn (freezing / burning).
+        for (Critter critter: this.critters.values()) {
+            critter.makeTurn();
+        }
 
         this.moveCritters();
         this.addNewCritters();
