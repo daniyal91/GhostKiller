@@ -16,7 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 
 import model.Game;
 import model.GameGrid;
@@ -53,6 +56,11 @@ public class GameView implements Observer {
         this.gameFrame = new JFrame("Tower defense game");
         this.inspFrame = new JFrame("Tower Inspection");
 
+      
+        gameFrame.setUndecorated( true );
+        gameFrame.getRootPane().setWindowDecorationStyle( JRootPane.COLOR_CHOOSER_DIALOG );
+        
+        
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
         mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -195,7 +203,7 @@ public class GameView implements Observer {
     }
 
     private void placeCritter(int line, int column) {
-        this.tiles[line][column].setIcon(new ImageIcon("icons/crit.jpg"));
+        this.tiles[line][column].setIcon(new ImageIcon("icons/critter.jpg"));
 
     }
 
