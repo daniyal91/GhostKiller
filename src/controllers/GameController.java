@@ -26,8 +26,8 @@ public class GameController implements MouseListener, ActionListener {
     private GameView gameView;
 
     /**
-     * Constructs a new GameController object. Links the Game object to a GameView object using the Observer design
-     * pattern.
+     * Constructs a new GameController object. Links the Game object to a GameView
+     * object using the Observer design pattern.
      *
      * @param game Game object to use with the view object.
      *
@@ -121,6 +121,9 @@ public class GameController implements MouseListener, ActionListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.gameView.strategyComboBox) {
