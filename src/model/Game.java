@@ -31,7 +31,6 @@ public class Game extends Observable {
      */
     public static final int INITIAL_LIVES = 3;
 
-
     /**
      * Number of critters released per wave.
      */
@@ -42,24 +41,17 @@ public class Game extends Observable {
      */
     public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
 
-    private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
-
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
-
-    private int money;
-
-    private Path shortestPath;
-
-    private GameThread gameThread;
-
-    private int crittersReleased;
-
-    private int lives;
-
-    private int wave;
-
     public ArrayList<GridLocation> attackedCritters;
+
+    private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
+    private int money;
+    private Path shortestPath;
+    private GameThread gameThread;
+    private int crittersReleased;
+    private int lives;
+    private int wave;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -185,20 +177,37 @@ public class Game extends Observable {
         gameThread.start();
     }
 
-    public void addCritter(Critter c) {
-        this.critters.put(c.gridLocation, c);
+    /**
+     * Add a critter on the game grid.
+     *
+     * @param critter The critter to place on the grid.
+     */
+    public void addCritter(Critter critter) {
+        this.critters.put(critter.gridLocation, critter);
         this.setChanged();
         this.notifyObservers();
     }
 
-    public boolean hasCritter(int i, int j) {
-        Point location = new Point(i, j);
+    /**
+     * Determines if there is a critter at the specified location on the grid.
+     *
+     * @param location Location to verify if there is a critter
+     *
+     * @return A boolean indicating if there is a critter at the specified location.
+     */
+    public boolean hasCritter(GridLocation location) {
         return (this.critters.get(location) != null);
     }
 
-    public boolean noCritter(int i, int j) {
-        Point location = new Point(i, j);
-        return (this.grid.getCases()[i][j] == CASE_TYPES.ROAD && this.critters.get(location) == null);
+    /**
+     * Determines if there a free case for a critter at the specified location.
+     *
+     * @param location Location to verify if there is a free case for a critter
+     *
+     * @return A boolean indicating if there is a free case for a critter at the specified location.
+     */
+    public boolean noCritter(GridLocation location) {
+        return (this.grid.getCases()[location.x][location.y] == CASE_TYPES.ROAD && this.critters.get(location) == null);
     }
 
     /**
@@ -230,6 +239,9 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * Attack the critters with the towers on the grid.
+     */
     private synchronized void attackCritters() {
         // Towers attacking if the turn is not over.
         GridLocation attackedLocation = null;
@@ -249,6 +261,9 @@ public class Game extends Observable {
 
     }
 
+    /**
+     * Add new critters on the grid, coming from the entry point.
+     */
     private synchronized void addNewCritters() {
         if (Game.CRITTERS_PER_WAVE > this.crittersReleased) {
 
@@ -268,6 +283,9 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * Move the critters forward on the grid.
+     */
     private synchronized void moveCritters() {
         ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
 
@@ -302,6 +320,9 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * Remove the critters killed by the towers.
+     */
     private synchronized void removeDeadCritters() {
         HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
         for (Critter critter: this.critters.values()) {
@@ -314,6 +335,11 @@ public class Game extends Observable {
         this.critters = critters;
     }
 
+    /**
+     * Get the remaining lives of the player.
+     *
+     * @return An integer representing the life count of the player.
+     */
     public int getLives() {
         return lives;
     }
@@ -328,6 +354,11 @@ public class Game extends Observable {
         return this.lives <= 0;
     }
 
+    /**
+     * Determines if a current game turn is happening.
+     *
+     * @return True if the game is in a turn, false otherwise.
+     */
     public boolean isMakingTurn() {
         return this.gameThread != null;
     }
