@@ -41,7 +41,13 @@ public class FirstStrategy extends AttackStrategy {
         return target;
 
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName(){
         return "first";
     }
+
 }

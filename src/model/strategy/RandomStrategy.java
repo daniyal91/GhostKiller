@@ -15,6 +15,9 @@ import model.tower.Tower;
  */
 public class RandomStrategy extends AttackStrategy {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
 
@@ -34,6 +37,10 @@ public class RandomStrategy extends AttackStrategy {
         return crittersInRange.get(randomIndex);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName(){
         return "random";
     }
