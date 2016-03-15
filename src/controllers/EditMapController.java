@@ -1,5 +1,4 @@
 package controllers;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,23 +12,22 @@ import model.GameGrid.CASE_TYPES;
 import model.GameGridException;
 import views.EditMapView;
 
-
 /**
- * This class implements the map edition functionality.
+ * This class implements Listening interface (ActionListener and MouseListener) to edit and save the map.
+ * @author Team 6
  *
  * @param <T> ActionListener or MouseListener
  */
 public class EditMapController implements ActionListener, MouseListener {
 
-    private EditMapView<EditMapController> editMapView;
-    private GameGrid gameGrid;
     public CASE_TYPES selectedCaseType;
 
+    private EditMapView<EditMapController> editMapView;
+    private GameGrid gameGrid;
+
     /**
-     * Constructs the EditMapController object and links the view to the GameGrid object using the Observer design
-     * pattern.
-     *
-     * @param gameGrid GameGrid edited by the view.
+     * Constructs EditMapController by instantiating an object of EditMapView class.
+     * @param gameGrid current map
      */
     public EditMapController(GameGrid gameGrid) {
         this.gameGrid = gameGrid;
@@ -38,7 +36,7 @@ public class EditMapController implements ActionListener, MouseListener {
     }
 
     /**
-     * Saves the current state of the GameGrid to a text file
+     * Saves the current state of the GameGrid to a text file.
      *
      * @return True if the operation was successful, false otherwise.
      *
@@ -61,7 +59,10 @@ public class EditMapController implements ActionListener, MouseListener {
     }
 
     /**
-     * {@inheritDoc}
+     * This method either save the map or call the update method
+     * in case of any changed map cell.
+     *
+     * @param event that triggered the update.
      */
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -95,7 +96,7 @@ public class EditMapController implements ActionListener, MouseListener {
      *
      * Toggles the case type of the tile between grass and road.
      *
-     * @param row Row of the tile to toggle.
+     * @param row    Row of the tile to toggle.
      * @param column Column of the tile to toggle.
      */
     private void toggleTile(int row, int column) {
