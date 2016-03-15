@@ -22,5 +22,12 @@ public abstract class AttackStrategy {
      * @return The critter that the tower should shoot according to the strategy.
      */
     public abstract Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint);
+
+    /**
+     * Gets the name of the attack strategy.
+     *
+     * @return The name of the attack strategy.
+     */
     public abstract String getName();
+
 }
