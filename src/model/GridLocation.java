@@ -54,4 +54,26 @@ public class GridLocation extends Point {
         return distanceX + distanceY;
     }
 
+    /**
+     * Indication whether or not 2 grid locations are nearby.
+     *
+     * @param location1 first GridLocation object
+     * @param location2 second GridLocation object
+     *
+     * @return A Boolean indicating if the 2 grid locations are nearby.
+     */
+    public static boolean nearby(GridLocation location1, GridLocation location2) {
+        if (location1.x == location2.x) {
+            if(location1.y == location2.y - 1 || location1.y == location2.y + 1) {
+                return true;
+            }
+        } else if (location1.y == location2.y) {
+            if(location1.x == location2.x - 1 || location1.x == location2.x + 1) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 }

@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.Observable;
 
 import model.GameGrid.CASE_TYPES;
-import model.tower.AncientTower;
-import model.tower.KingTower;
-import model.tower.ModernTower;
+import model.tower.ExplosionTower;
+import model.tower.FireTower;
+import model.tower.IceTower;
 import model.tower.Tower;
+import model.tower.TowerFactory;
 
 /**
  * This class implements the main gaming logic in which user can buy, sell, upgrade towers. It is also observable so
@@ -28,18 +29,18 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 2;
+    public static final int INITIAL_LIVES = 3;
 
 
     /**
      * Number of critters released per wave.
      */
-    private static final int CRITTERS_PER_WAVE = 2;
+    private static final int CRITTERS_PER_WAVE = 3;
 
     /**
      * List of available towers that the user can buy.
      */
-    public static Tower[] AVAILABLE_TOWERS = {new KingTower(), new ModernTower(), new AncientTower()};
+    public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
 
     private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     public GameGrid grid;
@@ -96,7 +97,8 @@ public class Game extends Observable {
             return;
         }
         this.money -= tower.getInitialCost();
-        Tower newTower = new Tower(tower, new GridLocation(line, column));
+        Tower newTower = TowerFactory.createTower(tower.getName());
+        newTower.setLocation(new GridLocation(line, column));
         this.addTower(newTower, line, column);
     }
 
@@ -208,6 +210,12 @@ public class Game extends Observable {
         System.out.println("Making a new game turn.");
         this.attackedCritters.clear();
 
+        // This will apply the effects the critters received at the last
+        // turn (freezing / burning).
+        for (Critter critter: this.critters.values()) {
+            critter.makeTurn();
+        }
+
         this.moveCritters();
         this.addNewCritters();
         this.attackCritters();
@@ -246,6 +254,12 @@ public class Game extends Observable {
 
             GridLocation start = this.shortestPath.getShortestPath().get(0);
 
+            // This means a critter is blocking the entry.
+            if (this.critters.get(start) != null) {
+                System.out.println("Critter cannot enter the grid.");
+                return;
+            }
+
             Critter critty = new Critter(start, this.wave);
             this.addCritter(critty);
             this.crittersReleased++;
@@ -265,23 +279,24 @@ public class Game extends Observable {
             GridLocation pathLocation = shortestPath.get(i);
             Critter critter = this.critters.get(pathLocation);
 
-            // No critter to more forward on the path at this location.
-            if (critter == null) {
+            // No critter to more forward on the path at this location,
+            // or the critter is frozen!
+            if (critter == null || critter.isFrozen()) {
                 continue;
             }
 
-            this.critters.remove(critter.gridLocation);
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
-            // There is another location the critter can move to.
-            if (nextLocation != null) {
-                critter.setLocation(nextLocation);
-                this.addCritter(critter);
-                System.out.println(nextLocation);
             // The critter has reached the exit!
-            } else {
+            if (nextLocation == null) {
+                this.critters.remove(critter.gridLocation);
                 this.lives--;
                 System.out.println("The player just lost a life!!!");
+            // There is another location the critter can move to, and it is free.
+            }  else if (critters.get(nextLocation) == null) {
+                this.critters.remove(critter.gridLocation);
+                critter.setLocation(nextLocation);
+                this.addCritter(critter);
             }
 
         }
@@ -322,7 +337,7 @@ public class Game extends Observable {
      */
     private void endTurn() {
         if (this.gameThread != null) {
-            System.out.println("interrupting the current game thread.");
+            System.out.println("The current wave is over.");
             this.gameThread.stopThread();
             this.gameThread = null;
         }

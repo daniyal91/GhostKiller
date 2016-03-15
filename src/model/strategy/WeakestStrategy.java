@@ -20,6 +20,7 @@ public class WeakestStrategy extends AttackStrategy {
     @Override
     public Critter attackCritter(Tower tower, Collection<Critter> critters, GridLocation endPoint) {
 
+        System.out.println("location of the tower in attack" + tower.getLocation());
         Critter target = null;
         int minimumHealth = Integer.MAX_VALUE;
 
@@ -27,6 +28,7 @@ public class WeakestStrategy extends AttackStrategy {
 
             int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
             if (distance > tower.getRange()) {
+                System.out.println("out of range" + tower.getRange());
                 continue;
             }
 
@@ -36,5 +38,8 @@ public class WeakestStrategy extends AttackStrategy {
             }
         }
         return target;
+    }
+    public String getName(){
+        return "weakest";
     }
 }

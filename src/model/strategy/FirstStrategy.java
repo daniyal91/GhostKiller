@@ -41,5 +41,7 @@ public class FirstStrategy extends AttackStrategy {
         return target;
 
     }
-
+    public String getName(){
+        return "first";
+    }
 }

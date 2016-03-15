@@ -37,4 +37,8 @@ public class StrongestStrategy extends AttackStrategy {
         }
         return target;
     }
+    
+    public String getName(){
+        return "strongest";
+    }
 }
