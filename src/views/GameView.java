@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -55,6 +53,9 @@ public class GameView implements Observer {
 
     private GameController gameController;
 
+    public JButton sellTowerButton;
+
+    public JButton upgradeTowerButton;
 
     /**
      * Constructs the GameView object.
@@ -198,6 +199,11 @@ public class GameView implements Observer {
         }
         this.cashLabel.setText("$" + game.getMoney());
         this.lifeLabel.setText("" + game.getLives());
+
+        if (this.selectedTower != null) {
+            this.showTowerDetails(this.selectedTower);
+        }
+
         if (game.isOver()) {
             // TODO display that the game is over and exit cleanly!
             this.gameFrame.setVisible(false);
@@ -234,7 +240,7 @@ public class GameView implements Observer {
      * @param line Line of selected tile.
      * @param column Column of the selected tile
      */
-    private void removeTower(int line, int column) {
+    public void removeTower(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon(GameGrid.CASE_TYPES_ICON_PATHS[0]));
     }
 
@@ -260,14 +266,16 @@ public class GameView implements Observer {
      *
      * Shows the details of the tower in the tower inspection panel.
      *
-     * @param t Tower to get the details from.
+     * @param tower Tower to get the details from.
      * @param placedOnTile Determines if the tower is a tower placed on the game or a tower template.
      * @param x x coordinate of the tower.
      * @param y y coordinate of the tower.
      * @param game Game object associated with the current view.
      */
-    public void showTowerDetails(final Tower t, boolean placedOnTile, final int x, final int y, final Game game) {
-        this.selectedTower = t;
+    public void showTowerDetails(final Tower tower) {
+
+        boolean placedOnTile = (tower.getLocation() != null);
+
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
@@ -276,34 +284,23 @@ public class GameView implements Observer {
         // Tower Image Sell Tower Button and Upgrade Tower Button.
         JPanel towerImagePanel = new JPanel();
         towerInspectionPanel.add(towerImagePanel, BorderLayout.NORTH);
-        JLabel towerImage = new JLabel(new ImageIcon(t.getIconPath()));
+        JLabel towerImage = new JLabel(new ImageIcon(tower.getIconPath()));
         towerImage.setBackground(Color.DARK_GRAY);
         towerImagePanel.setBackground(Color.DARK_GRAY);
         towerImagePanel.add(towerImage);
         if (placedOnTile) {
-            JButton sellTower = new JButton();
-            sellTower.setBackground(Color.white);
-            sellTower.setText("Sell Tower");
-            // TODO: Move this method to the controller
-            sellTower.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    game.sellTower(x, y);
-                    removeTower(x, y);
-                }
-            });
-            towerImagePanel.add(sellTower);
-            JButton upgradeTower = new JButton();
-            upgradeTower.setBackground(Color.white);
-            upgradeTower.setText("Upgrade Tower");
-            // TODO: Move this method to the controller
-            upgradeTower.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    game.upgradeTower(x, y);
-                }
-            });
-            towerImagePanel.add(upgradeTower);
+
+            this.sellTowerButton = new JButton();
+            this.sellTowerButton.setBackground(Color.white);
+            this.sellTowerButton.setText("Sell Tower");
+            this.sellTowerButton.addActionListener(this.gameController);
+            towerImagePanel.add(this.sellTowerButton);
+
+            this.upgradeTowerButton = new JButton();
+            this.upgradeTowerButton.setBackground(Color.white);
+            this.upgradeTowerButton.setText("Upgrade Tower");
+            this.upgradeTowerButton.addActionListener(this.gameController);
+            towerImagePanel.add(this.upgradeTowerButton);
         }
 
         // Tower Details
@@ -316,7 +313,7 @@ public class GameView implements Observer {
         JLabel towerNameTxt = new JLabel("Name: ");
         towerNameTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerNameTxt);
-        JLabel towerName = new JLabel(t.getName());
+        JLabel towerName = new JLabel(tower.getName());
         towerName.setForeground(Color.white);
         towerDetailsPanel.add(towerName);
 
@@ -324,7 +321,7 @@ public class GameView implements Observer {
         JLabel towerLevelTxt = new JLabel("Level: ");
         towerLevelTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerLevelTxt);
-        JLabel towerLevel = new JLabel(Integer.toString(t.getLevel()));
+        JLabel towerLevel = new JLabel(Integer.toString(tower.getLevel()));
         towerLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerLevel);
 
@@ -332,7 +329,7 @@ public class GameView implements Observer {
         JLabel towerInitCostTxt = new JLabel("Initial Cost: ");
         towerInitCostTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerInitCostTxt);
-        JLabel towerInitCost = new JLabel(Integer.toString(t.getInitialCost()));
+        JLabel towerInitCost = new JLabel(Integer.toString(tower.getInitialCost()));
         towerInitCost.setForeground(Color.white);
         towerDetailsPanel.add(towerInitCost);
 
@@ -340,7 +337,7 @@ public class GameView implements Observer {
         JLabel towerCostLevelTxt = new JLabel("Cost to increase level: ");
         towerCostLevelTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerCostLevelTxt);
-        JLabel towerCostLevel = new JLabel(Integer.toString(t.getLevelCost()));
+        JLabel towerCostLevel = new JLabel(Integer.toString(tower.getLevelCost()));
         towerCostLevel.setForeground(Color.white);
         towerDetailsPanel.add(towerCostLevel);
 
@@ -348,7 +345,7 @@ public class GameView implements Observer {
         JLabel towerRangeTxt = new JLabel("Range: ");
         towerRangeTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerRangeTxt);
-        JLabel towerRange = new JLabel(Integer.toString(t.getRange()));
+        JLabel towerRange = new JLabel(Integer.toString(tower.getRange()));
         towerRange.setForeground(Color.white);
         towerDetailsPanel.add(towerRange);
 
@@ -356,7 +353,7 @@ public class GameView implements Observer {
         JLabel towerPowerTxt = new JLabel("Power: ");
         towerPowerTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerPowerTxt);
-        JLabel towerPower = new JLabel(Integer.toString(t.getPower()));
+        JLabel towerPower = new JLabel(Integer.toString(tower.getPower()));
         towerPower.setForeground(Color.white);
         towerDetailsPanel.add(towerPower);
 
@@ -364,7 +361,7 @@ public class GameView implements Observer {
         JLabel towerRateFireTxt = new JLabel("Rate of fire: ");
         towerRateFireTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerRateFireTxt);
-        JLabel towerRateFire = new JLabel(Integer.toString(t.getRateOfFire()));
+        JLabel towerRateFire = new JLabel(Integer.toString(tower.getRateOfFire()));
         towerRateFire.setForeground(Color.white);
         towerDetailsPanel.add(towerRateFire);
 
@@ -372,7 +369,7 @@ public class GameView implements Observer {
         JLabel towerSpecialEffectsTxt = new JLabel("Special Effects: ");
         towerSpecialEffectsTxt.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffectsTxt);
-        JLabel towerSpecialEffects = new JLabel(t.getSpecialEffect());
+        JLabel towerSpecialEffects = new JLabel(tower.getSpecialEffect());
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
 
@@ -381,7 +378,7 @@ public class GameView implements Observer {
             JLabel refundAmountTxt = new JLabel("Refund Amount: ");
             refundAmountTxt.setForeground(Color.white);
             towerDetailsPanel.add(refundAmountTxt);
-            JLabel refundAmount = new JLabel(Integer.toString(t.refundAmout()));
+            JLabel refundAmount = new JLabel(Integer.toString(tower.refundAmout()));
             refundAmount.setForeground(Color.white);
             towerDetailsPanel.add(refundAmount);
 
@@ -390,12 +387,16 @@ public class GameView implements Observer {
             towerDetailsPanel.add(strategyTxt);
             this.strategyComboBox = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
             this.strategyComboBox.setPreferredSize(new Dimension(10, 10));
-            this.strategyComboBox.setSelectedItem(t.getAttackStrategy().getName());;
+            this.strategyComboBox.setSelectedItem(tower.getAttackStrategy().getName());;
             this.strategyComboBox.addActionListener(this.gameController);
             towerDetailsPanel.add(this.strategyComboBox);
         }
 
         towerInspectionFrame.setVisible(true);
+    }
+
+    public void closeTowerDetails() {
+        this.towerInspectionFrame.setVisible(false);
     }
 
 }
