@@ -1,6 +1,6 @@
 package model.strategy;
 
-/*
+/**
  * Factory for creating AttackStrategy classes.
  */
 public class AttackStrategyFactory {
@@ -13,10 +13,24 @@ public class AttackStrategyFactory {
             "strongest"
     };
 
+    /**
+     * Returns all the strategies available for creation by the current
+     * Factory class.
+     *
+     * @return A list of strategy names.
+     */
     public static String[] getAvailableStrategies() {
         return AttackStrategyFactory.availableStrategies;
     }
 
+    /**
+     * Creates the AttackStrategy class associated
+     * with the strategy name
+     *
+     * @param strategyName Name of the strategy class to create.
+     *
+     * @return A new AttackStrategy instance.
+     */
     public static AttackStrategy createStrategy(String strategyName) {
         if (strategyName == "random") {
             return new RandomStrategy();
