@@ -25,9 +25,6 @@ public class GameController implements MouseListener, ActionListener {
     private Game game;
     private GameView gameView;
 
-    // Used to determine if a tower was selected for placement.
-    private Tower selectedTower = null;
-
     /**
      * Constructs a new GameController object. Links the Game object to a GameView object using the Observer design
      * pattern.
@@ -56,8 +53,8 @@ public class GameController implements MouseListener, ActionListener {
         // The user clicked on one of the tower images.
         if (this.gameView.towerLabels.indexOf(event.getSource()) != -1) {
             int selectedTowerIndex = this.gameView.towerLabels.indexOf(event.getSource());
-            this.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
-            this.gameView.showTowerDetails(this.selectedTower, false, 0, 0, game);
+            this.gameView.selectedTower = Game.AVAILABLE_TOWERS[selectedTowerIndex];
+            this.gameView.showTowerDetails(this.gameView.selectedTower);
 
         }
 
@@ -73,13 +70,15 @@ public class GameController implements MouseListener, ActionListener {
             Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
             GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
             if (caseType == GameGrid.CASE_TYPES.GRASS) {
-                if (this.selectedTower == null && this.game.hasTower(clickLocation.x, clickLocation.y)) {
+                if (this.gameView.selectedTower == null && this.game.hasTower(clickLocation.x, clickLocation.y)) {
                     Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
-                    this.gameView.showTowerDetails(tower, true, clickLocation.x, clickLocation.y, game);
-                } else if (this.selectedTower != null) {
+                    this.gameView.selectedTower = tower;
+                    this.gameView.showTowerDetails(tower);
+                } else if (this.gameView.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.selectedTower, towerLocation.x, towerLocation.y);
-                    this.selectedTower = null;
+                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);
+                    this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
+                    this.gameView.showTowerDetails(this.gameView.selectedTower);
                 }
             }
         }
@@ -127,6 +126,12 @@ public class GameController implements MouseListener, ActionListener {
         if (e.getSource() == this.gameView.strategyComboBox) {
             JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
             gameView.selectedTower.setAttackStrategy((String) strategyCombo.getSelectedItem());
+        } else if (e.getSource() == this.gameView.sellTowerButton) {
+            this.game.sellTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
+            this.gameView.removeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
+            this.gameView.closeTowerDetails();
+        } else if (e.getSource() == this.gameView.upgradeTowerButton) {
+            game.upgradeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
         }
 
     }
