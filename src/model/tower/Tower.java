@@ -9,7 +9,7 @@ import model.strategy.AttackStrategyFactory;
 import model.strategy.RandomStrategy;
 
 /**
- * Base class for game towers
+ * Base class for game towers.
  *
  * @author Team 6
  *
@@ -21,6 +21,9 @@ public abstract class Tower {
      */
     public static double REFUND_RATE = 0.40;
 
+    /**
+     * Statistics elements of the tower.
+     */
     protected String name;
     protected String iconPath;
     protected int initialCost;
@@ -37,7 +40,14 @@ public abstract class Tower {
      */
     protected String specialEffect;
 
-    protected AttackStrategy attackStrategy = new RandomStrategy();;
+    /**
+     * Attack strategy the tower uses when attacking the critters.
+     */
+    protected AttackStrategy attackStrategy = new RandomStrategy();
+
+    /**
+     * Location of the tower, if it is place on the game grid.
+     */
     protected GridLocation location;
 
 
@@ -48,14 +58,30 @@ public abstract class Tower {
         this.setDetails();
     }
 
+    /**
+     * Constructor for a Tower placed on the game grid.
+     *
+     * @param location Location of the tower on the game grid.
+     */
     public Tower(GridLocation location) {
         this.setDetails();
         this.location = location;
         System.out.println("Setting the gridlocation" + this.location);
     }
 
+    /**
+     * Sets the internal details of the tower.
+     */
     protected abstract void setDetails();
 
+    /**
+     * Causes the tower to attack a critter.
+     *
+     * @param critters List of critters currently on the game grid.
+     * @param endPoint End point of the game grid. Might be used in the targeting strategy.
+     *
+     * @return The location of the critter that was targeted for attack.
+     */
     public abstract GridLocation attack (Collection<Critter> critters, GridLocation endPoint);
 
     /**
