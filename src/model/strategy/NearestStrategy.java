@@ -39,6 +39,11 @@ public class NearestStrategy extends AttackStrategy {
         }
         return target;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName(){
         return "nearest";
     }

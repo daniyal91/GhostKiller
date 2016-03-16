@@ -9,7 +9,11 @@ package model;
  */
 public class GameThread extends Thread {
 
+    /**
+     * Default delay of activation of the tread.
+     */
     public static int DEFAULT_DELAY = 1000;
+
     private Game game;
 
     /**
@@ -20,10 +24,19 @@ public class GameThread extends Thread {
      */
     private boolean isStopped = false;
 
+    /**
+     * Creates a new GameThread associated with a game.
+     *
+     * @param game Game to associate with the GameThread.
+     */
     public GameThread(Game game) {
         this.game = game;
     }
 
+    /**
+     * Will call the makeTurn function on the associated Game
+     * object.
+     */
     @Override
     public synchronized void run() {
 

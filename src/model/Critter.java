@@ -8,11 +8,11 @@ package model;
  */
 public class Critter {
 
-    public GridLocation gridLocation;
-
     public static int HEALTH_POINTS_PER_LEVEL = 30;
     public static int SPEED_PER_LEVEL = 20;
     public static int REWARD_PER_LEVEL = 50;
+
+    public GridLocation gridLocation;
 
     private int healthPoints;
     private int level;
@@ -20,12 +20,23 @@ public class Critter {
     private boolean isFrozen = false;
     private boolean wasFreezed = false;
 
+    /**
+     * Constructor method for a Critter.
+     *
+     * @param gridLocation Location of the critter on the grid.
+     * @param level Level of the critter to create.
+     */
     public Critter(GridLocation gridLocation, int level) {
         this.gridLocation = gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * level;
         this.level = level;
     }
 
+    /**
+     * Constructor method for a Critter, using an existing Critter instance.
+     *
+     * @param critter Critter instance to copy.
+     */
     public Critter(Critter critter) {
         this.gridLocation = critter.gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * critter.level;
@@ -89,18 +100,36 @@ public class Critter {
         this.burningDamage = 0;
     }
 
+    /**
+     * Get the reward associated with killing the critter.
+     *
+     * @return An integer representing the reward as money.
+     */
     public int getReward() {
         return Critter.REWARD_PER_LEVEL * this.level;
     }
 
+    /**
+     * Change the location of the critter.
+     *
+     * @param newLocation New location of the critter on the grid.
+     */
     public void setLocation(GridLocation newLocation) {
         this.gridLocation = newLocation;
     }
 
+    /**
+     * Gets the health points of the critter.
+     *
+     * @return An integer representing the health points of the critter.
+     */
     public int getHealthPoints() {
         return healthPoints;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         String template = "Critter level %s at position %s with %s remaining health points";

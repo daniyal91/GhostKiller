@@ -7,19 +7,32 @@ import model.GridLocation;
 
 /**
  * Explosion tower is a subclass of the Tower class and can be placed on the grid during the game.
+ * This tower will attack nearby critters when targeting a critter.
  *
  * @author Team 6
  *
  */
 public class ExplosionTower extends Tower {
 
+    /**
+     * Default constructor for the ExplosionTower class.
+     */
     public ExplosionTower() {
         super();
     }
+
+    /**
+     * Constructor for an ExplosionTower placed on the game grid.
+     *
+     * @param location Location of the tower on the game grid.
+     */
     public ExplosionTower(GridLocation gridLocation) {
         super(gridLocation);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setDetails() {
         this.name = "Explosion tower";
@@ -33,6 +46,9 @@ public class ExplosionTower extends Tower {
         this.rateOfFire = 1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GridLocation attack(Collection<Critter> critters, GridLocation endPoint) {
 

@@ -39,7 +39,13 @@ public class WeakestStrategy extends AttackStrategy {
         }
         return target;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName(){
         return "weakest";
     }
+
 }

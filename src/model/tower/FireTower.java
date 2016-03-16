@@ -13,14 +13,25 @@ import model.GridLocation;
  */
 public class FireTower extends Tower {
 
+    /**
+     * Default constructor for the FireTower class.
+     */
     public FireTower() {
         super();
     }
 
+    /**
+     * Constructor for a FireTower placed on the game grid.
+     *
+     * @param location Location of the tower on the game grid.
+     */
     public FireTower(GridLocation gridLocation) {
         super(gridLocation);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setDetails() {
         this.name = "Fire tower";
@@ -34,6 +45,9 @@ public class FireTower extends Tower {
         this.rateOfFire = 1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GridLocation attack(Collection<Critter> critters, GridLocation endPoint) {
 

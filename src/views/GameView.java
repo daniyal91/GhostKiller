@@ -187,11 +187,11 @@ public class GameView implements Observer {
                     this.placeTower(i, j, game.getTower(i, j));
                 }
 
-                if (game.hasCritter(i, j)) {
+                if (game.hasCritter(new GridLocation(i, j))) {
                     this.placeCritter(i, j);
                 }
 
-                if (game.noCritter(i, j)) {
+                if (game.noCritter(new GridLocation(i, j))) {
                     this.removeCritter(i, j);
                 }
 
@@ -199,10 +199,6 @@ public class GameView implements Observer {
         }
         this.cashLabel.setText("$" + game.getMoney());
         this.lifeLabel.setText("" + game.getLives());
-
-        if (this.selectedTower != null) {
-            this.showTowerDetails(this.selectedTower);
-        }
 
         if (game.isOver()) {
             // TODO display that the game is over and exit cleanly!

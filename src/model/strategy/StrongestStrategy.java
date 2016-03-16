@@ -37,7 +37,11 @@ public class StrongestStrategy extends AttackStrategy {
         }
         return target;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getName(){
         return "strongest";
     }
