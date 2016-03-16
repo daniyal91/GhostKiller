@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -201,7 +202,7 @@ public class GameView implements Observer {
         this.lifeLabel.setText("" + game.getLives());
 
         if (game.isOver()) {
-            // TODO display that the game is over and exit cleanly!
+        	JOptionPane.showMessageDialog(null, "Sorry you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
         }
     }
