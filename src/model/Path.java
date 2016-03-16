@@ -15,6 +15,11 @@ public class Path {
      */
     private ArrayList<GridLocation> shortestPath;
 
+    /**
+     * Creates the shortest path associated with the specified GameGrid object.
+     *
+     * @param gamegrid GameGrid in which to find the shortest path.
+     */
     public Path(GameGrid gamegrid) {
         this.gamegrid = gamegrid;
     }

@@ -8,6 +8,11 @@ package model;
  */
 public class GameGridException extends Exception {
 
+    /**
+     * Constructor for the GameGridException class.
+     *
+     * @param string message associated with the raised exception.
+     */
     public GameGridException(String string) {
         super(string);
     }

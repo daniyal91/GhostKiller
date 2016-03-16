@@ -200,10 +200,6 @@ public class GameView implements Observer {
         this.cashLabel.setText("$" + game.getMoney());
         this.lifeLabel.setText("" + game.getLives());
 
-        if (this.selectedTower != null) {
-            this.showTowerDetails(this.selectedTower);
-        }
-
         if (game.isOver()) {
             // TODO display that the game is over and exit cleanly!
             this.gameFrame.setVisible(false);

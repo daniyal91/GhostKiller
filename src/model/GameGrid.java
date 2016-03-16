@@ -17,9 +17,6 @@ import java.util.Random;
  */
 public class GameGrid {
 
-
-    public int pathindex = 1;
-
     /**
      * Different types of cases a GameGrid object can hold.
      */
@@ -30,13 +27,18 @@ public class GameGrid {
     /**
      * Images used to represent the different types of case types
      */
-    public static String[] CASE_TYPES_ICON_PATHS =
-                    {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
+    public static String[] CASE_TYPES_ICON_PATHS = {
+                    "icons/grass.jpg",
+                    "icons/grass2.jpg",
+                    "icons/road.jpg",
+                    "icons/start.png",
+                    "icons/end.png"
+    };
 
-    // FIXME : this variable should be private once editMap is refactored!
+    public int pathindex = 1;
+
     private CASE_TYPES[][] cases;
-
-    Random randomGenerator = new Random();
+    private Random randomGenerator = new Random();
 
     /**
      * Constructs an empty GameGrid.
@@ -213,7 +215,6 @@ public class GameGrid {
         return cnctvt[exitPoint.x][exitPoint.y][0] == 1;
     }
 
-
     /**
      * Returns an array with represents the connections between entry and exit points
      *
@@ -229,8 +230,6 @@ public class GameGrid {
 
         return connectivities;
     }
-
-
 
     /**
      * Gets the cases of the grid corresponding to a certain type.
@@ -256,7 +255,6 @@ public class GameGrid {
 
     }
 
-
     /**
      * Returns the entry point of the grid. The entry point is assumed to be at the left edge of the map.
      *
@@ -275,7 +273,6 @@ public class GameGrid {
         return this.getCasesByType(CASE_TYPES.ROAD);
     }
 
-
     /**
      * Returns the exit point of the grid. The exit point is assumed to be at the right edge of the map.
      *
@@ -284,8 +281,6 @@ public class GameGrid {
     public GridLocation exitPoint() {
         return this.getCasesByType(CASE_TYPES.END).get(0);
     }
-
-
 
     /**
      * Determines if the location specified is a valid road location.
