@@ -30,7 +30,6 @@ public class EditMapView<T extends ActionListener & MouseListener> {
     public JButton endPointButton;
     public JButton[][] tiles;
 
-
     /**
      * Constructs the EditMapView object.
      *

@@ -3,6 +3,8 @@ package controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import misc.Utils;
 import model.Game;
 import model.GameGrid;
@@ -49,6 +51,16 @@ public class MainController implements Runnable, ActionListener {
             int lineCount = Integer.parseInt(lineText);
             String columnText = this.mainFrame.textFieldColumns.getText();
             int columnCount = Integer.parseInt(columnText);
+
+            if (lineCount < 5) {
+                JOptionPane.showMessageDialog(null, "The height of the new grid must be at least 5!", "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (columnCount < 5) {
+                JOptionPane.showMessageDialog(null, "The width of the new grid must be at least 5!", "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             GameGrid gameGrid = new GameGrid(lineCount, columnCount);
             EditMapController controller = new EditMapController(gameGrid);

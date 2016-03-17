@@ -135,6 +135,7 @@ public class GameController implements MouseListener, ActionListener {
             this.gameView.closeTowerDetails();
         } else if (e.getSource() == this.gameView.upgradeTowerButton) {
             game.upgradeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
+            this.gameView.showTowerDetails(this.gameView.selectedTower);
         }
 
     }

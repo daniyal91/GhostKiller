@@ -42,21 +42,17 @@ public class GameView implements Observer {
 
     public ArrayList<JLabel> towerLabels;
     public JButton playButton;
+    public JButton sellTowerButton;
+    public JButton upgradeTowerButton;
+    public JComboBox<String> strategyComboBox;
+    public Tower selectedTower;
 
     private JButton[][] tiles;
     private JFrame gameFrame;
     private JLabel cashLabel;
     private JLabel lifeLabel;
     private JFrame towerInspectionFrame;
-
-    public JComboBox<String> strategyComboBox;
-    public Tower selectedTower;
-
     private GameController gameController;
-
-    public JButton sellTowerButton;
-
-    public JButton upgradeTowerButton;
 
     /**
      * Constructs the GameView object.
@@ -202,16 +198,28 @@ public class GameView implements Observer {
         this.lifeLabel.setText("" + game.getLives());
 
         if (game.isOver()) {
-        	JOptionPane.showMessageDialog(null, "Sorry you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
         }
     }
 
+    /**
+     * Removes a critter form the specified location.
+     *
+     * @param line   Line from where to remove the critter.
+     * @param column Column from where to remove the critter.
+     */
     public void removeCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/road.jpg"));
 
     }
 
+    /**
+     * Places a critter at the specified location.
+     *
+     * @param line   Line where to place the critter.
+     * @param column Column where to place the critter.
+     */
     private void placeCritter(int line, int column) {
         this.tiles[line][column].setIcon(new ImageIcon("icons/critter.jpg"));
 
@@ -392,6 +400,9 @@ public class GameView implements Observer {
         towerInspectionFrame.setVisible(true);
     }
 
+    /**
+     * Closes the tower details window.
+     */
     public void closeTowerDetails() {
         this.towerInspectionFrame.setVisible(false);
     }

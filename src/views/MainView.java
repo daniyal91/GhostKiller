@@ -19,14 +19,15 @@ import javax.swing.border.EmptyBorder;
  */
 public class MainView extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
-
     public JButton buttonCreate;
     public JButton buttonEdit;
     public JButton buttonLoad;
     public JTextField textFieldLines;
     public JTextField textFieldColumns;
+
+    private static final long serialVersionUID = 1L;
+
+    private JPanel contentPane;
 
     /**
      * Constructs the MainView object.
