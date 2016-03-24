@@ -148,6 +148,10 @@ public class Game extends Observable {
         return this.towers.get(location);
     }
 
+    public HashMap<Point, Tower> getTowers() {
+        return towers;
+    }
+
     /**
      * Upgrade the level of the tower at a specific location.
      *
@@ -234,6 +238,7 @@ public class Game extends Observable {
             this.endTurn();
         }
 
+        this.gameState();
         this.setChanged();
         this.notifyObservers();
 
@@ -375,5 +380,18 @@ public class Game extends Observable {
         this.wave++;
         this.crittersReleased = 0;
     }
+    
+    
+    public void gameState(){
+        System.out.println(this.grid.getCases());
+        System.out.println(this.grid.getCases()[0].length);
+        
+    }
 
+    
+    public void saveGame(){
+              
+        
+    }
+    
 }

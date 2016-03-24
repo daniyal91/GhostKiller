@@ -22,7 +22,8 @@ import views.GameView;
  */
 public class GameController implements MouseListener, ActionListener {
 
-    private Game game;
+    //must be private
+    public Game game;
     private GameView gameView;
 
     /**
@@ -58,11 +59,18 @@ public class GameController implements MouseListener, ActionListener {
 
         }
 
-        //just a temporary test to move a critter
+        //sends a wave of critters
         else if (event.getSource()==this.gameView.playButton){
             this.game.sendWave();
             System.out.print("play");
         }
+        
+      //calls the method "save"
+        else if (event.getSource()==this.gameView.saveButton){
+            this.game.saveGame();
+            System.out.print("save");
+        }
+        
         // The user clicked on a tile on the game grid.
         else {
             JButton buttonClicked = (JButton) event.getSource();
