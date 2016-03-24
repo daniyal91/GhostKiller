@@ -47,7 +47,7 @@ public class GameController implements MouseListener, ActionListener {
     public void mouseClicked(MouseEvent event) {
 
         // We refuse to listen to the user actions during a wave.
-        if (this.game.isMakingTurn()) {
+        if (event.getSource()!=this.gameView.saveButton && this.game.isMakingTurn()) {
             return;
         }
 

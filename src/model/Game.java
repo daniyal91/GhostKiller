@@ -45,7 +45,7 @@ public class Game extends Observable {
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
 
-    private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
+    private HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     private int money;
     private Path shortestPath;
     private GameThread gameThread;
@@ -315,7 +315,7 @@ public class Game extends Observable {
                 this.critters.remove(critter.gridLocation);
                 this.lives--;
                 System.out.println("The player just lost a life!!!");
-            // There is another location the critter can move to, and it is free.
+                // There is another location the critter can move to, and it is free.
             }  else if (critters.get(nextLocation) == null) {
                 this.critters.remove(critter.gridLocation);
                 critter.setLocation(nextLocation);
@@ -380,18 +380,17 @@ public class Game extends Observable {
         this.wave++;
         this.crittersReleased = 0;
     }
-    
-    
+
+
     public void gameState(){
         System.out.println(this.grid.getCases());
         System.out.println(this.grid.getCases()[0].length);
-        
+
     }
 
-    
-    public void saveGame(){
-              
-        
+
+    public void saveGame(){      
+        Store.saveToFile(this, "newsavedgame");     
     }
-    
+
 }
