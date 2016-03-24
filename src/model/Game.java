@@ -389,8 +389,8 @@ public class Game extends Observable {
     }
 
 
-    public void saveGame(){      
-        Store.saveToFile(this, "newsavedgame");     
+    public void saveGame(String savedgame){      
+        Store.saveToFile(this, savedgame);     
     }
 
 }

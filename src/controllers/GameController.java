@@ -67,7 +67,7 @@ public class GameController implements MouseListener, ActionListener {
         
       //calls the method "save"
         else if (event.getSource()==this.gameView.saveButton){
-            this.game.saveGame();
+            this.game.saveGame("newsavedgame");
             System.out.print("save");
         }
         
