@@ -73,6 +73,10 @@ public class Game extends Observable {
         return this.money;
     }
 
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     /**
      * Buys a news tower and place it at the specified position on the grid.
      *
@@ -150,6 +154,10 @@ public class Game extends Observable {
 
     public HashMap<Point, Tower> getTowers() {
         return towers;
+    }
+
+    public void setTowers(HashMap<Point, Tower> towers) {
+        this.towers = towers;
     }
 
     /**
@@ -349,6 +357,10 @@ public class Game extends Observable {
         return lives;
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     /**
      * Determines if the current game is over. That is, if the player
      * has no more lives.
@@ -390,7 +402,7 @@ public class Game extends Observable {
 
 
     public void saveGame(String savedgame){      
-        Store.saveToFile(this, savedgame);     
+        Store.saveGame(this, savedgame);     
     }
 
 }

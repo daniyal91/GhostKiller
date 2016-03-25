@@ -1,15 +1,22 @@
 package model;
 
+import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Iterator;
+import java.util.HashMap;
 
 import model.Game;
+import model.GameGrid.CASE_TYPES;
+import model.tower.IceTower;
 import model.tower.Tower;
 
 public class Store {
 
-    static void saveToFile(Game game,String filename){
+    static void saveGame(Game game,String filename){
         PrintWriter pr;
         try {
             pr = new PrintWriter(filename);
@@ -32,32 +39,32 @@ public class Store {
             pr.print("h,");
             pr.println(game.getLives());
             pr.print("m,");
-            pr.println(game.getMoney());
+            pr.print(game.getMoney());
 
             //towers
             if (!game.getTowers().isEmpty()) {
                 for (Tower t : game.getTowers().values()) {
+                    pr.println();
                     pr.print("t,");
                     pr.print(t.getLocation().x+",");
                     pr.print(t.getLocation().y+",");
                     pr.print(t.getName()+",");
                     pr.print(t.getLevel()+",");
-                    pr.print(t.getAttackStrategy().getName()+",");
-                    pr.println();
-                    
+                    pr.print(t.getAttackStrategy().getName()+",");                  
                 }
             }
 
             //critters
             if (!game.critters.isEmpty()) {
                 for (Critter c : game.critters.values()) {
+                    pr.println();
                     pr.print("c,");
+                    pr.println(c.getLevel()+",");
                     pr.print(c.gridLocation.x+",");
                     pr.print(c.gridLocation.y+",");
                     pr.print(c.getHealthPoints()+",");
                     pr.print(c.isFrozen()+",");
                     // any option is a critter is burning or not ? 
-                    pr.println();
                 }
 
             } 
@@ -68,6 +75,91 @@ public class Store {
 
 
 
+    }
+
+
+    public Game loadGame(String filename) {
+
+        int linenumber = 0; // line number starts from the second line
+        int rows = 0;
+        int columns = 0; // n customer, k teams
+
+        // initializing the loaded Game and it's attributes
+        Game newgame=new Game();
+        GameGrid newgrid=new GameGrid();
+        newgrid.cases = new CASE_TYPES[1][1]; 
+        HashMap<Point, Critter> newcritters = new HashMap<Point, Critter>();
+        HashMap<Point, Tower> newtowers = new HashMap<Point, Tower>();
+        int newmoney = 0,newhealth=0;
+
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+            String line = null;
+
+            // read the 1st line, dimensions of the map
+            line = br.readLine();
+            String[] tokens = line.split("\\s+");
+            rows = Integer.parseInt(tokens[0]);
+            columns = Integer.parseInt(tokens[1]);
+
+            newgrid.cases = new CASE_TYPES[rows][columns];
+
+            // read grids
+            while ((line = br.readLine()).charAt(0) !='h')  {
+
+                // \\s+ means any number of white spaces between tokens
+                tokens = line.split("\\s+");
+
+                for (int i = 0; i < columns; i++) {
+                    int caseValue = Integer.parseInt(tokens[i]);
+                    newgrid.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
+                }
+
+                linenumber = linenumber + 1; // next line (lane) information
+
+            } // end of read grids
+
+
+            while ((line = br.readLine()) != null) {
+
+                tokens = line.split(",");
+                switch (tokens[0]) {
+                    case "h":
+                        newhealth=Integer.parseInt(tokens[1]);
+                        break;
+                    case "m":
+                        newmoney=Integer.parseInt(tokens[1]);
+                        break;
+                    case "t":
+                        //@TODO implement factory for tower, "ice tower" just to check the method
+                        Tower temptower=new IceTower();   
+                        temptower.setLevel(Integer.parseInt(tokens[4]));
+                        temptower.setAttackStrategy(tokens[5]);
+                        newtowers.put(new Point(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])),temptower); 
+                        break;
+                    case "c" :
+                        GridLocation temploc=new GridLocation(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]));
+                        Critter tempcritter=new Critter(temploc,Integer.parseInt(tokens[1]));
+                        if (tokens[4].equals("true")) {
+                            tempcritter.freeze();
+                        }
+                        newcritters.put(temploc, tempcritter);
+                }
+
+            }
+
+            br.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        newgame.grid=newgrid;
+        newgame.setLives(newhealth);
+        newgame.setMoney(newmoney);
+        newgame.critters=newcritters;
+        newgame.setTowers(newtowers);
+        return newgame;
     }
 
 

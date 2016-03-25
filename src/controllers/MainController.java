@@ -77,6 +77,21 @@ public class MainController implements Runnable, ActionListener {
 
             }
 
+        } else if (event.getSource() == this.mainFrame.buttonNewGame) {
+            String filePath = Utils.selectFile();
+            if (filePath != null) {
+
+                Game game = new Game();
+                game.grid.readFromFile(filePath, true);
+                GameController gameController = new GameController(game);
+
+                Path t=new Path(game.grid);
+                System.out.println("shortest path , critters' path towrad exit point :");
+                System.out.println(t.getShortestPath());
+
+
+
+            }
         } else if (event.getSource() == this.mainFrame.buttonLoad) {
             String filePath = Utils.selectFile();
             if (filePath != null) {
@@ -93,6 +108,7 @@ public class MainController implements Runnable, ActionListener {
 
             }
         }
+        
     }
 
 
