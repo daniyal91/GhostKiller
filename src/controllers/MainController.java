@@ -96,17 +96,9 @@ public class MainController implements Runnable, ActionListener {
             String filePath = Utils.selectFile();
             if (filePath != null) {
 
-                Game game = new Game();
-                game.grid.readFromFile(filePath, true);
-                GameController gameController = new GameController(game);
-
-                Path t=new Path(game.grid);
-                System.out.println("shortest path , critters' path towrad exit point :");
-                System.out.println(t.getShortestPath());
-
-
-
-            }
+                Game game=new Game();
+                game.loadGame(filePath);
+              }
         }
         
     }

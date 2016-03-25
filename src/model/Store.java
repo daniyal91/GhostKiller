@@ -78,14 +78,14 @@ public class Store {
     }
 
 
-    public Game loadGame(String filename) {
+    static void loadGame(Game newgame, String filename) {
 
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
         int columns = 0; // n customer, k teams
 
         // initializing the loaded Game and it's attributes
-        Game newgame=new Game();
+       // Game newgame=new Game();
         GameGrid newgrid=new GameGrid();
         newgrid.cases = new CASE_TYPES[1][1]; 
         HashMap<Point, Critter> newcritters = new HashMap<Point, Critter>();
@@ -159,7 +159,7 @@ public class Store {
         newgame.setMoney(newmoney);
         newgame.critters=newcritters;
         newgame.setTowers(newtowers);
-        return newgame;
+  
     }
 
 

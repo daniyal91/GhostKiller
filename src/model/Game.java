@@ -404,5 +404,9 @@ public class Game extends Observable {
     public void saveGame(String savedgame){      
         Store.saveGame(this, savedgame);     
     }
+    
+    public void loadGame(String savedgame){
+    Store.loadGame(this, savedgame);
+    }
 
 }
