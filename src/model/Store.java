@@ -59,7 +59,7 @@ public class Store {
                 for (Critter c : game.critters.values()) {
                     pr.println();
                     pr.print("c,");
-                    pr.println(c.getLevel()+",");
+                    pr.print(c.getLevel()+",");
                     pr.print(c.gridLocation.x+",");
                     pr.print(c.gridLocation.y+",");
                     pr.print(c.getHealthPoints()+",");
