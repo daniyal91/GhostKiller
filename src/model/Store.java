@@ -11,8 +11,11 @@ import java.util.HashMap;
 
 import model.Game;
 import model.GameGrid.CASE_TYPES;
+import model.strategy.AttackStrategy;
+import model.strategy.AttackStrategyFactory;
 import model.tower.IceTower;
 import model.tower.Tower;
+import model.tower.TowerFactory;
 
 public class Store {
 
@@ -85,13 +88,13 @@ public class Store {
         int columns = 0; // n customer, k teams
 
         // initializing the loaded Game and it's attributes
-       // Game newgame=new Game();
+        // Game newgame=new Game();
         GameGrid newgrid=new GameGrid();
         newgrid.cases = new CASE_TYPES[1][1]; 
         HashMap<Point, Critter> newcritters = new HashMap<Point, Critter>();
         HashMap<Point, Tower> newtowers = new HashMap<Point, Tower>();
         int newmoney = 0,newhealth=0;
-
+        String[] tokens;
         BufferedReader br = null;
 
         try {
@@ -100,7 +103,7 @@ public class Store {
 
             // read the 1st line, dimensions of the map
             line = br.readLine();
-            String[] tokens = line.split("\\s+");
+            tokens = line.split("\\s+");
             rows = Integer.parseInt(tokens[0]);
             columns = Integer.parseInt(tokens[1]);
 
@@ -133,10 +136,42 @@ public class Store {
                         newmoney=Integer.parseInt(tokens[1]);
                         break;
                     case "t":
-                        //@TODO implement factory for tower, "ice tower" just to check the method
-                        Tower temptower=new IceTower();   
+                        String towertype="";
+                        switch (tokens[3]){
+                            case "Fire tower":
+                                towertype="Fire tower";
+                                break;
+                            case "Ice tower":
+                                towertype="Ice tower";
+                                break;
+                            case "Explosion tower":
+                                towertype="Explosion towerr";
+                                break;
+                        }
+
+                        Tower temptower=TowerFactory.createTower(towertype);
                         temptower.setLevel(Integer.parseInt(tokens[4]));
-                        temptower.setAttackStrategy(tokens[5]);
+                        String strategy="";
+                        switch (tokens[5]){
+                            case "random":
+                                strategy="random";
+                                break;
+                            case "nearest":
+                                strategy="nearest";
+                                break;
+                            case "weakest":
+                                strategy="weakest";
+                                break;
+                            case "strongest":
+                                strategy="strongest";
+                                break;
+                            case "first":
+                                strategy="first";
+                                break; 
+                        }
+
+                        temptower.setAttackStrategy(strategy);
+
                         newtowers.put(new Point(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])),temptower); 
                         break;
                     case "c" :
@@ -146,6 +181,7 @@ public class Store {
                             tempcritter.freeze();
                         }
                         newcritters.put(temploc, tempcritter);
+                        break;
                 }
 
             }
@@ -159,7 +195,7 @@ public class Store {
         newgame.setMoney(newmoney);
         newgame.critters=newcritters;
         newgame.setTowers(newtowers);
-  
+
     }
 
 
