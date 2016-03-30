@@ -42,6 +42,7 @@ public class GameView implements Observer {
 
     public ArrayList<JLabel> towerLabels;
     public JButton playButton;
+    public JButton saveButton;
     public JButton sellTowerButton;
     public JButton upgradeTowerButton;
     public JComboBox<String> strategyComboBox;
@@ -149,6 +150,11 @@ public class GameView implements Observer {
         this.playButton = new JButton("play");
         playButton.addMouseListener(controller);
         healthBankPanel.add(playButton);
+        
+        this.saveButton = new JButton("save");
+        saveButton.addMouseListener(controller);
+        healthBankPanel.add(saveButton);
+        
         this.gameFrame.setResizable(false);
 
     }

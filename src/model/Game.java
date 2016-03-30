@@ -45,7 +45,7 @@ public class Game extends Observable {
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
 
-    private final HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
+    private HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     private int money;
     private Path shortestPath;
     private GameThread gameThread;
@@ -71,6 +71,10 @@ public class Game extends Observable {
      */
     public int getMoney() {
         return this.money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     /**
@@ -146,6 +150,14 @@ public class Game extends Observable {
     public Tower getTower(int line, int column) {
         Point location = new Point(line, column);
         return this.towers.get(location);
+    }
+
+    public HashMap<Point, Tower> getTowers() {
+        return towers;
+    }
+
+    public void setTowers(HashMap<Point, Tower> towers) {
+        this.towers = towers;
     }
 
     /**
@@ -234,6 +246,7 @@ public class Game extends Observable {
             this.endTurn();
         }
 
+        this.gameState();
         this.setChanged();
         this.notifyObservers();
 
@@ -310,7 +323,7 @@ public class Game extends Observable {
                 this.critters.remove(critter.gridLocation);
                 this.lives--;
                 System.out.println("The player just lost a life!!!");
-            // There is another location the critter can move to, and it is free.
+                // There is another location the critter can move to, and it is free.
             }  else if (critters.get(nextLocation) == null) {
                 this.critters.remove(critter.gridLocation);
                 critter.setLocation(nextLocation);
@@ -344,6 +357,10 @@ public class Game extends Observable {
         return lives;
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     /**
      * Determines if the current game is over. That is, if the player
      * has no more lives.
@@ -374,6 +391,22 @@ public class Game extends Observable {
         }
         this.wave++;
         this.crittersReleased = 0;
+    }
+
+
+    public void gameState(){
+        System.out.println(this.grid.getCases());
+        System.out.println(this.grid.getCases()[0].length);
+
+    }
+
+
+    public void saveGame(String savedgame){      
+        Store.saveGame(this, savedgame);     
+    }
+    
+    public void loadGame(String savedgame){
+    Store.loadGame(this, savedgame);
     }
 
 }

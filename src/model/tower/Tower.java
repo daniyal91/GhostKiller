@@ -113,6 +113,14 @@ public abstract class Tower {
         return level;
     }
 
+    
+    /**
+     * Sets the current level of the tower.
+     */
+    public void setLevel(int level) {
+        this.level=level;
+    }
+    
     public GridLocation getLocation() {
         return this.location;
     }

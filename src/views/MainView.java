@@ -21,6 +21,7 @@ public class MainView extends JFrame {
 
     public JButton buttonCreate;
     public JButton buttonEdit;
+    public JButton buttonNewGame;
     public JButton buttonLoad;
     public JTextField textFieldLines;
     public JTextField textFieldColumns;
@@ -38,11 +39,11 @@ public class MainView extends JFrame {
 
         setTitle("Tower defense main menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 350, 320);
 
         contentPane = new JPanel();
         contentPane.setBackground(Color.DARK_GRAY);
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBorder(new EmptyBorder( 6, 6, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
@@ -72,14 +73,18 @@ public class MainView extends JFrame {
         contentPane.add(this.textFieldColumns);
 
         this.buttonEdit = new JButton("Edit Map");
-        this.buttonEdit.setBounds(36, 100, 110, 23);
+        this.buttonEdit.setBounds(36, 60, 110, 23);
         this.buttonEdit.addActionListener(mainController);
         contentPane.add(this.buttonEdit);
 
-        this.buttonLoad = new JButton("Play");
+        this.buttonNewGame = new JButton("New Game");
+        this.buttonNewGame.setBounds(36, 140, 110, 23);
+        this.buttonNewGame.addActionListener(mainController);
+        contentPane.add(this.buttonNewGame);
+        
+        this.buttonLoad = new JButton("Load Game");
         this.buttonLoad.setBounds(36, 180, 110, 23);
         this.buttonLoad.addActionListener(mainController);
-
         contentPane.add(this.buttonLoad);
     }
 

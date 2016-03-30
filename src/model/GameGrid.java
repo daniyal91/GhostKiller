@@ -37,7 +37,7 @@ public class GameGrid {
 
     public int pathindex = 1;
 
-    private CASE_TYPES[][] cases;
+    CASE_TYPES[][] cases;
     private Random randomGenerator = new Random();
 
     /**

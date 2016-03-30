@@ -77,7 +77,7 @@ public class MainController implements Runnable, ActionListener {
 
             }
 
-        } else if (event.getSource() == this.mainFrame.buttonLoad) {
+        } else if (event.getSource() == this.mainFrame.buttonNewGame) {
             String filePath = Utils.selectFile();
             if (filePath != null) {
 
@@ -92,7 +92,15 @@ public class MainController implements Runnable, ActionListener {
 
 
             }
+        } else if (event.getSource() == this.mainFrame.buttonLoad) {
+            String filePath = Utils.selectFile();
+            if (filePath != null) {
+
+                Game game=new Game();
+                game.loadGame(filePath);
+              }
         }
+        
     }
 
 
