@@ -16,7 +16,12 @@ public class GameLog implements Observer{
 
     private Game game;
     private GameController gamecontroller;
+    private String oldlog="";
 
+    
+    private SimpleDateFormat longfrmt = new SimpleDateFormat("dd MMM HH:mm:ss");
+    private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
+    
     public GameLog(Game game, GameController gamecontroller) {
         this.game = game;
         this.gamecontroller = gamecontroller;
@@ -27,11 +32,11 @@ public class GameLog implements Observer{
     @Override
     public void update(Observable observable, Object object) {
         Game game = (Game) observable;
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd HH:mm:ss");
+        
 
         if (game.logfile==null){    
-            game.logfile=sdf.format(cal.getTime()).replaceAll(":", "-");;
+            Calendar cal = Calendar.getInstance();
+            game.logfile=longfrmt.format(cal.getTime()).replaceAll(":", "-");;
             System.out.println( game.logfile);
         }
 
@@ -45,9 +50,13 @@ public class GameLog implements Observer{
                 pr.println(initialLog(game));
                 game.startlog=false;
             }
-            pr.print(sdf.format(cal.getTime())+"   -> ");
+            Calendar cal = Calendar.getInstance();
+           
+            if (!game.log.equals(oldlog) && game.log!=""){
+            pr.print(shortfrmt.format(cal.getTime())+"   -> ");
             pr.println(game.log);
-
+            }
+            oldlog=game.log;
             pr.close();
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
@@ -59,8 +68,14 @@ public class GameLog implements Observer{
     }
 
     private String initialLog(Game game) {
-        return "starting log"; 
-
+        String init;
+        Calendar cal = Calendar.getInstance();
+        init=longfrmt.format(cal.getTime())+"  Game Started \n";
+        init+="Game Grid ("+game.grid.mapname+") : "+game.grid.cases.length+" x "+game.grid.cases[0].length+"\n";
+        init+="Map Entry Point : "+game.grid.entryPoint()+" | Map Exit Point : "+game.grid.exitPoint()+" \n";
+        init+="Path : "+game.shortestPath+" \n";
+             
+        return init;
     }
 
 

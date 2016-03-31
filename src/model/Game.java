@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -44,13 +45,13 @@ public class Game extends Observable {
     public GameGrid grid;
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
+    public Path shortestPath;
     public String log;
     public boolean startlog=true;
     public String logfile;
 
     private HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     private int money;
-    private Path shortestPath;
     private GameThread gameThread;
     private int crittersReleased;
     private int lives;
@@ -112,7 +113,7 @@ public class Game extends Observable {
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
-        log=tower.getName()+" at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded";
+        log=tower.getName()+"(level:"+tower.getLevel()+")"+" at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded";
         this.setChanged();
         this.notifyObservers();
     }
@@ -252,6 +253,8 @@ public class Game extends Observable {
             this.endTurn();
         }
 
+
+
         this.gameState();
         this.setChanged();
         this.notifyObservers();
@@ -272,11 +275,13 @@ public class Game extends Observable {
                 }
             }
             attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
+            if (tower.attack(aliveCritters, this.grid.entryPoint()) !=null){
+                log+=tower.getName()+" at "+tower.getLocation()+" Attacked critter at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+            }
             if (attackedLocation != null) {
                 this.attackedCritters.add(attackedLocation);
             }
         }
-
 
     }
 
@@ -296,6 +301,7 @@ public class Game extends Observable {
 
             Critter critty = new Critter(start, this.wave);
             this.addCritter(critty);
+            log="new critter (level"+critty.getLevel()+") entered the map \n";
             this.crittersReleased++;
             System.out.println("Adding a new critter on the grid.");
 
@@ -306,6 +312,7 @@ public class Game extends Observable {
      * Move the critters forward on the grid.
      */
     private synchronized void moveCritters() {
+        log="";
         ArrayList<GridLocation> shortestPath = this.shortestPath.getShortestPath();
 
         // We go through the shortest path in reverse order. This is
@@ -323,6 +330,7 @@ public class Game extends Observable {
             }
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
+            log="critter (level: "+critter.getLevel()+" health: "+critter.getHealthPoints()+") moved to "+nextLocation+"\n";
 
             // The critter has reached the exit!
             if (nextLocation == null) {
@@ -337,6 +345,7 @@ public class Game extends Observable {
             }
 
         }
+
     }
 
     /**
@@ -348,6 +357,7 @@ public class Game extends Observable {
             if (!critter.isDead()) {
                 critters.put(critter.gridLocation, critter);
             } else {
+                log+="critter at " +critter.gridLocation+" is Dead ! \n";
                 this.money += critter.getReward();
             }
         }

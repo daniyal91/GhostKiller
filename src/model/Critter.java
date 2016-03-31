@@ -140,8 +140,8 @@ public class Critter {
      */
     @Override
     public String toString() {
-        String template = "Critter level %s at position %s with %s remaining health points";
-        return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
+        String template = "Critter level %s , %s health points , status : %s";
+        return String.format(template, this.level, this.healthPoints , (this.isFrozen)? "frozen":"moving");
     }
 
 }
