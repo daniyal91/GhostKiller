@@ -34,24 +34,15 @@ public class CritterTestCase extends TestCase {
 
     @Test
     public void testFreezeCritter() {
-        Critter critter = new Critter(new GridLocation(1, 0), 3);
+        Critter critter1 = new Critter(new GridLocation(1, 0), 1);
+        Critter critter2 = new Critter(new GridLocation(1, 0), 1);
 
-        // Freezing takes effect at the beginning of the next turn!
-        critter.freeze();
-        assertFalse(critter.isFrozen());
+        critter2.freeze();
 
-        critter.makeTurn();
-        assertTrue(critter.isFrozen());
+        critter1.makeTurn();
+        critter2.makeTurn();
 
-        // It should be impossible to freeze the critter
-        // two turns in a row.
-        critter.freeze();
-        critter.makeTurn();
-        assertFalse(critter.isFrozen());
-
-        critter.freeze();
-        critter.makeTurn();
-        assertTrue(critter.isFrozen());
+        assertTrue(critter1.getMovementPoints() > critter2.getMovementPoints());
 
     }
 

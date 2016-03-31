@@ -44,6 +44,7 @@ public class Critter {
     private int healthPoints;
     private int level;
     private int burningDamage = 0;
+    private int movementPoints = 0;
     private boolean isFrozen = false;
     private boolean wasFreezed = false;
 
@@ -81,15 +82,6 @@ public class Critter {
     }
 
     /**
-     * Indicates whether the critter is frozen or not.
-     *
-     * @return true if the critter is frozen, false otherwise.
-     */
-    public boolean isFrozen() {
-        return this.wasFreezed;
-    }
-
-    /**
      * Attacks the current critter with the specified damage.
      * The critter's health can never go below 0.
      *
@@ -117,12 +109,13 @@ public class Critter {
      * turn-aware.
      */
     public void makeTurn() {
-        if (this.wasFreezed) {
-            this.wasFreezed = false;
-        } else if (this.isFrozen) {
-            this.wasFreezed = true;
+        int speed = Critter.INITIAL_SPEED + (this.level * Critter.SPEED_PER_LEVEL);
+        if (this.isFrozen) {
+            this.movementPoints += (speed / 2);
+            this.isFrozen = false;
+        } else {
+            this.movementPoints += speed;
         }
-        this.isFrozen = false;
         this.healthPoints = Math.max(this.healthPoints - this.burningDamage, 0);
         this.burningDamage = 0;
     }
@@ -171,4 +164,15 @@ public class Critter {
         return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
     }
 
+    public boolean shouldMove() {
+        return this.movementPoints >= Critter.MOVEMENT_THRESHOLD;
+    }
+
+    public void move() {
+        this.movementPoints -= Critter.MOVEMENT_THRESHOLD;
+    }
+
+    public int getMovementPoints() {
+        return this.movementPoints;
+    }
 }

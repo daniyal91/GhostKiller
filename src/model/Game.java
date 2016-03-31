@@ -318,9 +318,10 @@ public class Game extends Observable {
 
             // No critter to more forward on the path at this location,
             // or the critter is frozen!
-            if (critter == null || critter.isFrozen()) {
+            if (critter == null || !critter.shouldMove()) {
                 continue;
             }
+            critter.move();
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
