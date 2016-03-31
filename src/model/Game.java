@@ -44,6 +44,9 @@ public class Game extends Observable {
     public GameGrid grid;
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
+    public String log;
+    public boolean startlog=true;
+    public String logfile;
 
     private HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
     private int money;
@@ -95,6 +98,7 @@ public class Game extends Observable {
         this.money -= tower.getInitialCost();
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
+        log="New "+newTower.getName()+" bought and placed at ["+line+","+column+"]";
         this.addTower(newTower, line, column);
     }
 
@@ -108,6 +112,7 @@ public class Game extends Observable {
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
+        log=tower.getName()+" at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded";
         this.setChanged();
         this.notifyObservers();
     }
@@ -171,6 +176,7 @@ public class Game extends Observable {
         if (this.money >= tower.getLevelCost()) {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
+            log=tower.getName()+" at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units";
             this.setChanged();
             this.notifyObservers();
         }
@@ -404,9 +410,9 @@ public class Game extends Observable {
     public void saveGame(String savedgame){      
         Store.saveGame(this, savedgame);     
     }
-    
+
     public void loadGame(String savedgame){
-    Store.loadGame(this, savedgame);
+        Store.loadGame(this, savedgame);
     }
 
 }
