@@ -150,11 +150,11 @@ public class GameView implements Observer {
         this.playButton = new JButton("play");
         playButton.addMouseListener(controller);
         healthBankPanel.add(playButton);
-        
+
         this.saveButton = new JButton("save");
         saveButton.addMouseListener(controller);
         healthBankPanel.add(saveButton);
-        
+
         this.gameFrame.setResizable(false);
 
     }
@@ -205,6 +205,9 @@ public class GameView implements Observer {
 
         if (game.isOver()) {
             JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
+            this.gameFrame.setVisible(false);
+        } else if (game.isWon()) {
+            JOptionPane.showMessageDialog(null, "You won the game!", "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
         }
     }
