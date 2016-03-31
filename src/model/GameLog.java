@@ -53,7 +53,7 @@ public class GameLog implements Observer{
             Calendar cal = Calendar.getInstance();
            
             if (!game.log.equals(oldlog) && game.log!=""){
-            pr.print(shortfrmt.format(cal.getTime())+"   -> ");
+            pr.println(shortfrmt.format(cal.getTime())+"   -> ");
             pr.println(game.log);
             }
             oldlog=game.log;

@@ -99,7 +99,7 @@ public class Game extends Observable {
         this.money -= tower.getInitialCost();
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
-        log="New "+newTower.getName()+" bought and placed at ["+line+","+column+"]";
+        log="New "+newTower.getName()+" bought and placed at ["+line+","+column+"] \n";
         this.addTower(newTower, line, column);
     }
 
@@ -113,7 +113,7 @@ public class Game extends Observable {
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
-        log=tower.getName()+"(level:"+tower.getLevel()+")"+" at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded";
+        log=tower.getName()+"(level:"+tower.getLevel()+")"+" at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded \n";
         this.setChanged();
         this.notifyObservers();
     }
@@ -177,7 +177,7 @@ public class Game extends Observable {
         if (this.money >= tower.getLevelCost()) {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
-            log=tower.getName()+" at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units";
+            log=tower.getName()+" at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
             this.setChanged();
             this.notifyObservers();
         }
