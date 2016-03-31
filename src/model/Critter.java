@@ -8,9 +8,36 @@ package model;
  */
 public class Critter {
 
-    public static int HEALTH_POINTS_PER_LEVEL = 30;
-    public static int SPEED_PER_LEVEL = 20;
-    public static int REWARD_PER_LEVEL = 50;
+    /**
+     * Value after which the critter moves.
+     */
+    public static int MOVEMENT_THRESHOLD = 100;
+
+    /**
+     * Initial health points of a new Critter.
+     */
+    public static int INITIAL_HEALTH_POINTS = 30;
+
+    /**
+     * Initial speed of a new Critter.
+     */
+    public static int INITIAL_SPEED = 30;
+
+    /**
+     * Reward for killing the critter, relative
+     * to it's health points.
+     */
+    public static int REWARD_RATIO = 2;
+
+    /**
+     * Additional health points a critter gains at every level.
+     */
+    public static int HEALTH_POINTS_PER_LEVEL = 10;
+
+    /**
+     * Additional speed a critter gains at every level.
+     */
+    public static int SPEED_PER_LEVEL = 10;
 
     public GridLocation gridLocation;
 
@@ -106,7 +133,7 @@ public class Critter {
      * @return An integer representing the reward as money.
      */
     public int getReward() {
-        return Critter.REWARD_PER_LEVEL * this.level;
+        return this.healthPoints * Critter.REWARD_RATIO;
     }
 
     /**
