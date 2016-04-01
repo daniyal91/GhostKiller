@@ -9,11 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-import model.Game;
 import model.GameGrid.CASE_TYPES;
-import model.strategy.AttackStrategy;
-import model.strategy.AttackStrategyFactory;
-import model.tower.IceTower;
 import model.tower.Tower;
 import model.tower.TowerFactory;
 
@@ -53,7 +49,7 @@ public class Store {
                     pr.print(t.getLocation().y+",");
                     pr.print(t.getName()+",");
                     pr.print(t.getLevel()+",");
-                    pr.print(t.getAttackStrategy().getName()+",");                  
+                    pr.print(t.getAttackStrategy().getName()+",");
                 }
             }
 
@@ -66,11 +62,10 @@ public class Store {
                     pr.print(c.gridLocation.x+",");
                     pr.print(c.gridLocation.y+",");
                     pr.print(c.getHealthPoints()+",");
-                    pr.print(c.isFrozen()+",");
-                    // any option is a critter is burning or not ? 
+                    // any option is a critter is burning or not ?
                 }
 
-            } 
+            }
             pr.close();
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
@@ -90,7 +85,7 @@ public class Store {
         // initializing the loaded Game and it's attributes
         // Game newgame=new Game();
         GameGrid newgrid=new GameGrid();
-        newgrid.cases = new CASE_TYPES[1][1]; 
+        newgrid.cases = new CASE_TYPES[1][1];
         HashMap<Point, Critter> newcritters = new HashMap<Point, Critter>();
         HashMap<Point, Tower> newtowers = new HashMap<Point, Tower>();
         int newmoney = 0,newhealth=0;
@@ -167,12 +162,12 @@ public class Store {
                                 break;
                             case "first":
                                 strategy="first";
-                                break; 
+                                break;
                         }
 
                         temptower.setAttackStrategy(strategy);
 
-                        newtowers.put(new Point(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])),temptower); 
+                        newtowers.put(new Point(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2])),temptower);
                         break;
                     case "c" :
                         GridLocation temploc=new GridLocation(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]));

@@ -8,15 +8,43 @@ package model;
  */
 public class Critter {
 
-    public static int HEALTH_POINTS_PER_LEVEL = 30;
-    public static int SPEED_PER_LEVEL = 20;
-    public static int REWARD_PER_LEVEL = 50;
+    /**
+     * Value after which the critter moves.
+     */
+    public static int MOVEMENT_THRESHOLD = 100;
+
+    /**
+     * Initial health points of a new Critter.
+     */
+    public static int INITIAL_HEALTH_POINTS = 30;
+
+    /**
+     * Initial speed of a new Critter.
+     */
+    public static int INITIAL_SPEED = 30;
+
+    /**
+     * Reward for killing the critter, relative
+     * to it's health points.
+     */
+    public static int REWARD_RATIO = 2;
+
+    /**
+     * Additional health points a critter gains at every level.
+     */
+    public static int HEALTH_POINTS_PER_LEVEL = 10;
+
+    /**
+     * Additional speed a critter gains at every level.
+     */
+    public static int SPEED_PER_LEVEL = 10;
 
     public GridLocation gridLocation;
 
     private int healthPoints;
     private int level;
     private int burningDamage = 0;
+    private int movementPoints = 0;
     private boolean isFrozen = false;
     private boolean wasFreezed = false;
 
@@ -54,15 +82,6 @@ public class Critter {
     }
 
     /**
-     * Indicates whether the critter is frozen or not.
-     *
-     * @return true if the critter is frozen, false otherwise.
-     */
-    public boolean isFrozen() {
-        return this.wasFreezed;
-    }
-
-    /**
      * Attacks the current critter with the specified damage.
      * The critter's health can never go below 0.
      *
@@ -90,12 +109,13 @@ public class Critter {
      * turn-aware.
      */
     public void makeTurn() {
-        if (this.wasFreezed) {
-            this.wasFreezed = false;
-        } else if (this.isFrozen) {
-            this.wasFreezed = true;
+        int speed = Critter.INITIAL_SPEED + (this.level * Critter.SPEED_PER_LEVEL);
+        if (this.isFrozen) {
+            this.movementPoints += (speed / 2);
+            this.isFrozen = false;
+        } else {
+            this.movementPoints += speed;
         }
-        this.isFrozen = false;
         this.healthPoints = Math.max(this.healthPoints - this.burningDamage, 0);
         this.burningDamage = 0;
     }
@@ -106,7 +126,7 @@ public class Critter {
      * @return An integer representing the reward as money.
      */
     public int getReward() {
-        return Critter.REWARD_PER_LEVEL * this.level;
+        return this.healthPoints * Critter.REWARD_RATIO;
     }
 
     /**
@@ -144,4 +164,15 @@ public class Critter {
         return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
     }
 
+    public boolean shouldMove() {
+        return this.movementPoints >= Critter.MOVEMENT_THRESHOLD;
+    }
+
+    public void move() {
+        this.movementPoints -= Critter.MOVEMENT_THRESHOLD;
+    }
+
+    public int getMovementPoints() {
+        return this.movementPoints;
+    }
 }

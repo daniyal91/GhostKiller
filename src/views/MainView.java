@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -37,56 +36,49 @@ public class MainView extends JFrame {
      */
     public MainView(ActionListener mainController) {
 
-        setTitle("Tower defense main menu");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 350, 320);
+        this.setTitle("Tower defense main menu");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBounds(100, 100, 370, 230);
+        this.setResizable(false);
 
         contentPane = new JPanel();
         contentPane.setBackground(Color.DARK_GRAY);
-        contentPane.setBorder(new EmptyBorder( 6, 6, 5, 5));
+        contentPane.setBorder(new EmptyBorder(6, 6, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        this.buttonCreate = new JButton("Create Map");
-        this.buttonCreate.setBounds(36, 11, 110, 23);
+        this.buttonCreate = new JButton("Create map");
+        this.buttonCreate.setBounds(10, 10, 140, 23);
         this.buttonCreate.addActionListener(mainController);
         contentPane.add(this.buttonCreate);
 
-        JLabel lblX = new JLabel("X");
-        lblX.setBounds(156, 15, 6, 14);
-        contentPane.add(lblX);
-
         this.textFieldLines = new JTextField();
-        this.textFieldLines.setBounds(168, 12, 86, 20);
-        this.textFieldLines.setText("10");
+        this.textFieldLines.setBounds(160, 12, 90, 20);
+        this.textFieldLines.setText("lines");
         this.textFieldLines.setColumns(10);
         contentPane.add(this.textFieldLines);
 
-        JLabel lblY = new JLabel("Y");
-        lblY.setBounds(156, 43, 6, 14);
-        contentPane.add(lblY);
-
         this.textFieldColumns = new JTextField();
-        this.textFieldColumns.setBounds(168, 40, 86, 20);
-        this.textFieldColumns.setText("10");
+        this.textFieldColumns.setBounds(260, 12, 90, 20);
+        this.textFieldColumns.setText("columns");
         this.textFieldColumns.setColumns(10);
         contentPane.add(this.textFieldColumns);
 
-        this.buttonEdit = new JButton("Edit Map");
-        this.buttonEdit.setBounds(36, 60, 110, 23);
+        this.buttonEdit = new JButton("Edit map");
+        this.buttonEdit.setBounds(10, 60, 140, 23);
         this.buttonEdit.addActionListener(mainController);
         contentPane.add(this.buttonEdit);
 
-        this.buttonNewGame = new JButton("New Game");
-        this.buttonNewGame.setBounds(36, 140, 110, 23);
-        this.buttonNewGame.addActionListener(mainController);
-        contentPane.add(this.buttonNewGame);
-        
-        this.buttonLoad = new JButton("Load Game");
-        this.buttonLoad.setBounds(36, 180, 110, 23);
+        this.buttonLoad = new JButton("Load game");
+        this.buttonLoad.setBounds(10, 110, 140, 23);
         this.buttonLoad.addActionListener(mainController);
         contentPane.add(this.buttonLoad);
-    }
 
+        this.buttonNewGame = new JButton("New game");
+        this.buttonNewGame.setBounds(10, 160, 140, 23);
+        this.buttonNewGame.addActionListener(mainController);
+        contentPane.add(this.buttonNewGame);
+
+    }
 
 }

@@ -47,10 +47,24 @@ public class MainController implements Runnable, ActionListener {
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == this.mainFrame.buttonCreate) {
 
+            int lineCount;
+            int columnCount;
+
             String lineText = this.mainFrame.textFieldLines.getText();
-            int lineCount = Integer.parseInt(lineText);
+            try {
+                lineCount = Integer.parseInt(lineText);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "The number of lines must be an integer!", "Invalid lines value", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             String columnText = this.mainFrame.textFieldColumns.getText();
-            int columnCount = Integer.parseInt(columnText);
+            try {
+                columnCount = Integer.parseInt(columnText);
+            } catch(NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "The number of columns must be an integer!", "Invalid columns value", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             if (lineCount < 5) {
                 JOptionPane.showMessageDialog(null, "The height of the new grid must be at least 5!", "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
@@ -100,7 +114,7 @@ public class MainController implements Runnable, ActionListener {
                 game.loadGame(filePath);
               }
         }
-        
+
     }
 
 

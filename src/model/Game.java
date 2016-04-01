@@ -37,6 +37,12 @@ public class Game extends Observable {
     private static final int CRITTERS_PER_WAVE = 3;
 
     /**
+     * Number of waves the player has to go through before
+     * winning the game.
+     */
+    private static final int WAVES_TO_WIN = 3;
+
+    /**
      * List of available towers that the user can buy.
      */
     public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
@@ -312,9 +318,10 @@ public class Game extends Observable {
 
             // No critter to more forward on the path at this location,
             // or the critter is frozen!
-            if (critter == null || critter.isFrozen()) {
+            if (critter == null || !critter.shouldMove()) {
                 continue;
             }
+            critter.move();
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
 
@@ -371,6 +378,10 @@ public class Game extends Observable {
         return this.lives <= 0;
     }
 
+    public boolean isWon() {
+        return this.wave > Game.WAVES_TO_WIN;
+    }
+
     /**
      * Determines if a current game turn is happening.
      *
@@ -401,10 +412,10 @@ public class Game extends Observable {
     }
 
 
-    public void saveGame(String savedgame){      
-        Store.saveGame(this, savedgame);     
+    public void saveGame(String savedgame){
+        Store.saveGame(this, savedgame);
     }
-    
+
     public void loadGame(String savedgame){
     Store.loadGame(this, savedgame);
     }
