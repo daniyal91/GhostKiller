@@ -20,6 +20,8 @@ public abstract class Tower {
      * Refund rate of the towers.
      */
     public static double REFUND_RATE = 0.40;
+    public static int idCounter=-3;
+    public  int towerID;
 
     /**
      * Statistics elements of the tower.
@@ -56,6 +58,7 @@ public abstract class Tower {
      */
     public Tower() {
         this.setDetails();
+        towerID=++idCounter;
     }
 
     /**
@@ -67,7 +70,7 @@ public abstract class Tower {
         this.setDetails();
         this.location = location;
         System.out.println("Setting the gridlocation" + this.location);
-    }
+       }
 
     /**
      * Sets the internal details of the tower.

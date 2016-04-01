@@ -17,7 +17,6 @@ public class GameLog implements Observer{
     private Game game;
     private GameController gamecontroller;
     private String oldlog="";
-
     
     private SimpleDateFormat longfrmt = new SimpleDateFormat("dd MMM HH:mm:ss");
     private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
@@ -37,10 +36,11 @@ public class GameLog implements Observer{
         if (game.logfile==null){    
             Calendar cal = Calendar.getInstance();
             game.logfile=longfrmt.format(cal.getTime()).replaceAll(":", "-");;
+            game.logfile="GameLog-"+game.logfile;
             System.out.println( game.logfile);
         }
 
-        PrintWriter pr;
+        PrintWriter pr,prt,prc;
         try {
 
             pr = new PrintWriter(new BufferedWriter(new FileWriter(game.logfile, true)));

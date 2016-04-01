@@ -11,6 +11,8 @@ public class Critter {
     public static int HEALTH_POINTS_PER_LEVEL = 30;
     public static int SPEED_PER_LEVEL = 20;
     public static int REWARD_PER_LEVEL = 50;
+    public static int idCount= 0;
+    public int critterID ;
 
     public GridLocation gridLocation;
 
@@ -30,6 +32,7 @@ public class Critter {
         this.gridLocation = gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * level;
         this.level = level;
+        this.critterID=++idCount;
     }
 
     /**
@@ -41,6 +44,7 @@ public class Critter {
         this.gridLocation = critter.gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * critter.level;
         this.level = critter.level;
+        this.critterID=critter.critterID;
     }
 
     /**
