@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 
 import model.Game;
 import model.GameGrid;
+import model.GameLog;
 import model.tower.Tower;
 import views.GameView;
 
@@ -25,6 +26,7 @@ public class GameController implements MouseListener, ActionListener {
     //must be private
     public Game game;
     private GameView gameView;
+    private GameLog gameLog;
 
     /**
      * Constructs a new GameController object. Links the Game object to a GameView
@@ -36,7 +38,9 @@ public class GameController implements MouseListener, ActionListener {
     public GameController(Game game) {
         this.game = game;
         this.gameView = new GameView(game, this);
+        this.gameLog=new GameLog(game,this);
         this.game.addObserver(this.gameView);
+        this.game.addObserver(this.gameLog);
         this.gameView.show();
     }
 
@@ -84,7 +88,7 @@ public class GameController implements MouseListener, ActionListener {
                     this.gameView.showTowerDetails(tower);
                 } else if (this.gameView.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);
+                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);                  
                     this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
                     this.gameView.showTowerDetails(this.gameView.selectedTower);
                 }

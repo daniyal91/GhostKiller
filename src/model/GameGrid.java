@@ -36,6 +36,7 @@ public class GameGrid {
     };
 
     public int pathindex = 1;
+    public String mapname="";
 
     CASE_TYPES[][] cases;
     private Random randomGenerator = new Random();
@@ -116,10 +117,11 @@ public class GameGrid {
      */
     public void readFromFile(String filename, Boolean addRandomBushes) {
 
+        mapname=filename;
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
         int columns = 0; // n customer, k teams
-
+        
         // Using an ArrayList instead of standard arrays.
         this.cases = new CASE_TYPES[1][1]; //
         BufferedReader br = null;
