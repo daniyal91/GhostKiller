@@ -179,4 +179,9 @@ public class Critter {
     public int getMovementPoints() {
         return this.movementPoints;
     }
+
+    public boolean isFrozen() {
+        // TODO Auto-generated method stub
+        return this.isFrozen();
+    }
 }
