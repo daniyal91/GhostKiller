@@ -68,13 +68,13 @@ public class GameController implements MouseListener, ActionListener {
             this.game.sendWave();
             System.out.print("play");
         }
-        
+
       //calls the method "save"
         else if (event.getSource()==this.gameView.saveButton){
             this.game.saveGame("newsavedgame");
             System.out.print("save");
         }
-        
+
         // The user clicked on a tile on the game grid.
         else {
             JButton buttonClicked = (JButton) event.getSource();
@@ -88,9 +88,11 @@ public class GameController implements MouseListener, ActionListener {
                     this.gameView.showTowerDetails(tower);
                 } else if (this.gameView.selectedTower != null) {
                     Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);                  
-                    this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
-                    this.gameView.showTowerDetails(this.gameView.selectedTower);
+                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);
+                    if (this.game.getTower(towerLocation.x, towerLocation.y) != null) {
+                        this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
+                        this.gameView.showTowerDetails(this.gameView.selectedTower);
+                    }
                 }
             }
         }
