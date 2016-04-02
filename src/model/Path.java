@@ -161,6 +161,22 @@ public class Path {
         return true;
     }
 
+    
+    /**
+     * Returns the String consists of GridLocations in the shortest path 
+     */
+    public String toString() {
+        String pathstr="";
+        this.shortestPath = this.calculateShortestPath();
+        pathstr+="["+shortestPath.get(0).x+","+shortestPath.get(0).y+"]";
+        Iterator<GridLocation> itr = shortestPath.iterator();
+        while (itr.hasNext()) {
+            pathstr+="["+itr.next().x+","+itr.next().y+"]";
+        }
+
+        return pathstr;
+    }
+
 
 }
 

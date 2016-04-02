@@ -23,6 +23,7 @@ public class Critter {
      */
     public static int INITIAL_SPEED = 30;
 
+
     /**
      * Reward for killing the critter, relative
      * to it's health points.
@@ -39,6 +40,11 @@ public class Critter {
      */
     public static int SPEED_PER_LEVEL = 10;
 
+
+
+    public static int idCount=0;
+
+    public int critterID;
     public GridLocation gridLocation;
 
     private int healthPoints;
@@ -58,6 +64,7 @@ public class Critter {
         this.gridLocation = gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * level;
         this.level = level;
+        this.critterID=++idCount;
     }
 
     /**
@@ -69,6 +76,7 @@ public class Critter {
         this.gridLocation = critter.gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * critter.level;
         this.level = critter.level;
+        this.critterID=critter.critterID;
     }
 
     /**
@@ -175,4 +183,10 @@ public class Critter {
     public int getMovementPoints() {
         return this.movementPoints;
     }
+
+    public boolean isFrozen() {
+        // TODO Auto-generated method stub
+        return this.isFrozen();
+    }
+
 }
