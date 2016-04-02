@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,6 +22,8 @@ public class GameLog implements Observer{
     
     private SimpleDateFormat longfrmt = new SimpleDateFormat("dd MMM HH:mm:ss");
     private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
+    
+    private HashMap<String, String> indlogs = new HashMap<String, String>();
     
     public GameLog(Game game, GameController gamecontroller) {
         this.game = game;
@@ -73,8 +77,10 @@ public class GameLog implements Observer{
         init=longfrmt.format(cal.getTime())+"  Game Started \n";
         init+="Game Grid ("+game.grid.mapname+") : "+game.grid.cases.length+" x "+game.grid.cases[0].length+"\n";
         init+="Map Entry Point : "+game.grid.entryPoint()+" | Map Exit Point : "+game.grid.exitPoint()+" \n";
-        init+="Path : "+game.shortestPath+" \n";
-             
+        init+="Starting health = "+game.getLives()+"\n";
+        init+="Starting money = "+game.getMoney()+" units\n";
+        
+                    
         return init;
     }
 
