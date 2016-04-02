@@ -2,7 +2,6 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -30,7 +29,7 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 3;
+    public static final int INITIAL_LIVES = 7;
 
     /**
      * Number of critters released per wave.
@@ -291,7 +290,7 @@ public class Game extends Observable {
             if (attackedLocation != null) {
                 this.attackedCritters.add(attackedLocation);
             }
-        } 
+        }
 
     }
 
@@ -339,7 +338,7 @@ public class Game extends Observable {
                 continue;
             }
             critter.move();
-         
+
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
             if (nextLocation != null) {
                 log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";

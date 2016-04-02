@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controllers.GameController;
+import model.Critter;
 import model.Game;
 import model.GameGrid;
 import model.GridLocation;
@@ -47,12 +47,15 @@ public class GameView implements Observer {
     public JButton upgradeTowerButton;
     public JComboBox<String> strategyComboBox;
     public Tower selectedTower;
+    public Critter selectedCritter;
 
     private JButton[][] tiles;
     private JFrame gameFrame;
     private JLabel cashLabel;
     private JLabel lifeLabel;
     private JFrame towerInspectionFrame;
+    private JFrame critterInspectionFrame;
+
     private GameController gameController;
 
     /**
@@ -64,9 +67,16 @@ public class GameView implements Observer {
      */
     public GameView(Game game, GameController controller) {
 
+        int row = game.grid.getCases().length;
+        int col = game.grid.getCases()[0].length;
+
         this.gameFrame = new JFrame("Tower defense game");
         this.gameController = controller;
         this.towerInspectionFrame = new JFrame("Tower Inspection");
+        this.towerInspectionFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
+
+        this.critterInspectionFrame = new JFrame("Critter Inspection");
+        this.critterInspectionFrame.setBounds(450 + 530 * col / 10, 160, 230, 100);
 
         // mainPane to add all other panels
         JPanel mainPane = new JPanel();
@@ -74,11 +84,7 @@ public class GameView implements Observer {
         mainPane.setLayout(new BorderLayout(0, 0));
         this.gameFrame.setContentPane(mainPane);
 
-        int row = game.grid.getCases().length;
-        int col = game.grid.getCases()[0].length;
-        this.towerInspectionFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
         JPanel map = new JPanel(new GridLayout(row, col, 0, 0));
-
         this.tiles = new JButton[row][col];
 
         for (int i = 0; i < row * col; i++) {
@@ -203,6 +209,10 @@ public class GameView implements Observer {
         this.cashLabel.setText("$" + game.getMoney());
         this.lifeLabel.setText("" + game.getLives());
 
+        if (this.selectedCritter != null) {
+            this.showCritterDetails(this.selectedCritter);
+        }
+
         if (game.isOver()) {
             JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
@@ -230,7 +240,7 @@ public class GameView implements Observer {
      * @param column Column where to place the critter.
      */
     private void placeCritter(int line, int column) {
-        this.tiles[line][column].setIcon(new ImageIcon("icons/critter.jpg"));
+        this.tiles[line][column].setIcon(new ImageIcon(Critter.ICON_PATH));
 
     }
 
@@ -265,26 +275,82 @@ public class GameView implements Observer {
      *
      * @return The Coordinates of the button clicked.
      */
-    public Point getButtonLocation(JButton button) {
+    public GridLocation getButtonLocation(JButton button) {
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles[0].length; j++) {
                 if (this.tiles[i][j] == button) {
-                    return new Point(i, j);
+                    return new GridLocation(i, j);
                 }
             }
         }
         return null;
     }
+    /**
+    *
+    * Shows the details of the critter in the critter inspection panel.
+    *
+    * @param critter critter to get the details from.
+    */
+   public void showCritterDetails(final Critter critter) {
+
+       // Open new window for tower inspection.
+       JPanel critterInspectionPanel = new JPanel();
+       critterInspectionPanel.setBackground(Color.DARK_GRAY);
+       this.critterInspectionFrame.setContentPane(critterInspectionPanel);
+
+       JPanel critterImagePanel = new JPanel();
+       critterInspectionPanel.add(critterImagePanel, BorderLayout.NORTH);
+       JLabel towerImage = new JLabel(new ImageIcon(Critter.ICON_PATH));
+       towerImage.setBackground(Color.DARK_GRAY);
+       critterImagePanel.setBackground(Color.DARK_GRAY);
+       critterImagePanel.add(towerImage);
+
+       // Tower Details
+       JPanel critterDetailsPanel = new JPanel();
+       critterDetailsPanel.setBackground(Color.DARK_GRAY);
+       critterDetailsPanel.setLayout(new GridLayout(0, 2));
+       critterInspectionPanel.add(critterDetailsPanel, BorderLayout.SOUTH);
+
+       // Critter Level
+       JLabel critterLevelTxt = new JLabel("Level: ");
+       critterLevelTxt.setForeground(Color.white);
+       critterDetailsPanel.add(critterLevelTxt);
+       JLabel critterLevel = new JLabel(Integer.toString(critter.getLevel()));
+       critterLevel.setForeground(Color.white);
+       critterDetailsPanel.add(critterLevel);
+
+       // Critter health
+       JLabel critterHealthTxt = new JLabel("Health: ");
+       critterHealthTxt.setForeground(Color.white);
+       critterDetailsPanel.add(critterHealthTxt);
+       JLabel critterHealth = new JLabel(Integer.toString(critter.getHealthPoints()));
+       critterHealth.setForeground(Color.white);
+       critterDetailsPanel.add(critterHealth);
+
+       // Critter health
+       JLabel critterSpeedTxt = new JLabel("Speed: ");
+       critterSpeedTxt.setForeground(Color.white);
+       critterDetailsPanel.add(critterSpeedTxt);
+       JLabel critterSpeed = new JLabel(Integer.toString(critter.getSpeed()));
+       critterSpeed.setForeground(Color.white);
+       critterDetailsPanel.add(critterSpeed);
+
+       // Critter health
+       JLabel critterFrozenTxt = new JLabel("Is frozen: ");
+       critterFrozenTxt.setForeground(Color.white);
+       critterDetailsPanel.add(critterFrozenTxt);
+       JLabel critterFrozen = new JLabel(Boolean.toString(critter.isFrozen()));
+       critterFrozen.setForeground(Color.white);
+       critterDetailsPanel.add(critterFrozen);
+
+       critterInspectionFrame.setVisible(true);
+   }
 
     /**
      *
      * Shows the details of the tower in the tower inspection panel.
      *
      * @param tower Tower to get the details from.
-     * @param placedOnTile Determines if the tower is a tower placed on the game or a tower template.
-     * @param x x coordinate of the tower.
-     * @param y y coordinate of the tower.
-     * @param game Game object associated with the current view.
      */
     public void showTowerDetails(final Tower tower) {
 

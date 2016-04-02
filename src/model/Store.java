@@ -71,10 +71,7 @@ public class Store {
             exception.printStackTrace();
         }
 
-
-
     }
-
 
     static void loadGame(Game newgame, String filename) {
 
