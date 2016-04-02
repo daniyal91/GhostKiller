@@ -11,6 +11,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 import controllers.GameController;
 
@@ -23,7 +26,7 @@ public class GameLog implements Observer{
     private SimpleDateFormat longfrmt = new SimpleDateFormat("dd MMM HH:mm:ss");
     private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
     
-    private HashMap<String, String> indlogs = new HashMap<String, String>();
+    private HashMap<String, Set<String>> logMap = new HashMap<String, Set<String>>();
     
     public GameLog(Game game, GameController gamecontroller) {
         this.game = game;
@@ -59,6 +62,12 @@ public class GameLog implements Observer{
             if (!game.log.equals(oldlog) && game.log!=""){
             pr.println(shortfrmt.format(cal.getTime())+"   -> ");
             pr.println(game.log);
+            }
+            
+            String key=game.log.split("]")[0]; 
+            System.out.println(key);
+            if (game.isOver()){
+                pr.println("over");
             }
             oldlog=game.log;
             pr.close();
