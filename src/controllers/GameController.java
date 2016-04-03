@@ -9,9 +9,11 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import model.Critter;
 import model.Game;
 import model.GameGrid;
 import model.GameLog;
+import model.GridLocation;
 import model.tower.Tower;
 import views.GameView;
 
@@ -50,8 +52,36 @@ public class GameController implements MouseListener, ActionListener {
     @Override
     public void mouseClicked(MouseEvent event) {
 
+        if (event.getSource() instanceof JButton && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
+            JButton buttonClicked = (JButton) event.getSource();
+            GridLocation clickLocation = this.gameView.getButtonLocation(buttonClicked);
+            System.out.println("This is in the click event");
+            System.out.print(clickLocation);
+            GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
+            if (this.game.hasCritter(clickLocation)) {
+                System.out.println("This is a test");
+                Critter critter = this.game.critters.get(clickLocation);
+                this.gameView.selectedCritter = critter;
+                this.gameView.showCritterDetails(critter);
+            } else if (caseType == GameGrid.CASE_TYPES.GRASS) {
+                if (this.gameView.selectedTower == null && this.game.hasTower(clickLocation.x, clickLocation.y)) {
+                    Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
+                    this.gameView.selectedTower = tower;
+                    this.gameView.showTowerDetails(tower);
+                } else if (this.gameView.selectedTower != null) {
+                    Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
+                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);
+                    if (this.game.getTower(towerLocation.x, towerLocation.y) != null) {
+                        this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
+                        this.gameView.showTowerDetails(this.gameView.selectedTower);
+                    }
+                }
+            }
+            return;
+        }
+
         // We refuse to listen to the user actions during a wave.
-        if (event.getSource()!=this.gameView.saveButton && this.game.isMakingTurn()) {
+        if (event.getSource() != this.gameView.saveButton && this.game.isMakingTurn()) {
             return;
         }
 
@@ -73,28 +103,6 @@ public class GameController implements MouseListener, ActionListener {
         else if (event.getSource()==this.gameView.saveButton){
             this.game.saveGame("newsavedgame");
             System.out.print("save");
-        }
-
-        // The user clicked on a tile on the game grid.
-        else {
-            JButton buttonClicked = (JButton) event.getSource();
-            //   if (buttonClicked) {}
-            Point clickLocation = this.gameView.getButtonLocation(buttonClicked);
-            GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
-            if (caseType == GameGrid.CASE_TYPES.GRASS) {
-                if (this.gameView.selectedTower == null && this.game.hasTower(clickLocation.x, clickLocation.y)) {
-                    Tower tower = this.game.getTower(clickLocation.x, clickLocation.y);
-                    this.gameView.selectedTower = tower;
-                    this.gameView.showTowerDetails(tower);
-                } else if (this.gameView.selectedTower != null) {
-                    Point towerLocation = this.gameView.getButtonLocation(buttonClicked);
-                    this.game.buyTower(this.gameView.selectedTower, towerLocation.x, towerLocation.y);
-                    if (this.game.getTower(towerLocation.x, towerLocation.y) != null) {
-                        this.gameView.selectedTower = this.game.getTower(towerLocation.x, towerLocation.y);
-                        this.gameView.showTowerDetails(this.gameView.selectedTower);
-                    }
-                }
-            }
         }
 
     }

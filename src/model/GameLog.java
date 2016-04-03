@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -13,21 +12,19 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import com.sun.javafx.collections.MappingChange.Map;
-
 import controllers.GameController;
 
-public class GameLog implements Observer{
+public class GameLog implements Observer {
 
     private Game game;
     private GameController gamecontroller;
     private String oldlog="";
-    
+
     private SimpleDateFormat longfrmt = new SimpleDateFormat("dd MMM HH:mm:ss");
     private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
-    
+
     private HashMap<String, Set<String>> logMap = new HashMap<String, Set<String>>();
-    
+
     public GameLog(Game game, GameController gamecontroller) {
         this.game = game;
         this.gamecontroller = gamecontroller;
@@ -38,9 +35,9 @@ public class GameLog implements Observer{
     @Override
     public void update(Observable observable, Object object) {
         Game game = (Game) observable;
-        
 
-        if (game.logfile==null){    
+
+        if (game.logfile==null){
             Calendar cal = Calendar.getInstance();
             game.logfile=longfrmt.format(cal.getTime()).replaceAll(":", "-");;
             game.logfile="GameLog-"+game.logfile;
@@ -58,13 +55,13 @@ public class GameLog implements Observer{
                 game.startlog=false;
             }
             Calendar cal = Calendar.getInstance();
-           
+
             if (!game.log.equals(oldlog) && game.log!=""){
             pr.println(shortfrmt.format(cal.getTime())+"   -> ");
             pr.println(game.log);
             }
-            
-            String key=game.log.split("]")[0]; 
+
+            String key=game.log.split("]")[0];
             System.out.println(key);
             if (game.isOver()){
                 pr.println("over");
@@ -88,8 +85,8 @@ public class GameLog implements Observer{
         init+="Map Entry Point : "+game.grid.entryPoint()+" | Map Exit Point : "+game.grid.exitPoint()+" \n";
         init+="Starting health = "+game.getLives()+"\n";
         init+="Starting money = "+game.getMoney()+" units\n";
-        
-                    
+
+
         return init;
     }
 

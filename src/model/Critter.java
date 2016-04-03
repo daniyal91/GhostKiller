@@ -9,6 +9,11 @@ package model;
 public class Critter {
 
     /**
+     * Path of the image representing the critter.
+     */
+    public static String ICON_PATH = "icons/critter.jpg";
+
+    /**
      * Value after which the critter moves.
      */
     public static int MOVEMENT_THRESHOLD = 100;
@@ -41,7 +46,6 @@ public class Critter {
     public static int SPEED_PER_LEVEL = 10;
 
 
-
     public static int idCount=0;
 
     public int critterID;
@@ -52,7 +56,6 @@ public class Critter {
     private int burningDamage = 0;
     private int movementPoints = 0;
     private boolean isFrozen = false;
-    private boolean wasFreezed = false;
 
     /**
      * Constructor method for a Critter.
@@ -186,7 +189,11 @@ public class Critter {
 
     public boolean isFrozen() {
         // TODO Auto-generated method stub
-        return this.isFrozen();
+        return this.isFrozen;
+    }
+
+    public int getSpeed() {
+        return Critter.INITIAL_SPEED + (Critter.SPEED_PER_LEVEL * this.level);
     }
 
 }
