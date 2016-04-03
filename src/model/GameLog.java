@@ -11,8 +11,13 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-
 import controllers.GameController;
+/**
+ * It implements the Observer interface to get
+ * informed of changes in the Game class objects.
+ * @author Team 6
+ *
+ */
 
 public class GameLog implements Observer {
 
@@ -24,13 +29,16 @@ public class GameLog implements Observer {
     private SimpleDateFormat shortfrmt = new SimpleDateFormat("HH:mm:ss");
 
     private HashMap<String, Set<String>> logMap = new HashMap<String, Set<String>>();
+    /**
+     * Constructs the game log object.
+     * @param game an object of Game class representing the game 
+     * @param gamecontroller an object of GameController class representing game controller 
+     */
 
     public GameLog(Game game, GameController gamecontroller) {
         this.game = game;
         this.gamecontroller = gamecontroller;
     }
-
-
 
     @Override
     public void update(Observable observable, Object object) {
@@ -44,7 +52,9 @@ public class GameLog implements Observer {
             System.out.println( game.logfile);
         }
 
-        PrintWriter pr,prt,prc;
+        PrintWriter pr;
+        PrintWriter prt;
+        PrintWriter prc;
         try {
 
             pr = new PrintWriter(new BufferedWriter(new FileWriter(game.logfile, true)));
@@ -76,6 +86,11 @@ public class GameLog implements Observer {
         }
 
     }
+    /**
+     * Returns a string which shows the log
+     * @param game an object of Game class 
+     * @return a string representing initial log
+     */
 
     private String initialLog(Game game) {
         String init;
@@ -86,12 +101,7 @@ public class GameLog implements Observer {
         init+="Starting health = "+game.getLives()+"\n";
         init+="Starting money = "+game.getMoney()+" units\n";
 
-
         return init;
     }
-
-
-
-
 
 }
