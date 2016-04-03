@@ -29,7 +29,7 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 7;
+    public static final int INITIAL_LIVES = 3;
 
     /**
      * Number of critters released per wave.
@@ -108,7 +108,8 @@ public class Game extends Observable {
         this.money -= tower.getInitialCost();
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
-        log="tower ["+newTower.towerID+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
+        log="tower   ["+newTower.towerID+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
+   
         this.addTower(newTower, line, column);
     }
 
@@ -122,7 +123,7 @@ public class Game extends Observable {
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
-        log="tower ["+tower.towerID+"] (" + tower.getName()+") level ("+tower.getLevel()+") at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded \n";
+        log="tower   ["+tower.towerID+"] (" + tower.getName()+") level ("+tower.getLevel()+") at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded \n";
         this.setChanged();
         this.notifyObservers();
     }
@@ -194,7 +195,7 @@ public class Game extends Observable {
         if (this.money >= tower.getLevelCost()) {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
-            log="tower ["+tower.towerID+"] (" + tower.getName()+") at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
+            log="tower   ["+tower.towerID+"] (" + tower.getName()+") at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
             this.setChanged();
             this.notifyObservers();
         }
@@ -297,7 +298,7 @@ public class Game extends Observable {
             }
             attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
             if (tower.attack(aliveCritters, this.grid.entryPoint()) !=null){
-                log+="tower ["+this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] at "+tower.getLocation()+" Attacked critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+                log+="tower   ["+this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] at "+tower.getLocation()+" Attacked critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
             }
             if (attackedLocation != null) {
                 this.attackedCritters.add(attackedLocation);
