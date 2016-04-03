@@ -12,8 +12,17 @@ import java.util.HashMap;
 import model.GameGrid.CASE_TYPES;
 import model.tower.Tower;
 import model.tower.TowerFactory;
-
+/**
+ * This class implements components to save the current game.
+ * @author Team 6
+ *
+ */
 public class Store {
+    /**
+     * Saves the current game with all attributes into a file.
+     * @param game an object of Game class representing the current game.
+     * @param filename a string representing the file name
+     */
 
     static void saveGame(Game game,String filename){
         PrintWriter pr;
@@ -72,6 +81,11 @@ public class Store {
         }
 
     }
+    /**
+     * Loads a saved game from a file.
+     * @param newgame an object of Game class representing the saved game
+     * @param filename a string representing the file name
+     */
 
     static void loadGame(Game newgame, String filename) {
 

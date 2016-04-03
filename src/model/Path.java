@@ -2,7 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/**
+ * This class implements components for calculating shortest path, finding neighbors with minimum distance, getting next location on the path and calculating if a location is on the path.
+ * @author Team 6
+ *
+ */
 public class Path {
 
     /**

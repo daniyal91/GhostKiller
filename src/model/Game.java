@@ -76,11 +76,15 @@ public class Game extends Observable {
 
     /**
      * Gets the current amount of money the player has.
-     *
+     * @return an integer representing the amount of money the player has
      */
     public int getMoney() {
         return this.money;
     }
+    /**
+     * Sets the current amount of the money the player has
+     * @param money an integer representing amount of money the player has
+     */
 
     public void setMoney(int money) {
         this.money = money;
@@ -162,10 +166,18 @@ public class Game extends Observable {
         Point location = new Point(line, column);
         return this.towers.get(location);
     }
+    /**
+     * Gets the towers.
+     * @return towers 
+     */
 
     public HashMap<Point, Tower> getTowers() {
         return towers;
     }
+    /**
+     * Sets the towers.
+     * @param towers a hashMap representing the towers and their points
+     */
 
     public void setTowers(HashMap<Point, Tower> towers) {
         this.towers = towers;
@@ -390,6 +402,11 @@ public class Game extends Observable {
     public int getLives() {
         return lives;
     }
+    /**
+     * Sets the remaining lives of the player.
+     * @param lives an integer representing the remaining lives of the player.
+     */
+
 
     public void setLives(int lives) {
         this.lives = lives;
@@ -436,18 +453,27 @@ public class Game extends Observable {
         this.wave++;
         this.crittersReleased = 0;
     }
-
+    /**
+     * Prints the statues of the game on the console.
+     */
 
     public void gameState(){
         System.out.println(this.grid.getCases());
         System.out.println(this.grid.getCases()[0].length);
 
     }
-
+    /**
+     * Saves the current game.
+     * @param savedgame a string representing the file name of the saving game
+     */
 
     public void saveGame(String savedgame){
         Store.saveGame(this, savedgame);
     }
+    /**
+     * Loads the saved game.
+     * @param savedgame a string representing the file name of the saved game
+     */
 
     public void loadGame(String savedgame){
         Store.loadGame(this, savedgame);

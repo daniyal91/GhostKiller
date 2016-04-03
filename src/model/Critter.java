@@ -157,10 +157,18 @@ public class Critter {
     public int getHealthPoints() {
         return healthPoints;
     }
+    /**
+     * Gets the level.
+     * @return an integer representing the speed
+     */
 
     public int getLevel() {
         return level;
     }
+    /**
+     * Sets the level.
+     * @param level an integer representing the speed
+     */
 
     public void setLevel(int level) {
         this.level = level;
@@ -174,23 +182,41 @@ public class Critter {
         String template = "Critter level %s at position %s with %s remaining health points";
         return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
     }
+    /**
+     * Checks if movement threshold is reached.
+     * @return true if critter can still be moved otherwise false
+     */
 
     public boolean shouldMove() {
         return this.movementPoints >= Critter.MOVEMENT_THRESHOLD;
     }
+    /**
+     * Decreases the movement points by movement threshold.
+     */
 
     public void move() {
         this.movementPoints -= Critter.MOVEMENT_THRESHOLD;
     }
+    /**
+     * returns the movement points.
+     * @return an integer representing the movement points
+     */
 
     public int getMovementPoints() {
         return this.movementPoints;
     }
-
+    /**
+     * Checks if the critter is frozen.
+     * @return true if the critter is frozen otherwise false
+     */
     public boolean isFrozen() {
         // TODO Auto-generated method stub
         return this.isFrozen;
     }
+    /**
+     * Returns the critter's speed.
+     * @return an integer representing the critter's speed
+     */
 
     public int getSpeed() {
         return Critter.INITIAL_SPEED + (Critter.SPEED_PER_LEVEL * this.level);

@@ -156,22 +156,31 @@ public abstract class Tower {
     public int getRateOfFire() {
         return rateOfFire;
     }
+    /**
+     * Gets the attack's strategy.
+     * @return an object of AttackStrategy class representing the attack strategy
+     */
 
     public AttackStrategy getAttackStrategy() {
         return this.attackStrategy;
     }
+    /**
+     * Sets the attack's strategy.
+     * @param attackStrategy an object of AttackStrategy class representing the attack strategy
+     */
 
     public void setAttackStrategy(AttackStrategy attackStrategy) {
         this.attackStrategy = attackStrategy;
     }
-
+    /**
+     * Sets the attack's strategy.
+     * @param attackStrategy a string representing the attack's strategy
+     */
 
     public void setAttackStrategy(String attackStrategy) {
         System.out.println("Setting new attack strategy" + attackStrategy.toString());
         this.attackStrategy = AttackStrategyFactory.createStrategy(attackStrategy);
     }
-
-
 
     /**
      * Returns a textual representation of the tower.
@@ -200,10 +209,18 @@ public abstract class Tower {
         this.range *= 2;
         this.rateOfFire *= 2;
     }
+    /**
+     * Gets the special effects.
+     * @return a string representing the special effects
+     */
 
     public String getSpecialEffect() {
         return this.specialEffect;
     }
+    /**
+     * Sets the location on the grid.
+     * @param gridLocation an object of GridLocation class
+     */
 
     public void setLocation(GridLocation gridLocation) {
         this.location = gridLocation;
