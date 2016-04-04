@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -168,7 +169,7 @@ public class Game extends Observable {
     }
     /**
      * Gets the towers.
-     * @return towers 
+     * @return towers
      */
 
     public HashMap<Point, Tower> getTowers() {
@@ -262,7 +263,6 @@ public class Game extends Observable {
             critter.makeTurn();
         }
 
-
         this.moveCritters();
         //this.setChanged();
         //this.notifyObservers();
@@ -274,12 +274,19 @@ public class Game extends Observable {
             this.endTurn();
         }
 
-
-
+        if (this.isOver() || this.isWon()) {
+            GameScore gameScore = new GameScore();
+            gameScore.datePlayed = new Date(System.currentTimeMillis());
+            gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * this.wave - 1) + (Game.CRITTERS_PER_WAVE - this.critters.size());
+            gameScore.won = this.isWon();
+            this.grid.addGameScore(gameScore);
+            this.grid.writeToFile();
+        }
         this.gameState();
         this.setChanged();
         this.notifyObservers();
-        log="";
+        log = "";
+
     }
 
     /**
