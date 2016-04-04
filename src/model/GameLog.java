@@ -1,26 +1,22 @@
 package model;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 import java.util.Set;
+
 import controllers.GameController;
 /**
  * It implements the Observer interface to get
@@ -63,8 +59,6 @@ public class GameLog implements Observer {
         }
 
         PrintWriter pr;
-        PrintWriter prt;
-        PrintWriter prc;
         try {
 
             pr = new PrintWriter(new BufferedWriter(new FileWriter(game.logfile, true)));
@@ -108,7 +102,7 @@ public class GameLog implements Observer {
             }
 
             //after the game is over
-            if (game.isOver()){
+            if (game.isOver() || game.isWon()){
                 pr.println("-----------object logs----------------------------------");
                 Iterator it = logMap.entrySet().iterator();
                 while (it.hasNext()) {

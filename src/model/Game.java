@@ -277,6 +277,11 @@ public class Game extends Observable {
             this.endTurn();
         }
 
+
+        if(this.isWon()) {
+            log+="Player Won the Game !! \n";
+        }
+
         if (this.isOver() || this.isWon()) {
             GameScore gameScore = new GameScore();
             gameScore.datePlayed = new Date(System.currentTimeMillis());
@@ -310,7 +315,8 @@ public class Game extends Observable {
                 log+="tower   ["+this.getTower(tower.getLocation().x,tower.getLocation().y).getTowerID()+"] at "
                         +tower.getLocation()+" Attacked a critter at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
                 log+="critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] attacked by tower ["
-                        +this.getTower(tower.getLocation().x,tower.getLocation().y).getTowerID()+"] and lost one life ";
+                        +this.getTower(tower.getLocation().x,tower.getLocation().y).getTowerID()+"] and lost one life \n";
+                //  (this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).getHealthPoints()==0? "":"\n");
                 tower.settLog("Attcked Citter"+this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID);
 
             }
@@ -407,7 +413,7 @@ public class Game extends Observable {
             if (!critter.isDead()) {
                 critters.put(critter.gridLocation, critter);
             } else {
-                log+="and has been neutralized at " +critter.gridLocation+"\n";
+                log+="critter ["+critter.critterID+ "] has been neutralized at " +critter.gridLocation+"\n";
                 this.money += critter.getReward();
             }
         }

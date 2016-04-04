@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+    GameLogTestCase.class,
     GameGridTestCase.class,
     GridLocationTestCase.class,
     GameTestCase.class,
@@ -14,7 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
     CritterTestCase.class,
     PathTestCase.class,
     GameScoreTestCase.class
-    })
+     })
 
 public class TestSuite {
 }
