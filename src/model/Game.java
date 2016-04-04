@@ -47,7 +47,7 @@ public class Game extends Observable {
      */
     public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
     public int deadCount=INITIAL_LIVES;
-    
+
     public GameGrid grid;
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
@@ -110,7 +110,7 @@ public class Game extends Observable {
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
         log="tower   ["+newTower.towerID+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
-   
+
         this.addTower(newTower, line, column);
     }
 
@@ -303,7 +303,11 @@ public class Game extends Observable {
             }
             attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
             if (tower.attack(aliveCritters, this.grid.entryPoint()) !=null){
-                log+="tower   ["+this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] at "+tower.getLocation()+" Attacked critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+                log+="tower   ["+this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] at "
+                        +tower.getLocation()+" Attacked a critter at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+                log+="critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] attacked by tower ["
+                        +this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] and lost one life ";
+
             }
             if (attackedLocation != null) {
                 this.attackedCritters.add(attackedLocation);
@@ -359,11 +363,11 @@ public class Game extends Observable {
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
             if (nextLocation != null) {
-               if (deadCount==this.lives)
-                 log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                if (deadCount==this.lives)
+                    log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
                 else {
-                 log+="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
-                 deadCount--;
+                    log+="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                    deadCount--;
                 }
             }
 
@@ -398,7 +402,7 @@ public class Game extends Observable {
             if (!critter.isDead()) {
                 critters.put(critter.gridLocation, critter);
             } else {
-                log+="critter ["+critter.critterID+"] at " +critter.gridLocation+" is Dead ! \n";
+                log+="and has been neutralized at " +critter.gridLocation+"\n";
                 this.money += critter.getReward();
             }
         }
