@@ -46,7 +46,8 @@ public class Game extends Observable {
      * List of available towers that the user can buy.
      */
     public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
-
+    public int deadCount=INITIAL_LIVES;
+    
     public GameGrid grid;
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
     public ArrayList<GridLocation> attackedCritters;
@@ -276,7 +277,6 @@ public class Game extends Observable {
         }
 
 
-
         this.gameState();
         this.setChanged();
         this.notifyObservers();
@@ -354,7 +354,12 @@ public class Game extends Observable {
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
             if (nextLocation != null) {
-                log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+               if (deadCount==this.lives)
+                 log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                else {
+                 log+="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                 deadCount--;
+                }
             }
 
             // The critter has reached the exit!

@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -79,23 +81,27 @@ public class GameLog implements Observer {
             }
 
 
-            String[] lines = game.log.split("\n");
-            
+
+
+            String[] lines = game.log.split("\\\n");
+
+
             for (int i=0;i<lines.length;i++)
             {
+                lines[i]="@" + shortfrmt.format(cal.getTime())+" "+lines[i];
 
-                
-                if (lines[i].indexOf("[")==8) {
+                if (lines[i].indexOf("[")==18) {
 
-                    String key=lines[i].split("]")[0]+"]";
+                    //String key=lines[i].split("]")[0]+"]";
+                    String key=lines[i].substring(10, 21);
 
                     System.out.println("put with key :"+key);
                     if (logMap.containsKey(key)){
-                        logMap.get(key).add(game.log);
+                        logMap.get(key).add(lines[i]+"\n");
                     }
                     else {
                         List<String> newList=new ArrayList<String>();
-                        newList.add(game.log);
+                        newList.add(lines[i]+"\n");
                         logMap.put(key, newList);   
                     }
                 }
@@ -103,13 +109,20 @@ public class GameLog implements Observer {
 
 
             if (game.isOver()){
-
+                pr.println("--------------------------------------------------");
+                pr.println("-----------object logs----------------------------");
                 Iterator it = logMap.entrySet().iterator();
                 while (it.hasNext()) {
+
                     Map.Entry pair = (Map.Entry)it.next();
-                    System.out.println(pair.getKey() + "\n" + pair.getValue());
-                    System.out.println("----------------------------------------------");
-                    
+                    List<String> sList=(ArrayList<String>) pair.getValue();
+                    Set<String> hs =new LinkedHashSet<>();
+                    hs.addAll(sList);
+                    sList.clear();
+                    sList.addAll(hs);
+
+                    pr.println(pair.getKey() + "\n" + sList);
+                    pr.println();
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
