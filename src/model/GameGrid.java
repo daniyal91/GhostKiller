@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,15 +37,25 @@ public class GameGrid {
     };
 
     public int pathindex = 1;
-    public String mapname="";
+    public String filePath = "";
 
     CASE_TYPES[][] cases;
     private Random randomGenerator = new Random();
+
+    private ArrayList<GameScore> scores;
+
+    private Date dateCreated;
+
+    private Date dateModified;
 
     /**
      * Constructs an empty GameGrid.
      */
     public GameGrid() {
+        long currentTime = System.currentTimeMillis();
+        this.dateCreated = new Date(currentTime);
+        this.dateModified = new Date(currentTime);
+        this.scores = new ArrayList<GameScore>();
 
     }
 
@@ -55,6 +66,10 @@ public class GameGrid {
      * @param columnCount user's choice for length
      */
     public GameGrid(int lineCount, int columnCount) {
+        long currentTime = System.currentTimeMillis();
+        this.dateCreated = new Date(currentTime);
+        this.dateModified = new Date(currentTime);
+        this.scores = new ArrayList<GameScore>();
         this.cases = new CASE_TYPES[lineCount][columnCount];
         for (int i = 0; i < lineCount; i++) {
             for (int j = 0; j < columnCount; j++) {
@@ -64,13 +79,24 @@ public class GameGrid {
     }
 
     /**
+     * Saves the game grid to a file using the file path
+     * from where we loaded the game grid.
+     */
+    public void writeToFile() {
+        this.writeToFile(this.filePath);
+    }
+
+    /**
      * Writes a serialized version of the game grid to a file.
      *
      * @param filename name of the file to store the grid to.
      */
+    @SuppressWarnings("deprecation")
     public void writeToFile(String filename) {
 
-
+        // Writing the map to a file, so we need to update the
+        // modification date.
+        this.dateModified = new Date(System.currentTimeMillis());
 
         PrintWriter pr;
         try {
@@ -84,7 +110,16 @@ public class GameGrid {
                 }
             }
 
+            pr.println();
+            pr.println(this.dateCreated.toGMTString());
+            pr.println(this.dateModified.toGMTString());
+
+            for (GameScore gameScore: this.scores) {
+                pr.println(gameScore.toString());
+            }
+
             pr.close();
+
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
@@ -117,11 +152,11 @@ public class GameGrid {
      */
     public void readFromFile(String filename, Boolean addRandomBushes) {
 
-        mapname=filename;
+        filePath=filename;
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
         int columns = 0; // n customer, k teams
-        
+
         // Using an ArrayList instead of standard arrays.
         this.cases = new CASE_TYPES[1][1]; //
         BufferedReader br = null;
@@ -139,8 +174,9 @@ public class GameGrid {
             this.cases = new CASE_TYPES[rows][columns];
 
             // read other lines
-            while ((line = br.readLine()) != null) {
+            for (int j = 0; j < rows; j++) {
 
+                line = br.readLine();
                 // \\s+ means any number of white spaces between tokens
                 tokens = line.split("\\s+");
 
@@ -155,7 +191,17 @@ public class GameGrid {
 
                 linenumber = linenumber + 1; // next line (lane) information
 
-            } // while line
+            }
+
+            this.dateCreated = new Date(Date.parse(br.readLine()));
+            this.dateModified = new Date(Date.parse(br.readLine()));
+
+            while((line = br.readLine()) != null) {
+                GameScore gameScore = new GameScore();
+                gameScore.fromString(line);
+                this.scores.add(gameScore);
+            }
+            // while line
 
             br.close();
         } catch (IOException exception) {
@@ -380,6 +426,14 @@ public class GameGrid {
             return true;
         }
         return false;
+    }
+
+    public void addGameScore(GameScore gameScore) {
+        this.scores.add(gameScore);
+    }
+
+    public ArrayList<GameScore> getGameScores() {
+        return this.scores;
     }
 
 }

@@ -21,6 +21,7 @@ import controllers.GameController;
 import model.Critter;
 import model.Game;
 import model.GameGrid;
+import model.GameScore;
 import model.GridLocation;
 import model.strategy.AttackStrategyFactory;
 import model.tower.Tower;
@@ -162,6 +163,8 @@ public class GameView implements Observer {
         healthBankPanel.add(saveButton);
 
         this.gameFrame.setResizable(false);
+
+        JOptionPane.showMessageDialog(null, GameScore.displayHighScores(game.grid.getGameScores()), "High scores.", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
