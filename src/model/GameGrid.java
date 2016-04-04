@@ -29,11 +29,11 @@ public class GameGrid {
      * Images used to represent the different types of case types
      */
     public static String[] CASE_TYPES_ICON_PATHS = {
-            "icons/grass.jpg",
-            "icons/grass2.jpg",
-            "icons/road.jpg",
-            "icons/start.png",
-            "icons/end.png"
+                    "icons/grass.jpg",
+                    "icons/grass2.jpg",
+                    "icons/road.jpg",
+                    "icons/start.png",
+                    "icons/end.png"
     };
 
     public int pathindex = 1;
@@ -184,7 +184,7 @@ public class GameGrid {
                     int caseValue = Integer.parseInt(tokens[i]);
                     this.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
                     if (addRandomBushes && this.cases[linenumber][i] == CASE_TYPES.GRASS
-                            && randomGenerator.nextInt(100) > 92) {
+                                    && randomGenerator.nextInt(100) > 92) {
                         this.cases[linenumber][i] = CASE_TYPES.BUSH;
                     }
                 }
@@ -193,8 +193,8 @@ public class GameGrid {
 
             }
 
-            this.dateCreated = new Date(Date.parse(br.readLine()));
-            this.dateModified = new Date(Date.parse(br.readLine()));
+         //   this.dateCreated = new Date(Date.parse(br.readLine()));
+         //   this.dateModified = new Date(Date.parse(br.readLine()));
 
             while((line = br.readLine()) != null) {
                 GameScore gameScore = new GameScore();

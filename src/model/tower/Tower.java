@@ -20,9 +20,10 @@ public abstract class Tower {
      * Refund rate of the towers.
      */
     public static double REFUND_RATE = 0.40;
-    public static int idCounter=-3;
-    public  int towerID;
-
+    private static int idCounter=-3;
+    private  int towerID;
+    private String tLog="";
+    
     /**
      * Statistics elements of the tower.
      */
@@ -35,7 +36,7 @@ public abstract class Tower {
     protected int power;
     protected int rateOfFire;
 
-    public String tLog="llllg";
+    
     
     /**
      * Special effect of the tower.
@@ -94,6 +95,18 @@ public abstract class Tower {
      */
     public String getName() {
         return name;
+    }
+
+    public String gettLog() {
+        return tLog;
+    }
+
+    public void settLog(String tLog) {
+        this.tLog = tLog;
+    }
+
+    public int getTowerID() {
+        return towerID;
     }
 
     /**
