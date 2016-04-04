@@ -110,6 +110,7 @@ public class Game extends Observable {
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
         log="tower   ["+newTower.towerID+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
+        tower.tLog="Bought and placed at["+line+","+column+"]";
 
         this.addTower(newTower, line, column);
     }
@@ -197,6 +198,7 @@ public class Game extends Observable {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
             log="tower   ["+tower.towerID+"] (" + tower.getName()+") at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
+            tower.tLog="Upgraded to level"+tower.getLevel();
             this.setChanged();
             this.notifyObservers();
         }
@@ -213,6 +215,9 @@ public class Game extends Observable {
         this.crittersReleased = 0;
         this.gameThread = new GameThread(this);
         log="Wave "+this.wave+" started ! \n";
+        for (Tower tower: this.towers.values()) {
+            tower.tLog="waiting for critters!";
+        }
         gameThread.start();
     }
 
@@ -307,6 +312,7 @@ public class Game extends Observable {
                         +tower.getLocation()+" Attacked a critter at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
                 log+="critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] attacked by tower ["
                         +this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] and lost one life ";
+                tower.tLog="Attcked Citter"+this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID;
 
             }
             if (attackedLocation != null) {

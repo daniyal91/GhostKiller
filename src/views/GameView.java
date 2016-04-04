@@ -455,7 +455,10 @@ public class GameView implements Observer {
         JLabel towerSpecialEffects = new JLabel(tower.getSpecialEffect());
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
-
+        
+        
+       
+        
         if (placedOnTile) {
 
             JLabel refundAmountTxt = new JLabel("Refund Amount: ");
@@ -474,6 +477,16 @@ public class GameView implements Observer {
             this.strategyComboBox.addActionListener(this.gameController);
             towerDetailsPanel.add(this.strategyComboBox);
         }
+        
+        
+        // Tower Log 
+        JLabel towerLogtxt = new JLabel("Log: ");
+        towerLogtxt.setForeground(Color.white);
+        towerDetailsPanel.add(towerLogtxt);
+        JLabel towrLog = new JLabel(tower.tLog);
+        towrLog.setForeground(Color.white);
+        towerDetailsPanel.add(towrLog);
+        
 
         towerInspectionFrame.setVisible(true);
     }

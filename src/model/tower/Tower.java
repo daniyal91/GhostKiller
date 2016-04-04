@@ -35,6 +35,8 @@ public abstract class Tower {
     protected int power;
     protected int rateOfFire;
 
+    public String tLog="llllg";
+    
     /**
      * Special effect of the tower.
      * Currently only 1 special effect per
