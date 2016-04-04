@@ -26,7 +26,7 @@ public class Critter {
     /**
      * Initial speed of a new Critter.
      */
-    public static int INITIAL_SPEED = 100;
+    public static int INITIAL_SPEED = 30;
 
 
     /**

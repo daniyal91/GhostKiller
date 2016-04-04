@@ -55,8 +55,8 @@ public class GameController implements MouseListener, ActionListener {
         if (event.getSource() instanceof JButton && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
             JButton buttonClicked = (JButton) event.getSource();
             GridLocation clickLocation = this.gameView.getButtonLocation(buttonClicked);
-          //  System.out.println("This is in the click event");
-         //   System.out.print(clickLocation);
+            System.out.println("This is in the click event");
+            System.out.print(clickLocation);
             GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
             if (this.game.hasCritter(clickLocation)) {
                 System.out.println("This is a test");
@@ -99,7 +99,7 @@ public class GameController implements MouseListener, ActionListener {
             System.out.print("play");
         }
 
-      //calls the method "save"
+        //calls the method "save"
         else if (event.getSource()==this.gameView.saveButton){
             this.game.saveGame("newsavedgame");
             System.out.print("save");
