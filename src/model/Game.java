@@ -1,11 +1,10 @@
 package model;
 
 import java.awt.Point;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Observable;
-
 import model.GameGrid.CASE_TYPES;
 import model.tower.ExplosionTower;
 import model.tower.FireTower;
@@ -30,7 +29,7 @@ public class Game extends Observable {
     /**
      * Initial amount of lives the player has.
      */
-    public static final int INITIAL_LIVES = 7;
+    public static final int INITIAL_LIVES = 3;
 
     /**
      * Number of critters released per wave.
@@ -47,6 +46,7 @@ public class Game extends Observable {
      * List of available towers that the user can buy.
      */
     public static Tower[] AVAILABLE_TOWERS = {new FireTower(), new IceTower(), new ExplosionTower()};
+    public int deadCount=INITIAL_LIVES;
 
     public GameGrid grid;
     public HashMap<Point, Critter> critters = new HashMap<Point, Critter>();
@@ -109,7 +109,7 @@ public class Game extends Observable {
         this.money -= tower.getInitialCost();
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
-        log="tower ["+newTower.towerID+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
+        log="tower   ["+newTower.getTowerID()+"] ("+newTower.getName()+") "+"was bought and placed at ["+line+","+column+"] \n";
         this.addTower(newTower, line, column);
     }
 
@@ -123,7 +123,7 @@ public class Game extends Observable {
         Tower tower = this.getTower(line, column);
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
-        log="tower ["+tower.towerID+"] (" + tower.getName()+") level ("+tower.getLevel()+") at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded \n";
+        log="tower   ["+tower.getTowerID()+"] (" + tower.getName()+") level ("+tower.getLevel()+") at ["+line+","+column+"] has been sold and "+tower.refundAmout()+" money units has been refunded \n";
         this.setChanged();
         this.notifyObservers();
     }
@@ -138,6 +138,7 @@ public class Game extends Observable {
     public void addTower(Tower t, int line, int column) {
         Point location = new Point(line, column);
         this.towers.put(location, t);
+        t.settLog("Bought and placed at["+line+","+column+"]");
         this.setChanged();
         this.notifyObservers();
     }
@@ -195,7 +196,8 @@ public class Game extends Observable {
         if (this.money >= tower.getLevelCost()) {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
-            log="tower ["+tower.towerID+"] (" + tower.getName()+") at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
+            log="tower   ["+tower.getTowerID()+"] (" + tower.getName()+") at ["+line+","+column+"] had been upgraded to "+tower.getLevel()+" which costed "+tower.getLevelCost()+" units \n";
+            tower.settLog("Upgraded to level"+tower.getLevel());
             this.setChanged();
             this.notifyObservers();
         }
@@ -212,6 +214,9 @@ public class Game extends Observable {
         this.crittersReleased = 0;
         this.gameThread = new GameThread(this);
         log="Wave "+this.wave+" started ! \n";
+        for (Tower tower: this.towers.values()) {
+            tower.settLog("waiting for critters!");
+        }
         gameThread.start();
     }
 
@@ -264,8 +269,6 @@ public class Game extends Observable {
         }
 
         this.moveCritters();
-        //this.setChanged();
-        //this.notifyObservers();
         this.addNewCritters();
         this.attackCritters();
         this.removeDeadCritters();
@@ -304,7 +307,12 @@ public class Game extends Observable {
             }
             attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
             if (tower.attack(aliveCritters, this.grid.entryPoint()) !=null){
-                log+="tower ["+this.getTower(tower.getLocation().x,tower.getLocation().y).towerID+"] at "+tower.getLocation()+" Attacked critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+                log+="tower   ["+this.getTower(tower.getLocation().x,tower.getLocation().y).getTowerID()+"] at "
+                        +tower.getLocation()+" Attacked a critter at "+ tower.attack(aliveCritters, this.grid.entryPoint())+"\n";
+                log+="critter ["+ this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID+"] attacked by tower ["
+                        +this.getTower(tower.getLocation().x,tower.getLocation().y).getTowerID()+"] and lost one life ";
+                tower.settLog("Attcked Citter"+this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID);
+
             }
             if (attackedLocation != null) {
                 this.attackedCritters.add(attackedLocation);
@@ -360,7 +368,12 @@ public class Game extends Observable {
 
             GridLocation nextLocation = this.shortestPath.getNextLocation(critter.gridLocation);
             if (nextLocation != null) {
-                log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                if (deadCount==this.lives)
+                    log="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                else {
+                    log+="critter ["+critter.critterID+"] is at location :"+nextLocation+"\n";
+                    deadCount--;
+                }
             }
 
             // The critter has reached the exit!
@@ -394,7 +407,7 @@ public class Game extends Observable {
             if (!critter.isDead()) {
                 critters.put(critter.gridLocation, critter);
             } else {
-                log+="critter ["+critter.critterID+"] at " +critter.gridLocation+" is Dead ! \n";
+                log+="and has been neutralized at " +critter.gridLocation+"\n";
                 this.money += critter.getReward();
             }
         }

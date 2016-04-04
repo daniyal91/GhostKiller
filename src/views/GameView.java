@@ -216,6 +216,10 @@ public class GameView implements Observer {
             this.showCritterDetails(this.selectedCritter);
         }
 
+        if (this.selectedTower != null) {
+            this.showTowerDetails(this.selectedTower);
+        }
+
         if (game.isOver()) {
             JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
@@ -289,65 +293,65 @@ public class GameView implements Observer {
         return null;
     }
     /**
-    *
-    * Shows the details of the critter in the critter inspection panel.
-    *
-    * @param critter critter to get the details from.
-    */
-   public void showCritterDetails(final Critter critter) {
+     *
+     * Shows the details of the critter in the critter inspection panel.
+     *
+     * @param critter critter to get the details from.
+     */
+    public void showCritterDetails(final Critter critter) {
 
-       // Open new window for tower inspection.
-       JPanel critterInspectionPanel = new JPanel();
-       critterInspectionPanel.setBackground(Color.DARK_GRAY);
-       this.critterInspectionFrame.setContentPane(critterInspectionPanel);
+        // Open new window for tower inspection.
+        JPanel critterInspectionPanel = new JPanel();
+        critterInspectionPanel.setBackground(Color.DARK_GRAY);
+        this.critterInspectionFrame.setContentPane(critterInspectionPanel);
 
-       JPanel critterImagePanel = new JPanel();
-       critterInspectionPanel.add(critterImagePanel, BorderLayout.NORTH);
-       JLabel towerImage = new JLabel(new ImageIcon(Critter.ICON_PATH));
-       towerImage.setBackground(Color.DARK_GRAY);
-       critterImagePanel.setBackground(Color.DARK_GRAY);
-       critterImagePanel.add(towerImage);
+        JPanel critterImagePanel = new JPanel();
+        critterInspectionPanel.add(critterImagePanel, BorderLayout.NORTH);
+        JLabel towerImage = new JLabel(new ImageIcon(Critter.ICON_PATH));
+        towerImage.setBackground(Color.DARK_GRAY);
+        critterImagePanel.setBackground(Color.DARK_GRAY);
+        critterImagePanel.add(towerImage);
 
-       // Tower Details
-       JPanel critterDetailsPanel = new JPanel();
-       critterDetailsPanel.setBackground(Color.DARK_GRAY);
-       critterDetailsPanel.setLayout(new GridLayout(0, 2));
-       critterInspectionPanel.add(critterDetailsPanel, BorderLayout.SOUTH);
+        // Tower Details
+        JPanel critterDetailsPanel = new JPanel();
+        critterDetailsPanel.setBackground(Color.DARK_GRAY);
+        critterDetailsPanel.setLayout(new GridLayout(0, 2));
+        critterInspectionPanel.add(critterDetailsPanel, BorderLayout.SOUTH);
 
-       // Critter Level
-       JLabel critterLevelTxt = new JLabel("Level: ");
-       critterLevelTxt.setForeground(Color.white);
-       critterDetailsPanel.add(critterLevelTxt);
-       JLabel critterLevel = new JLabel(Integer.toString(critter.getLevel()));
-       critterLevel.setForeground(Color.white);
-       critterDetailsPanel.add(critterLevel);
+        // Critter Level
+        JLabel critterLevelTxt = new JLabel("Level: ");
+        critterLevelTxt.setForeground(Color.white);
+        critterDetailsPanel.add(critterLevelTxt);
+        JLabel critterLevel = new JLabel(Integer.toString(critter.getLevel()));
+        critterLevel.setForeground(Color.white);
+        critterDetailsPanel.add(critterLevel);
 
-       // Critter health
-       JLabel critterHealthTxt = new JLabel("Health: ");
-       critterHealthTxt.setForeground(Color.white);
-       critterDetailsPanel.add(critterHealthTxt);
-       JLabel critterHealth = new JLabel(Integer.toString(critter.getHealthPoints()));
-       critterHealth.setForeground(Color.white);
-       critterDetailsPanel.add(critterHealth);
+        // Critter health
+        JLabel critterHealthTxt = new JLabel("Health: ");
+        critterHealthTxt.setForeground(Color.white);
+        critterDetailsPanel.add(critterHealthTxt);
+        JLabel critterHealth = new JLabel(Integer.toString(critter.getHealthPoints()));
+        critterHealth.setForeground(Color.white);
+        critterDetailsPanel.add(critterHealth);
 
-       // Critter health
-       JLabel critterSpeedTxt = new JLabel("Speed: ");
-       critterSpeedTxt.setForeground(Color.white);
-       critterDetailsPanel.add(critterSpeedTxt);
-       JLabel critterSpeed = new JLabel(Integer.toString(critter.getSpeed()));
-       critterSpeed.setForeground(Color.white);
-       critterDetailsPanel.add(critterSpeed);
+        // Critter health
+        JLabel critterSpeedTxt = new JLabel("Speed: ");
+        critterSpeedTxt.setForeground(Color.white);
+        critterDetailsPanel.add(critterSpeedTxt);
+        JLabel critterSpeed = new JLabel(Integer.toString(critter.getSpeed()));
+        critterSpeed.setForeground(Color.white);
+        critterDetailsPanel.add(critterSpeed);
 
-       // Critter health
-       JLabel critterFrozenTxt = new JLabel("Is frozen: ");
-       critterFrozenTxt.setForeground(Color.white);
-       critterDetailsPanel.add(critterFrozenTxt);
-       JLabel critterFrozen = new JLabel(Boolean.toString(critter.isFrozen()));
-       critterFrozen.setForeground(Color.white);
-       critterDetailsPanel.add(critterFrozen);
+        // Critter health
+        JLabel critterFrozenTxt = new JLabel("Is frozen: ");
+        critterFrozenTxt.setForeground(Color.white);
+        critterDetailsPanel.add(critterFrozenTxt);
+        JLabel critterFrozen = new JLabel(Boolean.toString(critter.isFrozen()));
+        critterFrozen.setForeground(Color.white);
+        critterDetailsPanel.add(critterFrozen);
 
-       critterInspectionFrame.setVisible(true);
-   }
+        critterInspectionFrame.setVisible(true);
+    }
 
     /**
      *
@@ -362,6 +366,7 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
+        towerInspectionPanel.setSize(100,250);
         this.towerInspectionFrame.setContentPane(towerInspectionPanel);
 
         // Tower Image Sell Tower Button and Upgrade Tower Button.
@@ -456,6 +461,9 @@ public class GameView implements Observer {
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
 
+
+
+
         if (placedOnTile) {
 
             JLabel refundAmountTxt = new JLabel("Refund Amount: ");
@@ -473,7 +481,23 @@ public class GameView implements Observer {
             this.strategyComboBox.setSelectedItem(tower.getAttackStrategy().getName());;
             this.strategyComboBox.addActionListener(this.gameController);
             towerDetailsPanel.add(this.strategyComboBox);
+
+            JLabel space1 = new JLabel("");
+            JLabel space2 = new JLabel("");
+            towerDetailsPanel.add(space1);
+            towerDetailsPanel.add(space2);
+
+            // Tower Log 
+            JLabel towerLogtxt = new JLabel("Log: ");
+            towerLogtxt.setForeground(Color.white);
+            towerDetailsPanel.add(towerLogtxt);
+            JLabel towrLog = new JLabel(tower.gettLog());
+            towrLog.setForeground(Color.white);
+            towerDetailsPanel.add(towrLog);
         }
+
+
+
 
         towerInspectionFrame.setVisible(true);
     }
