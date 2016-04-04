@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
     CritterTestCase.class,
     PathTestCase.class,
     GameScoreTestCase.class
-})
+    })
 
 public class TestSuite {
 }

@@ -170,7 +170,7 @@ public class Game extends Observable {
     }
     /**
      * Gets the towers.
-     * @return towers 
+     * @return towers
      */
 
     public HashMap<Point, Tower> getTowers() {
@@ -264,10 +264,7 @@ public class Game extends Observable {
             critter.makeTurn();
         }
 
-
         this.moveCritters();
-        //this.setChanged();
-        //this.notifyObservers();
         this.addNewCritters();
         this.attackCritters();
         this.removeDeadCritters();
@@ -277,19 +274,18 @@ public class Game extends Observable {
         }
 
         if (this.isOver() || this.isWon()) {
-                        GameScore gameScore = new GameScore();
-                        gameScore.datePlayed = new Date(System.currentTimeMillis());
-                        gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * this.wave - 1) + (Game.CRITTERS_PER_WAVE - this.critters.size());
-                        gameScore.won = this.isWon();
-                        this.grid.addGameScore(gameScore);
-                        this.grid.writeToFile();
-                    }
-        
-
+            GameScore gameScore = new GameScore();
+            gameScore.datePlayed = new Date(System.currentTimeMillis());
+            gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * this.wave - 1) + (Game.CRITTERS_PER_WAVE - this.critters.size());
+            gameScore.won = this.isWon();
+            this.grid.addGameScore(gameScore);
+            this.grid.writeToFile();
+        }
         this.gameState();
         this.setChanged();
         this.notifyObservers();
-        log="";
+        log = "";
+
     }
 
     /**
