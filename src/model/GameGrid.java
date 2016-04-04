@@ -193,8 +193,8 @@ public class GameGrid {
 
             }
 
-         //   this.dateCreated = new Date(Date.parse(br.readLine()));
-         //   this.dateModified = new Date(Date.parse(br.readLine()));
+            this.dateCreated = new Date(Date.parse(br.readLine()));
+            this.dateModified = new Date(Date.parse(br.readLine()));
 
             while((line = br.readLine()) != null) {
                 GameScore gameScore = new GameScore();
