@@ -149,7 +149,7 @@ public class GameLog implements Observer {
         String init;
         Calendar cal = Calendar.getInstance();
         init=longfrmt.format(cal.getTime())+"  Game Started \n";
-        init+="Game Grid ("+game.grid.mapname+") : "+game.grid.cases.length+" x "+game.grid.cases[0].length+"\n";
+        init+="Game Grid ("+game.grid.filePath+") : "+game.grid.cases.length+" x "+game.grid.cases[0].length+"\n";
         init+="Map Entry Point : "+game.grid.entryPoint()+" | Map Exit Point : "+game.grid.exitPoint()+" \n";
         init+="Starting health = "+game.getLives()+"\n";
         init+="Starting money = "+game.getMoney()+" units\n";

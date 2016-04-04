@@ -276,6 +276,15 @@ public class Game extends Observable {
             this.endTurn();
         }
 
+        if (this.isOver() || this.isWon()) {
+                        GameScore gameScore = new GameScore();
+                        gameScore.datePlayed = new Date(System.currentTimeMillis());
+                        gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * this.wave - 1) + (Game.CRITTERS_PER_WAVE - this.critters.size());
+                        gameScore.won = this.isWon();
+                        this.grid.addGameScore(gameScore);
+                        this.grid.writeToFile();
+                    }
+        
 
         this.gameState();
         this.setChanged();

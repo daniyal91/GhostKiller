@@ -36,7 +36,7 @@ public class GameGrid {
     };
 
     public int pathindex = 1;
-    public String mapname="";
+    public String filePath ="";
 
     CASE_TYPES[][] cases;
     private Random randomGenerator = new Random();
