@@ -107,27 +107,24 @@ public class GameLog implements Observer {
                 }
             }
 
-
+            //after the game is over
             if (game.isOver()){
-                pr.println("--------------------------------------------------");
-                pr.println("-----------object logs----------------------------");
+                pr.println("-----------object logs----------------------------------");
                 Iterator it = logMap.entrySet().iterator();
                 while (it.hasNext()) {
 
                     Map.Entry pair = (Map.Entry)it.next();
                     List<String> sList=(ArrayList<String>) pair.getValue();
-                    Set<String> hs =new LinkedHashSet<>();
-                    hs.addAll(sList);
+                    Set<String> sortIt =new LinkedHashSet<>();
+                    sortIt.addAll(sList);
                     sList.clear();
-                    sList.addAll(hs);
+                    sList.addAll(sortIt);
 
                     pr.println(pair.getKey() + "\n" + sList);
                     pr.println();
-                    it.remove(); // avoids a ConcurrentModificationException
+                    it.remove(); 
                 }
 
-
-                //   System.out.println(logMap.get("critter [1]"));
             }
             oldlog=game.log;
             pr.close();
