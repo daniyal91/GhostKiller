@@ -77,7 +77,7 @@ public class GameView implements Observer {
         this.gameFrame = new JFrame("Tower defense game");
         this.gameController = controller;
         this.towerInspectionFrame = new JFrame("Tower Inspection");
-        this.towerInspectionFrame.setBounds(450 + 530 * col / 10, 160, 350, 300);
+        this.towerInspectionFrame.setBounds(700 + 530 * col / 10, 400, 600, 500);
 
         this.critterInspectionFrame = new JFrame("Critter Inspection");
         this.critterInspectionFrame.setBounds(450 + 530 * col / 10, 160, 230, 100);
@@ -383,7 +383,7 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
-        towerInspectionPanel.setSize(100,250);
+        towerInspectionPanel.setSize(100, 250);
         this.towerInspectionFrame.setContentPane(towerInspectionPanel);
 
         // Tower Image Sell Tower Button and Upgrade Tower Button.
@@ -491,7 +491,7 @@ public class GameView implements Observer {
             strategyTxt.setForeground(Color.white);
             towerDetailsPanel.add(strategyTxt);
             this.strategyComboBox = new JComboBox<String>(AttackStrategyFactory.getAvailableStrategies());
-            this.strategyComboBox.setPreferredSize(new Dimension(10, 10));
+            this.strategyComboBox.setPreferredSize(new Dimension(10, 20));
             this.strategyComboBox.setSelectedItem(tower.getAttackStrategy().getName());;
             this.strategyComboBox.addActionListener(this.gameController);
             towerDetailsPanel.add(this.strategyComboBox);
@@ -501,13 +501,16 @@ public class GameView implements Observer {
             towerDetailsPanel.add(space1);
             towerDetailsPanel.add(space2);
 
-            // Tower Log
-            JLabel towerLogtxt = new JLabel("Log: ");
-            towerLogtxt.setForeground(Color.white);
-            towerDetailsPanel.add(towerLogtxt);
-            JLabel towrLog = new JLabel(tower.gettLog());
-            towrLog.setForeground(Color.white);
-            towerDetailsPanel.add(towrLog);
+            for (String log: tower.getLogs()) {
+                // Tower Log
+                JLabel towerLogtxt = new JLabel("Log: ");
+                towerLogtxt.setForeground(Color.white);
+                towerDetailsPanel.add(towerLogtxt);
+                JLabel towrLog = new JLabel(log);
+                towrLog.setForeground(Color.white);
+                towerDetailsPanel.add(towrLog);
+            }
+
         }
 
 
