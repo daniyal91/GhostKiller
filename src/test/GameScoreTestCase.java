@@ -10,8 +10,16 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import model.GameScore;
-
+/**
+ * This class performs tests for objects of class GameScore using JUnit4.
+ * @author Team 6
+ *
+ */
 public class GameScoreTestCase {
+    /**
+     * This method checks getHighScores method.
+     * @throws IOException
+     */
 
     @Test
     public void testGetHighScores() throws IOException {
@@ -30,6 +38,11 @@ public class GameScoreTestCase {
         assertEquals(highScores.get(0).killedCritters, 50);
         assertEquals(highScores.get(4).killedCritters, 4);
     }
+    /**
+     * This method checks getHighScores method.
+     * @throws IOException
+     */
+
 
     @Test
     public void testGetFewHighScores() throws IOException {
@@ -42,6 +55,11 @@ public class GameScoreTestCase {
 
         assertEquals(highScores.size(), GameScore.HIGH_SCORES_COUNT - 1);
     }
+    
+    /**
+     * This method checks the fromString method for won.
+     * @throws IOException
+     */
 
     @Test
     public void testSerializationWon() throws IOException {
@@ -56,7 +74,11 @@ public class GameScoreTestCase {
         assertEquals(serialized.killedCritters, 35);
 
     }
-
+    
+    /**
+     * This method checks the fromString method for lost.
+     * @throws IOException
+     */
     @Test
     public void testSerializationLost() throws IOException {
 
