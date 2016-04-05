@@ -77,7 +77,7 @@ public class GameView implements Observer {
         this.gameFrame = new JFrame("Tower defense game");
         this.gameController = controller;
         this.towerInspectionFrame = new JFrame("Tower Inspection");
-        this.towerInspectionFrame.setBounds(700 + 530 * col / 10, 400, 600, 500);
+        this.towerInspectionFrame.setBounds(700 + 530 * col / 10, 400, 500, 500);
 
         this.critterInspectionFrame = new JFrame("Critter Inspection");
         this.critterInspectionFrame.setBounds(450 + 530 * col / 10, 160, 230, 100);
