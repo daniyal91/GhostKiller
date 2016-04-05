@@ -6,7 +6,15 @@ import junit.framework.TestCase;
 import model.Critter;
 import model.GridLocation;
 
+/**
+ * This class performs test cases for an object of Critter class using JUnit3. 
+ * @author Team 6
+ *
+ */
 public class CritterTestCase extends TestCase {
+    /**
+     * Tests takeDamage method from the Critter class by by using takeDamage, getHealthPoints and isDead methods. 
+     */
 
     @Test
     public void testTakeDamage() {
@@ -19,6 +27,9 @@ public class CritterTestCase extends TestCase {
         assertFalse(critter.isDead());
 
     }
+    /**
+     * Tests if the critter gets killed  by using takeDamage, getHealthPoints and isDead methods.
+     */
 
     @Test
     public void testKillCritter() {
@@ -31,6 +42,11 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter.isDead());
 
     }
+    
+    /**
+     * Tests if the critter gets frozen by using freeze, makeTurn and getMovementPoints methods.
+     */
+
 
     @Test
     public void testFreezeCritter() {
@@ -45,6 +61,10 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter1.getMovementPoints() > critter2.getMovementPoints());
 
     }
+    
+    /**
+     * Tests if the critter gets burnt by using takeDamage, gethealthPoints, maleTurn and isDead methods.
+     */
 
     @Test
     public void testBurnCritter() {
@@ -71,6 +91,10 @@ public class CritterTestCase extends TestCase {
         assertFalse(critter.isDead());
 
     }
+    
+    /**
+     * Tests if multiple takeDamage method cause to dead of the critter. 
+     */
 
     @Test
     public void testBurnCritterMultiple() {
@@ -90,6 +114,9 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter.isDead());
 
     }
+    /**
+     * Tests if getReward method works smoothly.
+     */
 
     @Test
     public void testgetRewards() {

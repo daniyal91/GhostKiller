@@ -4,8 +4,17 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import model.GridLocation;
+/**
+ * This class performs test for objects of GridLocation class using JUnit3.
+ * @author Team 6
+ *
+ */
 
 public class GridLocationTestCase extends TestCase {
+    
+    /**
+     * Test default constructor.
+     */
 
     @Test
     public void testDefaultConstructor() {
@@ -13,6 +22,9 @@ public class GridLocationTestCase extends TestCase {
         TestCase.assertEquals(-1, gridLocation.x);
         TestCase.assertEquals(-1, gridLocation.y);
     }
+    /**
+     * Tests constructor. 
+     */
 
     @Test
     public void testConstructor() {
@@ -20,6 +32,9 @@ public class GridLocationTestCase extends TestCase {
         TestCase.assertEquals(4, gridLocation.x);
         TestCase.assertEquals(5, gridLocation.y);
     }
+    /**
+     * Tests the toString method.
+     */
 
     @Test
     public void testToString() {
@@ -28,6 +43,10 @@ public class GridLocationTestCase extends TestCase {
         String expected = "GridLocation (2, 3)";
         TestCase.assertEquals(result, expected);
     }
+    /**
+     * Tests distance method.
+     */
+
 
     public void testDistance() {
         GridLocation gridLocation1 = new GridLocation(2, 3);
@@ -42,6 +61,11 @@ public class GridLocationTestCase extends TestCase {
         GridLocation gridLocation6 = new GridLocation(2, 2);
         TestCase.assertEquals(GridLocation.distance(gridLocation5, gridLocation6), 0);
     }
+    /**
+     * Tests nearby method.
+     */
+
+
 
     @Test
     public void testNearby() {

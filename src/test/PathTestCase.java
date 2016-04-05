@@ -7,13 +7,22 @@ import org.junit.Test;
 import model.GameGrid;
 import model.GridLocation;
 import model.Path;
-
+/**
+ * This class  performs tests on objects of Path class. 
+ * @author Team 6
+ *
+ */
 public class PathTestCase {
 
 
     GameGrid testgamegird= new GameGrid();
     ArrayList <GridLocation> testshortestpath=new ArrayList<GridLocation>();
     Path testpath;
+    
+    /**
+     * This method runs before each test method.
+     * Reads game grid from a specified file and gets the shortest path.
+     */
 
     @Before
     public void beforeTest(){
@@ -21,6 +30,10 @@ public class PathTestCase {
         testpath=new Path(testgamegird);
         testshortestpath=testpath.getShortestPath();
     }
+    /**
+     * Tests the shortestPath by start point and length.
+     */
+
 
     @Test
     public void testShortestPath() {
@@ -31,6 +44,9 @@ public class PathTestCase {
         //tests the length of the shortest path
         assertTrue(testshortestpath.get(testshortestpath.size()-1).equals(new GridLocation(4,8)));
     }
+    /**
+     * Tests getNextLocation method.
+     */
 
     @Test
     public void testGetNextLocation() {
@@ -38,6 +54,11 @@ public class PathTestCase {
         GridLocation next=new GridLocation(4,5);
         assertTrue(testpath.getNextLocation(current).equals(next));       
     }
+    
+    /**
+     * Tests the connectivity of shortest path.
+     */
+    
     
     @Test
     public void testConnectivityofShortestPath() {
