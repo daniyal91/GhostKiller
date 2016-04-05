@@ -214,7 +214,7 @@ public class Game extends Observable {
      */
     public void sendWave() {
         if (this.gameThread != null) {
-            System.out.println("Already in a wave, should wait before this one finishes.");
+            // System.out.println("Already in a wave, should wait before this one finishes.");
             return;
         }
         this.crittersReleased = 0;
@@ -262,7 +262,7 @@ public class Game extends Observable {
      */
     public void makeTurn() {
 
-        System.out.println("Making a new game turn.");
+        // System.out.println("Making a new game turn.");
         this.attackedCritters.clear();
 
         // This will apply the effects the critters received at the last
@@ -338,7 +338,7 @@ public class Game extends Observable {
 
             // This means a critter is blocking the entry.
             if (this.critters.get(start) != null) {
-                System.out.println("Critter cannot enter the grid.");
+                //  System.out.println("Critter cannot enter the grid.");
                 return;
             }
 
@@ -346,7 +346,7 @@ public class Game extends Observable {
             this.addCritter(critty);
             log="critter [" +critty.critterID+"]  (level "+critty.getLevel()+") entered the map \n";
             this.crittersReleased++;
-            System.out.println("Adding a new critter on the grid.");
+            //   System.out.println("Adding a new critter on the grid.");
 
         }
     }
@@ -392,7 +392,7 @@ public class Game extends Observable {
                     log+="Player has lost all of the lives , GAME IS OVER \n";
                     log+="Record: waves: "+this.wave+"  , money: "+this.getMoney()+" units";
                 }
-                System.out.println("The player just lost a life!!!");
+                //    System.out.println("The player just lost a life!!!");
 
                 // There is another location the critter can move to, and it is free.
             }  else if (critters.get(nextLocation) == null) {
@@ -473,7 +473,7 @@ public class Game extends Observable {
      */
     private void endTurn() {
         if (this.gameThread != null) {
-            System.out.println("The current wave is over.");
+            //  System.out.println("The current wave is over.");
             this.gameThread.stopThread();
             this.gameThread = null;
         }
@@ -486,8 +486,8 @@ public class Game extends Observable {
      * Prints the statues of the game on the console.
      */
     public void gameState(){
-        System.out.println(this.grid.getCases());
-        System.out.println(this.grid.getCases()[0].length);
+        // System.out.println(this.grid.getCases());
+        //  System.out.println(this.grid.getCases()[0].length);
 
     }
 

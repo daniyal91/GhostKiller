@@ -65,13 +65,16 @@ public class GameLog implements Observer {
 
             if (game.startlog){
                 pr.println(initialLog(game));
+                System.out.println(initialLog(game));
                 game.startlog=false;
             }
             Calendar cal = Calendar.getInstance();
 
             if (!game.log.equals(oldlog) && game.log!=""){
                 pr.println(shortfrmt.format(cal.getTime())+"   -> ");
+                System.out.println(shortfrmt.format(cal.getTime())+"   -> ");
                 pr.println(game.log);
+                System.out.println(game.log);
             }
 
 
@@ -89,7 +92,7 @@ public class GameLog implements Observer {
                     //String key=lines[i].split("]")[0]+"]";
                     String key=lines[i].substring(10, 21);
 
-                    System.out.println("put with key :"+key);
+                    //  System.out.println("put with key :"+key);
                     if (logMap.containsKey(key)){
                         logMap.get(key).add(lines[i]+"\n");
                     }
@@ -104,6 +107,7 @@ public class GameLog implements Observer {
             //after the game is over
             if (game.isOver() || game.isWon()){
                 pr.println("-----------object logs----------------------------------");
+                System.out.println("-----------object logs----------------------------------");
                 Iterator it = logMap.entrySet().iterator();
                 while (it.hasNext()) {
 
@@ -115,7 +119,10 @@ public class GameLog implements Observer {
                     sList.addAll(sortIt);
 
                     pr.println(pair.getKey() + "\n" + sList);
+                    System.out.println(pair.getKey() + "\n" + sList);
+                    
                     pr.println();
+                    System.out.println();
                     it.remove(); 
                 }
 
