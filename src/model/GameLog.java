@@ -37,6 +37,7 @@ public class GameLog implements Observer {
 
     private String oldlog = "";
     private HashMap<String, List<String>> logMap = new HashMap<String, List<String>>();
+    private List<String> towerColLog=new ArrayList<String>();
 
     /**
      * Method called when the observed object is modified.
@@ -80,6 +81,9 @@ public class GameLog implements Observer {
 
                     String key = lines[i].substring(10, 21);
 
+                    if (key.indexOf("tower")==0){
+                        towerColLog.add(lines[i]+"\n");
+                    }
                     if (logMap.containsKey(key)) {
                         logMap.get(key).add(lines[i] + "\n");
                     } else {
@@ -111,6 +115,9 @@ public class GameLog implements Observer {
                     System.out.println();
                     it.remove();
                 }
+                
+                System.out.println(" \n -------------------Towers Collective Log----------------- \n");
+                System.out.println(towerColLog);
 
             }
             oldlog = game.log;
