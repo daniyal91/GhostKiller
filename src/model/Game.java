@@ -471,7 +471,7 @@ public class Game extends Observable {
     /**
      * Ends the current game turn.
      */
-    private void endTurn() {
+    public void endTurn() {
         if (this.gameThread != null) {
             //  System.out.println("The current wave is over.");
             this.gameThread.stopThread();

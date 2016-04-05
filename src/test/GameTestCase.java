@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,6 +71,55 @@ public class GameTestCase {
         this.game.sellTower(0, 0);
         assertEquals(this.game.getMoney(), initialGameMoney - towerCost + tower.refundAmout());
         assertTrue(this.game.getMoney() < initialGameMoney);
+    }
+
+    /**
+     * Tests if we can load a game from a file.
+     */
+    @Test
+    public void testLoadGame() {
+        Game game = new Game();
+        game.loadGame("game.txt");
+        assertEquals(game.getKilledCritters(), 0);
+        assertEquals(game.getMoney(), 100);
+        assertEquals(game.getLives(), 3);
+        assertEquals(game.getWave(), 1);
+    }
+
+    /**
+     * Tests if we can save a game to a file.
+     */
+    @Test
+    public void testSaveGame() {
+        Game game = new Game();
+
+        game.saveGame("game_saved.txt");
+        File testfile = new File("game_saved.txt");
+        assertTrue("The file coud not be written", testfile.exists());
+        testfile.delete();
+
+    }
+
+    /**
+     * Tests if we can save a game to a file.
+     */
+    @Test
+    public void testSaveLoadGame() {
+        Game game = new Game();
+
+        game.loadGame("game.txt");
+
+        game.endTurn();
+
+        game.saveGame("saved.txt");
+        game.loadGame("saved.txt");
+
+        assertEquals(game.getWave(), 2);
+
+        File testfile = new File("saved.txt");
+        assertTrue("The file coud not be written", testfile.exists());
+        testfile.delete();
+
     }
 
 }

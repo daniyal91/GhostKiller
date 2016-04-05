@@ -18,13 +18,13 @@ import java.util.Observer;
 import java.util.Set;
 
 import controllers.GameController;
+
 /**
- * It implements the Observer interface to get
+ * This class implements the Observer interface to get
  * informed of changes in the Game class objects.
  * @author Team 6
  *
  */
-
 public class GameLog implements Observer {
 
     private Game game;
@@ -37,8 +37,8 @@ public class GameLog implements Observer {
     private HashMap<String, List<String>> logMap = new HashMap<String, List<String>>();
     /**
      * Constructs the game log object.
-     * @param game an object of Game class representing the game 
-     * @param gamecontroller an object of GameController class representing game controller 
+     * @param game an object of Game class representing the game
+     * @param gamecontroller an object of GameController class representing game controller
      */
 
     public GameLog(Game game, GameController gamecontroller) {
@@ -99,7 +99,7 @@ public class GameLog implements Observer {
                     else {
                         List<String> newList=new ArrayList<String>();
                         newList.add(lines[i]+"\n");
-                        logMap.put(key, newList);   
+                        logMap.put(key, newList);
                     }
                 }
             }
@@ -139,7 +139,7 @@ public class GameLog implements Observer {
     }
     /**
      * Returns a string which shows the log
-     * @param game an object of Game class 
+     * @param game an object of Game class
      * @return a string representing initial log
      */
 
