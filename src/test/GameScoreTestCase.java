@@ -10,17 +10,18 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import model.GameScore;
+
 /**
- * This class performs tests for objects of class GameScore using JUnit4.
+ * This class performs tests for objects of GameScore class.
  * @author Team 6
  *
  */
 public class GameScoreTestCase {
+
     /**
-     * This method checks getHighScores method.
+     * This method checks the getHighScores method.
      * @throws IOException
      */
-
     @Test
     public void testGetHighScores() throws IOException {
         ArrayList<GameScore> gameScores = new ArrayList<GameScore>();
@@ -38,12 +39,11 @@ public class GameScoreTestCase {
         assertEquals(highScores.get(0).killedCritters, 50);
         assertEquals(highScores.get(4).killedCritters, 4);
     }
+
     /**
-     * This method checks getHighScores method.
+     * This method checks the getHighScores method.
      * @throws IOException
      */
-
-
     @Test
     public void testGetFewHighScores() throws IOException {
         ArrayList<GameScore> gameScores = new ArrayList<GameScore>();
@@ -55,12 +55,11 @@ public class GameScoreTestCase {
 
         assertEquals(highScores.size(), GameScore.HIGH_SCORES_COUNT - 1);
     }
-    
+
     /**
-     * This method checks the fromString method for won.
+     * This method checks the fromString method when the game was won.
      * @throws IOException
      */
-
     @Test
     public void testSerializationWon() throws IOException {
 
@@ -74,9 +73,9 @@ public class GameScoreTestCase {
         assertEquals(serialized.killedCritters, 35);
 
     }
-    
+
     /**
-     * This method checks the fromString method for lost.
+     * This method checks the fromString method when the game was lost.
      * @throws IOException
      */
     @Test
@@ -92,6 +91,10 @@ public class GameScoreTestCase {
 
     }
 
+    /**
+     * Tests the displayHighScores method when there is no game score.
+     * @throws IOException
+     */
     @Test
     public void testNoHighScores() throws IOException {
 
@@ -99,6 +102,5 @@ public class GameScoreTestCase {
         assertEquals(highScore, "No high scores for this map!");
 
     }
-
 
 }

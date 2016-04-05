@@ -9,7 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
 * @author Team 6
 *
 */
-
 @RunWith(Suite.class)
 @SuiteClasses({
     GameLogTestCase.class,

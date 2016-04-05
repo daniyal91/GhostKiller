@@ -12,29 +12,27 @@ import model.tower.ExplosionTower;
 import model.tower.Tower;
 
 /**
- * This class performs tests for objects of Game class. 
+ * This class performs tests for objects of Game class.
  * @author Team 6
  *
  */
-
 public class GameTestCase {
 
     private Game game;
-    
+
     /**
      * This method runs before each test method.
      * It initiates an object of Game class.
      * @throws Exception
      */
-
     @Before
     public void setUp() throws Exception {
         this.game = new Game();
     }
-    /**
-     * Adds a tower in location(0,0), and checks hasTower method.
-     */
 
+    /**
+     * Adds a tower in location(0,0), and checks the hasTower method.
+     */
     @Test
     public void addTower() {
         Tower tower = new ExplosionTower();
@@ -42,13 +40,10 @@ public class GameTestCase {
         assertTrue(this.game.hasTower(0, 0));
         assertFalse(this.game.hasTower(0, 1));
     }
-    
-    /**
-     * Checks buyTower method. 
-     */
-    
-    
 
+    /**
+     * Checks the buyTower method.
+     */
     @Test
     public void buyTower() {
         Tower tower = new ExplosionTower();
@@ -60,11 +55,10 @@ public class GameTestCase {
         assertEquals(this.game.getMoney(), initialGameMoney - towerCost);
 
     }
-    
-    /**
-     * Checks sellTower method.
-     */
 
+    /**
+     * Checks the sellTower method.
+     */
     @Test
     public void sellTower() {
         Tower tower = new ExplosionTower();

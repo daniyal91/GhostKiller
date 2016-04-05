@@ -24,7 +24,7 @@ import model.tower.Tower;
 public class StrategyTestCase extends TestCase {
 
     /**
-     * Checks if Nearest strategy works smoothly.
+     * Checks if Nearest strategy works correctly.
      */
     @Test
     public void testNearestStrategy() {
@@ -45,7 +45,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if random strategy works smoothly.
+     * Checks if random strategy works correctly.
      */
     @Test
     public void testRandomStrategy() {
@@ -63,7 +63,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if random strategy works smoothly when no critters are in range.
+     * Checks if random strategy works correctly when no critters are in range.
      */
     @Test
     public void testRandomStrategyNoCritters() {
@@ -79,7 +79,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if nearest strategy works smoothly.
+     * Checks if nearest strategy works correctly.
      */
     @Test
     public void testNearestStrategyNoCritters() {
@@ -93,7 +93,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if nearest strategy works smoothly when no critters are in range.
+     * Checks if nearest strategy works correctly when no critters are in range.
      */
     @Test
     public void testNearestStrategyNoCrittersInRange() {
@@ -113,7 +113,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if weakest strategy works smoothly.
+     * Checks if weakest strategy works correctly.
      */
     @Test
     public void testWeakestStrategy() {
@@ -137,7 +137,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if weakest strategy works smoothly when no critters are in range.
+     * Checks if weakest strategy works correctly when no critters are in range.
      */
     @Test
     public void testWeakestStrategyNoCrittersInRange() {
@@ -157,7 +157,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if strongest strategy works smoothly.
+     * Checks if strongest strategy works correctly.
      */
     @Test
     public void testStrongestStrategy() {
@@ -181,7 +181,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if strongest strategy works smoothly when no critters are in range.
+     * Checks if strongest strategy works correctly when no critters are in range.
      */
     @Test
     public void testStrongestStrategyNoCritters() {
@@ -195,7 +195,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if first strategy works smoothly.
+     * Checks if first strategy works correctly.
      */
     @Test
     public void testFirstStrategy() {
@@ -221,7 +221,7 @@ public class StrategyTestCase extends TestCase {
     }
 
     /**
-     * Checks if first strategy works smoothly when no critters are in range.
+     * Checks if first strategy works correctly when no critters are in range.
      */
     @Test
     public void testFirstStrategyNoCritters() {
