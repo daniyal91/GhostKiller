@@ -1,5 +1,6 @@
 package model.tower;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import model.Critter;
@@ -20,10 +21,10 @@ public abstract class Tower {
      * Refund rate of the towers.
      */
     public static double REFUND_RATE = 0.40;
-    private static int idCounter=-3;
-    private  int towerID;
-    private String tLog="";
-    
+
+    private static int idCounter = -3;
+    private int towerID;
+
     /**
      * Statistics elements of the tower.
      */
@@ -35,13 +36,10 @@ public abstract class Tower {
     protected int range;
     protected int power;
     protected int rateOfFire;
+    protected ArrayList<String> logs = new ArrayList<String>();
 
-    
-    
     /**
-     * Special effect of the tower.
-     * Currently only 1 special effect per
-     * tower is supported.
+     * Special effect of the tower. Currently only 1 special effect per tower is supported.
      */
     protected String specialEffect;
 
@@ -61,7 +59,8 @@ public abstract class Tower {
      */
     public Tower() {
         this.setDetails();
-        towerID=++idCounter;
+        towerID = ++idCounter;
+        this.logs.add("Bought the tower");
     }
 
     /**
@@ -71,9 +70,10 @@ public abstract class Tower {
      */
     public Tower(GridLocation location) {
         this.setDetails();
+        towerID = ++idCounter;
         this.location = location;
-        System.out.println("Setting the gridlocation" + this.location);
-       }
+        this.logs.add("Bought and placed at " + this.location.toString());
+    }
 
     /**
      * Sets the internal details of the tower.
@@ -88,7 +88,7 @@ public abstract class Tower {
      *
      * @return The location of the critter that was targeted for attack.
      */
-    public abstract GridLocation attack (Collection<Critter> critters, GridLocation endPoint);
+    public abstract GridLocation attack(Collection<Critter> critters, GridLocation endPoint);
 
     /**
      * Gets the name of the tower.
@@ -97,12 +97,8 @@ public abstract class Tower {
         return name;
     }
 
-    public String gettLog() {
-        return tLog;
-    }
-
-    public void settLog(String tLog) {
-        this.tLog = tLog;
+    public ArrayList<String> getLogs() {
+        return this.logs;
     }
 
     public int getTowerID() {
@@ -131,14 +127,13 @@ public abstract class Tower {
         return level;
     }
 
-    
     /**
      * Sets the current level of the tower.
      */
     public void setLevel(int level) {
-        this.level=level;
+        this.level = level;
     }
-    
+
     public GridLocation getLocation() {
         return this.location;
     }
@@ -171,29 +166,36 @@ public abstract class Tower {
     public int getRateOfFire() {
         return rateOfFire;
     }
+
     /**
      * Gets the attack's strategy.
+     *
      * @return an object of AttackStrategy class representing the attack strategy
      */
 
     public AttackStrategy getAttackStrategy() {
         return this.attackStrategy;
     }
+
     /**
      * Sets the attack's strategy.
+     *
      * @param attackStrategy an object of AttackStrategy class representing the attack strategy
      */
 
     public void setAttackStrategy(AttackStrategy attackStrategy) {
+        this.logs.add("Setting attack strategy to " + attackStrategy.getName());
         this.attackStrategy = attackStrategy;
     }
+
     /**
      * Sets the attack's strategy.
+     *
      * @param attackStrategy a string representing the attack's strategy
      */
 
     public void setAttackStrategy(String attackStrategy) {
-        System.out.println("Setting new attack strategy" + attackStrategy.toString());
+        this.logs.add("Setting attack strategy to " + attackStrategy);
         this.attackStrategy = AttackStrategyFactory.createStrategy(attackStrategy);
     }
 
@@ -223,22 +225,26 @@ public abstract class Tower {
         this.power *= 2;
         this.range *= 2;
         this.rateOfFire *= 2;
+        this.logs.add("Upgraded to level " + this.level);
     }
+
     /**
      * Gets the special effects.
+     *
      * @return a string representing the special effects
      */
-
     public String getSpecialEffect() {
         return this.specialEffect;
     }
+
     /**
      * Sets the location on the grid.
+     *
      * @param gridLocation an object of GridLocation class
      */
-
     public void setLocation(GridLocation gridLocation) {
         this.location = gridLocation;
+        this.logs.add("Placed the tower at " + this.location.toString());
     }
 
 }
