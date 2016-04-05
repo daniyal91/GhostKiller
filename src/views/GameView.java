@@ -216,7 +216,7 @@ public class GameView implements Observer {
             this.showCritterDetails(this.selectedCritter);
         }
 
-        if (this.selectedTower != null) {
+        if (this.selectedTower != null && this.critterInspectionFrame.isVisible()) {
             this.showTowerDetails(this.selectedTower);
         }
 
@@ -487,7 +487,7 @@ public class GameView implements Observer {
             towerDetailsPanel.add(space1);
             towerDetailsPanel.add(space2);
 
-            // Tower Log 
+            // Tower Log
             JLabel towerLogtxt = new JLabel("Log: ");
             towerLogtxt.setForeground(Color.white);
             towerDetailsPanel.add(towerLogtxt);

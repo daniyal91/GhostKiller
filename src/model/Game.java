@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
+
 import model.GameGrid.CASE_TYPES;
 import model.tower.ExplosionTower;
 import model.tower.FireTower;
@@ -285,7 +286,7 @@ public class Game extends Observable {
         if (this.isOver() || this.isWon()) {
             GameScore gameScore = new GameScore();
             gameScore.datePlayed = new Date(System.currentTimeMillis());
-            gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * this.wave - 1) + (Game.CRITTERS_PER_WAVE - this.critters.size());
+            gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * (this.wave - 1)) + (Game.CRITTERS_PER_WAVE - this.critters.size());
             gameScore.won = this.isWon();
             this.grid.addGameScore(gameScore);
             this.grid.writeToFile();
