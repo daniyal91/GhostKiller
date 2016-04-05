@@ -84,6 +84,7 @@ public class GameLog implements Observer {
                     if (key.indexOf("tower")==0){
                         towerColLog.add(lines[i]+"\n");
                     }
+                    
                     if (logMap.containsKey(key)) {
                         logMap.get(key).add(lines[i] + "\n");
                     } else {
@@ -115,10 +116,12 @@ public class GameLog implements Observer {
                     System.out.println();
                     it.remove();
                 }
-                
+
                 System.out.println(" \n -------------------Towers Collective Log----------------- \n");
                 System.out.println(towerColLog);
-
+                pr.println(" \n -------------------Towers Collective Log----------------- \n");
+                pr.println(towerColLog);
+                
             }
             oldlog = game.log;
             pr.close();
@@ -142,7 +145,7 @@ public class GameLog implements Observer {
         Calendar cal = Calendar.getInstance();
         init = LONG_DATE_FORMAT.format(cal.getTime()) + "  Game Started \n";
         init += "Game Grid (" + game.grid.filePath + ") : " + game.grid.cases.length + " x " + game.grid.cases[0].length
-                        + "\n";
+                + "\n";
         init += "Map Entry Point : " + game.grid.entryPoint() + " | Map Exit Point : " + game.grid.exitPoint() + " \n";
         init += "Starting health = " + game.getLives() + "\n";
         init += "Starting money = " + game.getMoney() + " units\n";
