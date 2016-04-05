@@ -15,6 +15,7 @@ import model.tower.Tower;
 
 /**
  * This class performs tests for objects of Game class.
+ * 
  * @author Team 6
  *
  */
@@ -23,8 +24,8 @@ public class GameTestCase {
     private Game game;
 
     /**
-     * This method runs before each test method.
-     * It initiates an object of Game class.
+     * This method runs before each test method. It initiates an object of Game class.
+     * 
      * @throws Exception
      */
     @Before

@@ -23,7 +23,7 @@ public class NearestStrategy extends AttackStrategy {
         int minimum = Integer.MAX_VALUE;
         Critter target = null;
 
-        for (Critter critter: critters) {
+        for (Critter critter : critters) {
 
             int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
 
@@ -44,7 +44,7 @@ public class NearestStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public String getName(){
+    public String getName() {
         return "nearest";
     }
 }

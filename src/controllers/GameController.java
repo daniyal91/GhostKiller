@@ -25,14 +25,14 @@ import views.GameView;
  */
 public class GameController implements MouseListener, ActionListener {
 
-    //must be private
+    // must be private
     public Game game;
     private GameView gameView;
     private GameLog gameLog;
 
     /**
-     * Constructs a new GameController object. Links the Game object to a GameView
-     * object using the Observer design pattern.
+     * Constructs a new GameController object. Links the Game object to a GameView object using the Observer design
+     * pattern.
      *
      * @param game Game object to use with the view object.
      *
@@ -40,7 +40,7 @@ public class GameController implements MouseListener, ActionListener {
     public GameController(Game game) {
         this.game = game;
         this.gameView = new GameView(game, this);
-        this.gameLog=new GameLog(game,this);
+        this.gameLog = new GameLog();
         this.game.addObserver(this.gameView);
         this.game.addObserver(this.gameLog);
         this.gameView.show();
@@ -53,10 +53,11 @@ public class GameController implements MouseListener, ActionListener {
     @Override
     public void mouseClicked(MouseEvent event) {
 
-        if (event.getSource() instanceof JButton && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
+        if (event.getSource() instanceof JButton
+                        && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
             JButton buttonClicked = (JButton) event.getSource();
             GridLocation clickLocation = this.gameView.getButtonLocation(buttonClicked);
-            //  System.out.println("This is in the click event");
+            // System.out.println("This is in the click event");
             // System.out.print(clickLocation);
             GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
             if (this.game.hasCritter(clickLocation)) {
@@ -93,16 +94,16 @@ public class GameController implements MouseListener, ActionListener {
 
         }
 
-        //sends a wave of critters
-        else if (event.getSource()==this.gameView.playButton){
+        // sends a wave of critters
+        else if (event.getSource() == this.gameView.playButton) {
             this.game.sendWave();
             // System.out.print("play");
         }
 
-        //calls the method "save"
-        else if (event.getSource()==this.gameView.saveButton){
+        // calls the method "save"
+        else if (event.getSource() == this.gameView.saveButton) {
             this.game.saveGame("newsavedgame");
-            //   System.out.print("save");
+            // System.out.print("save");
         }
 
     }
@@ -152,8 +153,10 @@ public class GameController implements MouseListener, ActionListener {
             JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
             gameView.selectedTower.setAttackStrategy((String) strategyCombo.getSelectedItem());
         } else if (e.getSource() == this.gameView.sellTowerButton) {
-            this.game.sellTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
-            this.gameView.removeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
+            this.game.sellTower(this.gameView.selectedTower.getLocation().x,
+                            this.gameView.selectedTower.getLocation().y);
+            this.gameView.removeTower(this.gameView.selectedTower.getLocation().x,
+                            this.gameView.selectedTower.getLocation().y);
             this.gameView.closeTowerDetails();
         } else if (e.getSource() == this.gameView.upgradeTowerButton) {
             game.upgradeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);

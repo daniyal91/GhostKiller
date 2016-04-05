@@ -7,6 +7,7 @@ import model.GridLocation;
 
 /**
  * This class performs test for objects of GridLocation class using JUnit3.
+ * 
  * @author Team 6
  *
  */

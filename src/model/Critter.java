@@ -30,8 +30,7 @@ public class Critter {
 
 
     /**
-     * Reward for killing the critter, relative
-     * to it's health points.
+     * Reward for killing the critter, relative to it's health points.
      */
     public static int REWARD_RATIO = 2;
 
@@ -46,7 +45,7 @@ public class Critter {
     public static int SPEED_PER_LEVEL = 10;
 
 
-    public static int idCount=0;
+    public static int idCount = 0;
 
     public int critterID;
     public GridLocation gridLocation;
@@ -67,7 +66,7 @@ public class Critter {
         this.gridLocation = gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * level;
         this.level = level;
-        this.critterID=++idCount;
+        this.critterID = ++idCount;
     }
 
     /**
@@ -79,26 +78,23 @@ public class Critter {
         this.gridLocation = critter.gridLocation;
         this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * critter.level;
         this.level = critter.level;
-        this.critterID=critter.critterID;
+        this.critterID = critter.critterID;
     }
 
     /**
      * Indicates whether the critter is dead or not.
      *
-     * @return true if the critter has any remaining health point,
-     *              false otherwise.
+     * @return true if the critter has any remaining health point, false otherwise.
      */
     public boolean isDead() {
         return this.healthPoints <= 0;
     }
 
     /**
-     * Attacks the current critter with the specified damage.
-     * The critter's health can never go below 0.
+     * Attacks the current critter with the specified damage. The critter's health can never go below 0.
      *
      * @param damage Damage to deal to the critter.
-     * @param burning Boolean specifying if the damage is burning
-     *                (if it lasts after the current turn.)
+     * @param burning Boolean specifying if the damage is burning (if it lasts after the current turn.)
      */
     public void takeDamage(int damage, boolean burning) {
         this.healthPoints = Math.max(this.healthPoints - damage, 0);
@@ -115,9 +111,7 @@ public class Critter {
     }
 
     /**
-     * Resets the effects associated with the critter.
-     * This is somewhat similar to making the critter
-     * turn-aware.
+     * Resets the effects associated with the critter. This is somewhat similar to making the critter turn-aware.
      */
     public void makeTurn() {
         int speed = Critter.INITIAL_SPEED + (this.level * Critter.SPEED_PER_LEVEL);
@@ -157,16 +151,20 @@ public class Critter {
     public int getHealthPoints() {
         return healthPoints;
     }
+
     /**
      * Gets the level.
+     * 
      * @return an integer representing the speed
      */
 
     public int getLevel() {
         return level;
     }
+
     /**
      * Sets the level.
+     * 
      * @param level an integer representing the speed
      */
 
@@ -182,14 +180,17 @@ public class Critter {
         String template = "Critter level %s at position %s with %s remaining health points";
         return String.format(template, this.level, this.gridLocation.toString(), this.healthPoints);
     }
+
     /**
      * Checks if movement threshold is reached.
+     * 
      * @return true if critter can still be moved otherwise false
      */
 
     public boolean shouldMove() {
         return this.movementPoints >= Critter.MOVEMENT_THRESHOLD;
     }
+
     /**
      * Decreases the movement points by movement threshold.
      */
@@ -197,24 +198,30 @@ public class Critter {
     public void move() {
         this.movementPoints -= Critter.MOVEMENT_THRESHOLD;
     }
+
     /**
      * returns the movement points.
+     * 
      * @return an integer representing the movement points
      */
 
     public int getMovementPoints() {
         return this.movementPoints;
     }
+
     /**
      * Checks if the critter is frozen.
+     * 
      * @return true if the critter is frozen otherwise false
      */
     public boolean isFrozen() {
         // TODO Auto-generated method stub
         return this.isFrozen;
     }
+
     /**
      * Returns the critter's speed.
+     * 
      * @return an integer representing the critter's speed
      */
 

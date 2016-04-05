@@ -1,8 +1,7 @@
 package model;
 
 /**
- * The main game thread. This thread will call the makeTurn action
- * of the Game class until it is interrupted.
+ * The main game thread. This thread will call the makeTurn action of the Game class until it is interrupted.
  *
  * @author Team 6
  *
@@ -17,10 +16,8 @@ public class GameThread extends Thread {
     private Game game;
 
     /**
-     * We don't use the interrupted mechanism of the Thread class
-     * because of it's side effects. We want the current thread to
-     * finish it's current executing instead of brutally interrupting
-     * it.
+     * We don't use the interrupted mechanism of the Thread class because of it's side effects. We want the current
+     * thread to finish it's current executing instead of brutally interrupting it.
      */
     private boolean isStopped = false;
 
@@ -34,8 +31,7 @@ public class GameThread extends Thread {
     }
 
     /**
-     * Will call the makeTurn function on the associated Game
-     * object.
+     * Will call the makeTurn function on the associated Game object.
      */
     @Override
     public synchronized void run() {
@@ -55,8 +51,7 @@ public class GameThread extends Thread {
     }
 
     /**
-     * Stops the current thread from executing another
-     * game turn. The current turn will not be interrupted.
+     * Stops the current thread from executing another game turn. The current turn will not be interrupted.
      */
     public void stopThread() {
         this.isStopped = true;

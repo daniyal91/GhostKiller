@@ -8,6 +8,7 @@ import model.GridLocation;
 
 /**
  * This class performs test cases for an object of the Critter class.
+ * 
  * @author Team 6
  *
  */

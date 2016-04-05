@@ -61,11 +61,11 @@ public class GridLocation extends Point {
      */
     public static boolean nearby(GridLocation location1, GridLocation location2) {
         if (location1.x == location2.x) {
-            if(location1.y == location2.y - 1 || location1.y == location2.y + 1) {
+            if (location1.y == location2.y - 1 || location1.y == location2.y + 1) {
                 return true;
             }
         } else if (location1.y == location2.y) {
-            if(location1.x == location2.x - 1 || location1.x == location2.x + 1) {
+            if (location1.x == location2.x - 1 || location1.x == location2.x + 1) {
                 return true;
             }
 

@@ -18,6 +18,7 @@ import model.tower.Tower;
 
 /**
  * This class performs tests for different attack strategies.
+ * 
  * @author team 6
  *
  */

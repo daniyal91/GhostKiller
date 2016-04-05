@@ -24,7 +24,7 @@ public class WeakestStrategy extends AttackStrategy {
         Critter target = null;
         int minimumHealth = Integer.MAX_VALUE;
 
-        for (Critter critter: critters) {
+        for (Critter critter : critters) {
 
             int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
             if (distance > tower.getRange()) {
@@ -44,7 +44,7 @@ public class WeakestStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public String getName(){
+    public String getName() {
         return "weakest";
     }
 

@@ -5,18 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Class representing a game score.
- * The score is the number of critters
- * the player was able to kill.
+ * Class representing a game score. The score is the number of critters the player was able to kill.
  *
  * @author Team 6
  *
  */
-public class GameScore implements Comparable<GameScore>{
+public class GameScore implements Comparable<GameScore> {
 
     /**
-     * The number of scores that are displayed in the
-     * high score window.
+     * The number of scores that are displayed in the high score window.
      */
     public static int HIGH_SCORES_COUNT = 5;
 
@@ -69,7 +66,7 @@ public class GameScore implements Comparable<GameScore>{
         }
         ArrayList<GameScore> highScores = GameScore.getHighScores(gameScores);
         String response = "Date                                    Critters killed  Result\n";
-        for (GameScore gameScore: highScores) {
+        for (GameScore gameScore : highScores) {
             response += gameScore.datePlayed.toGMTString() + "  ";
             response += gameScore.killedCritters + "                       ";
             if (gameScore.killedCritters < 10) {

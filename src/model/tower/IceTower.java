@@ -6,8 +6,8 @@ import model.Critter;
 import model.GridLocation;
 
 /**
- * Ice tower is a subclass of the Tower class and can be placed on the grid during the game.
- * This tower will slow down the critters.
+ * Ice tower is a subclass of the Tower class and can be placed on the grid during the game. This tower will slow down
+ * the critters.
  *
  * @author Team 6
  *

@@ -18,6 +18,7 @@ import model.GridLocation;
 
 /**
  * This class implements tests for objects of the GameGrid class.
+ * 
  * @author Team 6
  *
  */
@@ -27,8 +28,7 @@ public class GameGridTestCase {
     GameGrid badgamegird = new GameGrid();
 
     /**
-     * This method runs before each test method.
-     * It initiates 2 game grids, one valid and one invalid.
+     * This method runs before each test method. It initiates 2 game grids, one valid and one invalid.
      */
     @Before
     public void beforeMethod() {
@@ -37,8 +37,8 @@ public class GameGridTestCase {
     }
 
     /**
-     * This method checks if the ReadFromFile method is working smoothly
-     * and if the game grid format is fine.
+     * This method checks if the ReadFromFile method is working smoothly and if the game grid format is fine.
+     * 
      * @throws IOException
      */
     @Test
@@ -48,6 +48,7 @@ public class GameGridTestCase {
 
     /**
      * This method checks if the file can be written to a file.
+     * 
      * @throws IOException
      */
     @Test
@@ -100,6 +101,7 @@ public class GameGridTestCase {
 
     /**
      * This method checks the validateMap method by verifying if a connecting path exists.
+     * 
      * @throws GameGridException
      */
     @Test(expected = GameGridException.class)
@@ -114,6 +116,7 @@ public class GameGridTestCase {
 
     /**
      * This method checks the validateMap method by verifying if an entry point exists.
+     * 
      * @throws GameGridException
      */
     @Test(expected = GameGridException.class)
@@ -135,6 +138,7 @@ public class GameGridTestCase {
 
     /**
      * This method checks the validateMap method by adding more than one entry point.
+     * 
      * @throws GameGridException
      */
     @Test(expected = GameGridException.class)
