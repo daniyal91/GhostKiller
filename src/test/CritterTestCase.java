@@ -7,15 +7,16 @@ import model.Critter;
 import model.GridLocation;
 
 /**
- * This class performs test cases for an object of Critter class using JUnit3. 
+ * This class performs test cases for an object of the Critter class.
+ * 
  * @author Team 6
  *
  */
 public class CritterTestCase extends TestCase {
-    /**
-     * Tests takeDamage method from the Critter class by by using takeDamage, getHealthPoints and isDead methods. 
-     */
 
+    /**
+     * Tests the takeDamage method from the Critter class.
+     */
     @Test
     public void testTakeDamage() {
         Critter critter = new Critter(new GridLocation(1, 0), 3);
@@ -27,10 +28,10 @@ public class CritterTestCase extends TestCase {
         assertFalse(critter.isDead());
 
     }
-    /**
-     * Tests if the critter gets killed  by using takeDamage, getHealthPoints and isDead methods.
-     */
 
+    /**
+     * Tests if the critter gets killed when using takeDamage.
+     */
     @Test
     public void testKillCritter() {
         Critter critter = new Critter(new GridLocation(1, 0), 3);
@@ -42,12 +43,10 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter.isDead());
 
     }
-    
+
     /**
-     * Tests if the critter gets frozen by using freeze, makeTurn and getMovementPoints methods.
+     * Tests if the critter gets frozen when using freeze.
      */
-
-
     @Test
     public void testFreezeCritter() {
         Critter critter1 = new Critter(new GridLocation(1, 0), 1);
@@ -61,11 +60,10 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter1.getMovementPoints() > critter2.getMovementPoints());
 
     }
-    
-    /**
-     * Tests if the critter gets burnt by using takeDamage, gethealthPoints, maleTurn and isDead methods.
-     */
 
+    /**
+     * Tests if the critter gets burnt by using takeDamage.
+     */
     @Test
     public void testBurnCritter() {
         Critter critter = new Critter(new GridLocation(1, 0), 3);
@@ -91,11 +89,10 @@ public class CritterTestCase extends TestCase {
         assertFalse(critter.isDead());
 
     }
-    
-    /**
-     * Tests if multiple takeDamage method cause to dead of the critter. 
-     */
 
+    /**
+     * Tests if multiple calls to the takeDamage kills the critter.
+     */
     @Test
     public void testBurnCritterMultiple() {
         Critter critter = new Critter(new GridLocation(1, 0), 3);
@@ -114,10 +111,10 @@ public class CritterTestCase extends TestCase {
         assertTrue(critter.isDead());
 
     }
-    /**
-     * Tests if getReward method works smoothly.
-     */
 
+    /**
+     * Tests if getReward method works correctly.
+     */
     @Test
     public void testgetRewards() {
         Critter critter = new Critter(new GridLocation(1, 0), 1);

@@ -1,4 +1,5 @@
 package controllers;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import views.EditMapView;
 
 /**
  * This class implements Listening interface (ActionListener and MouseListener) to edit and save the map.
+ * 
  * @author Team 6
  *
  * @param <T> ActionListener or MouseListener
@@ -27,6 +29,7 @@ public class EditMapController implements ActionListener, MouseListener {
 
     /**
      * Constructs EditMapController by instantiating an object of EditMapView class.
+     * 
      * @param gameGrid current map
      */
     public EditMapController(GameGrid gameGrid) {
@@ -59,8 +62,7 @@ public class EditMapController implements ActionListener, MouseListener {
     }
 
     /**
-     * This method either save the map or call the update method
-     * in case of any changed map cell.
+     * This method either save the map or call the update method in case of any changed map cell.
      *
      * @param event that triggered the update.
      */
@@ -96,7 +98,7 @@ public class EditMapController implements ActionListener, MouseListener {
      *
      * Toggles the case type of the tile between grass and road.
      *
-     * @param row    Row of the tile to toggle.
+     * @param row Row of the tile to toggle.
      * @param column Column of the tile to toggle.
      */
     private void toggleTile(int row, int column) {

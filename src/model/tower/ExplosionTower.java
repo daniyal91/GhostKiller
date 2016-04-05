@@ -6,8 +6,8 @@ import model.Critter;
 import model.GridLocation;
 
 /**
- * Explosion tower is a subclass of the Tower class and can be placed on the grid during the game.
- * This tower will attack nearby critters when targeting a critter.
+ * Explosion tower is a subclass of the Tower class and can be placed on the grid during the game. This tower will
+ * attack nearby critters when targeting a critter.
  *
  * @author Team 6
  *
@@ -56,7 +56,7 @@ public class ExplosionTower extends Tower {
 
         if (critterToAttack != null) {
             critterToAttack.takeDamage(this.power, false);
-            for (Critter critter: critters) {
+            for (Critter critter : critters) {
                 if (GridLocation.nearby(critter.gridLocation, critterToAttack.gridLocation)) {
                     System.out.print("Nearby critter taking damage!!!");
                     critter.takeDamage(this.power / 4, false);

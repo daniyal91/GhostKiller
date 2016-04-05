@@ -15,17 +15,18 @@ import model.strategy.StrongestStrategy;
 import model.strategy.WeakestStrategy;
 import model.tower.FireTower;
 import model.tower.Tower;
+
 /**
- * This class performs tests for different attack strategies. 
+ * This class performs tests for different attack strategies.
+ * 
  * @author team 6
  *
  */
 public class StrategyTestCase extends TestCase {
-    
-    /**
-     * Checks if Nearest strategy works smoothly. 
-     */
 
+    /**
+     * Checks if Nearest strategy works correctly.
+     */
     @Test
     public void testNearestStrategy() {
         AttackStrategy strategy = new NearestStrategy();
@@ -43,9 +44,9 @@ public class StrategyTestCase extends TestCase {
         assertEquals(closest.gridLocation.y, 4);
 
     }
-    
+
     /**
-     * Checks if random strategy works smoothly.
+     * Checks if random strategy works correctly.
      */
     @Test
     public void testRandomStrategy() {
@@ -61,10 +62,10 @@ public class StrategyTestCase extends TestCase {
         assertEquals(unlucky.gridLocation.y, 4);
 
     }
-    /**
-     * Checks if random strategy works smoothly when no critters is in range.
-     */
 
+    /**
+     * Checks if random strategy works correctly when no critters are in range.
+     */
     @Test
     public void testRandomStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
@@ -77,10 +78,10 @@ public class StrategyTestCase extends TestCase {
         assertNull(unlucky);
 
     }
-    /**
-     * Checks if nearest strategy works smoothly.
-     */
 
+    /**
+     * Checks if nearest strategy works correctly.
+     */
     @Test
     public void testNearestStrategyNoCritters() {
         AttackStrategy strategy = new NearestStrategy();
@@ -91,8 +92,9 @@ public class StrategyTestCase extends TestCase {
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
+
     /**
-     * Checks if nearest strategy works smoothly when no critter is in range.
+     * Checks if nearest strategy works correctly when no critters are in range.
      */
     @Test
     public void testNearestStrategyNoCrittersInRange() {
@@ -110,10 +112,10 @@ public class StrategyTestCase extends TestCase {
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
-    /**
-     * Checks if weakest strategy works smoothly.
-     */
 
+    /**
+     * Checks if weakest strategy works correctly.
+     */
     @Test
     public void testWeakestStrategy() {
         AttackStrategy strategy = new WeakestStrategy();
@@ -134,11 +136,10 @@ public class StrategyTestCase extends TestCase {
         assertEquals(closest.gridLocation.y, 4);
 
     }
-    
-    /**
-     * Checks if weakest strategy works smoothly when no critter is in range.
-     */
 
+    /**
+     * Checks if weakest strategy works correctly when no critters are in range.
+     */
     @Test
     public void testWeakestStrategyNoCrittersInRange() {
         AttackStrategy strategy = new WeakestStrategy();
@@ -155,10 +156,10 @@ public class StrategyTestCase extends TestCase {
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
-    /**
-     * Checks if strongest strategy works smoothly.
-     */
 
+    /**
+     * Checks if strongest strategy works correctly.
+     */
     @Test
     public void testStrongestStrategy() {
         AttackStrategy strategy = new StrongestStrategy();
@@ -179,10 +180,10 @@ public class StrategyTestCase extends TestCase {
         assertEquals(closest.gridLocation.y, 6);
 
     }
-    /**
-     * Checks if strongest strategy works smoothly when no critter is in range.
-     */
 
+    /**
+     * Checks if strongest strategy works correctly when no critters are in range.
+     */
     @Test
     public void testStrongestStrategyNoCritters() {
         AttackStrategy strategy = new StrongestStrategy();
@@ -193,10 +194,10 @@ public class StrategyTestCase extends TestCase {
         Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
         assertNull(closest);
     }
-    /**
-     * Checks if first strategy works smoothly.
-     */
 
+    /**
+     * Checks if first strategy works correctly.
+     */
     @Test
     public void testFirstStrategy() {
         AttackStrategy strategy = new FirstStrategy();
@@ -219,10 +220,10 @@ public class StrategyTestCase extends TestCase {
         assertEquals(closest.gridLocation.y, 4);
 
     }
-    /**
-     * Checks if first strategy works smoothly when no critter is in range..
-     */
 
+    /**
+     * Checks if first strategy works correctly when no critters are in range.
+     */
     @Test
     public void testFirstStrategyNoCritters() {
         AttackStrategy strategy = new FirstStrategy();

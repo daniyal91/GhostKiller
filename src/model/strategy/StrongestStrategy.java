@@ -23,7 +23,7 @@ public class StrongestStrategy extends AttackStrategy {
         Critter target = null;
         int maximumHealth = Integer.MIN_VALUE;
 
-        for (Critter critter: critters) {
+        for (Critter critter : critters) {
 
             int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
             if (distance > tower.getRange()) {
@@ -42,7 +42,7 @@ public class StrongestStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public String getName(){
+    public String getName() {
         return "strongest";
     }
 }

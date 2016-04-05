@@ -28,13 +28,8 @@ public class GameGrid {
     /**
      * Images used to represent the different types of case types
      */
-    public static String[] CASE_TYPES_ICON_PATHS = {
-                    "icons/grass.jpg",
-                    "icons/grass2.jpg",
-                    "icons/road.jpg",
-                    "icons/start.png",
-                    "icons/end.png"
-    };
+    public static String[] CASE_TYPES_ICON_PATHS =
+                    {"icons/grass.jpg", "icons/grass2.jpg", "icons/road.jpg", "icons/start.png", "icons/end.png"};
 
     public int pathindex = 1;
     public String filePath = "";
@@ -79,8 +74,7 @@ public class GameGrid {
     }
 
     /**
-     * Saves the game grid to a file using the file path
-     * from where we loaded the game grid.
+     * Saves the game grid to a file using the file path from where we loaded the game grid.
      */
     public void writeToFile() {
         this.writeToFile(this.filePath);
@@ -114,7 +108,7 @@ public class GameGrid {
             pr.println(this.dateCreated.toGMTString());
             pr.println(this.dateModified.toGMTString());
 
-            for (GameScore gameScore: this.scores) {
+            for (GameScore gameScore : this.scores) {
                 pr.println(gameScore.toString());
             }
 
@@ -196,7 +190,7 @@ public class GameGrid {
             this.dateCreated = new Date(Date.parse(br.readLine()));
             this.dateModified = new Date(Date.parse(br.readLine()));
 
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 GameScore gameScore = new GameScore();
                 gameScore.fromString(line);
                 this.scores.add(gameScore);

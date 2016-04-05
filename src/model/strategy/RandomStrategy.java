@@ -23,7 +23,7 @@ public class RandomStrategy extends AttackStrategy {
 
         ArrayList<Critter> crittersInRange = new ArrayList<Critter>();
 
-        for (Critter critter: critters) {
+        for (Critter critter : critters) {
             if (GridLocation.distance(tower.getLocation(), critter.gridLocation) <= tower.getRange()) {
                 crittersInRange.add(critter);
             }
@@ -33,7 +33,7 @@ public class RandomStrategy extends AttackStrategy {
             return null;
         }
 
-        int randomIndex = (int)(Math.random() * crittersInRange.size());
+        int randomIndex = (int) (Math.random() * crittersInRange.size());
         return crittersInRange.get(randomIndex);
     }
 
@@ -41,7 +41,7 @@ public class RandomStrategy extends AttackStrategy {
      * {@inheritDoc}
      */
     @Override
-    public String getName(){
+    public String getName() {
         return "random";
     }
 }

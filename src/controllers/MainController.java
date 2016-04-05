@@ -12,9 +12,8 @@ import model.Path;
 import views.MainView;
 
 /**
- * Main controller for the game program. Will listen to actions from the user in the MainView,
- * and choose what new view to instantiate accordingly.
- * This class implements the singleton pattern.
+ * Main controller for the game program. Will listen to actions from the user in the MainView, and choose what new view
+ * to instantiate accordingly. This class implements the singleton pattern.
  *
  * @author Team 6
  *
@@ -53,10 +52,8 @@ public class MainController implements Runnable, ActionListener {
     /**
      * {@inheritDoc}
      *
-     * Can execute one of the following 3 actions :
-     * * Launch the map editor with a new map;
-     * * Launch the map editor with an existing map;
-     * * Launch the game with a selected map.
+     * Can execute one of the following 3 actions : * Launch the map editor with a new map; * Launch the map editor with
+     * an existing map; * Launch the game with a selected map.
      */
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -69,25 +66,29 @@ public class MainController implements Runnable, ActionListener {
             try {
                 lineCount = Integer.parseInt(lineText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "The number of lines must be an integer!", "Invalid lines value", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The number of lines must be an integer!", "Invalid lines value",
+                                JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             String columnText = this.mainFrame.textFieldColumns.getText();
             try {
                 columnCount = Integer.parseInt(columnText);
-            } catch(NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "The number of columns must be an integer!", "Invalid columns value", JOptionPane.WARNING_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "The number of columns must be an integer!",
+                                "Invalid columns value", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (lineCount < 5) {
-                JOptionPane.showMessageDialog(null, "The height of the new grid must be at least 5!", "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The height of the new grid must be at least 5!",
+                                "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (columnCount < 5) {
-                JOptionPane.showMessageDialog(null, "The width of the new grid must be at least 5!", "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The width of the new grid must be at least 5!",
+                                "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -114,9 +115,9 @@ public class MainController implements Runnable, ActionListener {
                 game.grid.readFromFile(filePath, true);
                 GameController gameController = new GameController(game);
 
-                Path t=new Path(game.grid);
-                //  System.out.println("shortest path , critters' path towrad exit point :");
-                //  System.out.println(t.getShortestPath());
+                Path t = new Path(game.grid);
+                // System.out.println("shortest path , critters' path towrad exit point :");
+                // System.out.println(t.getShortestPath());
 
 
 

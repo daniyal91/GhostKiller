@@ -2,8 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 /**
- * This class implements components for calculating shortest path, finding neighbors with minimum distance, getting next location on the path and calculating if a location is on the path.
+ * This class implements components for calculating shortest path, finding neighbors with minimum distance, getting next
+ * location on the path and calculating if a location is on the path.
+ * 
  * @author Team 6
  *
  */
@@ -29,12 +32,10 @@ public class Path {
     }
 
     /**
-     * Gets the location coming after the current location in
-     * the shortest path.
+     * Gets the location coming after the current location in the shortest path.
      *
      * @param currentLocation current location in the path.
-     * @return The next location in the path after the specified
-     *         GridLocation.
+     * @return The next location in the path after the specified GridLocation.
      */
     public GridLocation getNextLocation(GridLocation currentLocation) {
 
@@ -62,8 +63,9 @@ public class Path {
 
     /**
      * Gets the shortest path associated with the grid.
-     * @return An array list of GridLocation representing the shortest
-     *         path from the entry point to the exit point in the grid.
+     * 
+     * @return An array list of GridLocation representing the shortest path from the entry point to the exit point in
+     *         the grid.
      */
     public ArrayList<GridLocation> getShortestPath() {
         // Lazy initializes the shortest path.
@@ -80,8 +82,7 @@ public class Path {
         ArrayList<GridLocation> pathlist = new ArrayList<GridLocation>();
         GridLocation grid = gamegrid.exitPoint();
         grid = minNeighbor(grid, this.gamegrid.connectivities());
-        while (!(grid.x == gamegrid.entryPoint().x
-                && grid.y == gamegrid.entryPoint().y)) {
+        while (!(grid.x == gamegrid.entryPoint().x && grid.y == gamegrid.entryPoint().y)) {
             pathlist.add(0, grid);
             grid = minNeighbor(grid, this.gamegrid.connectivities());
 
@@ -91,6 +92,7 @@ public class Path {
 
     /**
      * Finds the neighbor with the minimum distance from the entry (nearest).
+     * 
      * @param gridLocation The current grid location.
      * @param connectivites Grid connectivities.
      *
@@ -103,16 +105,14 @@ public class Path {
 
         // check the left
         if (isPath(line, column - 1, connectivites)) {
-            if (connectivites[line][column
-                                    - 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
+            if (connectivites[line][column - 1][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line, column - 1);
             }
         }
 
         // check above
         if (isPath(line - 1, column, connectivites)) {
-            if (connectivites[line
-                              - 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
+            if (connectivites[line - 1][column][1] < connectivites[minNeighbor.x][minNeighbor.y][1]) {
                 minNeighbor = new GridLocation(line - 1, column);
             }
         }
@@ -165,17 +165,17 @@ public class Path {
         return true;
     }
 
-    
+
     /**
-     * Returns the String consists of GridLocations in the shortest path 
+     * Returns the String consists of GridLocations in the shortest path
      */
     public String toString() {
-        String pathstr="";
+        String pathstr = "";
         this.shortestPath = this.calculateShortestPath();
-        pathstr+="["+shortestPath.get(0).x+","+shortestPath.get(0).y+"]";
+        pathstr += "[" + shortestPath.get(0).x + "," + shortestPath.get(0).y + "]";
         Iterator<GridLocation> itr = shortestPath.iterator();
         while (itr.hasNext()) {
-            pathstr+="["+itr.next().x+","+itr.next().y+"]";
+            pathstr += "[" + itr.next().x + "," + itr.next().y + "]";
         }
 
         return pathstr;

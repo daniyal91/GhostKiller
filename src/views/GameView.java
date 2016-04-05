@@ -36,8 +36,7 @@ import model.tower.Tower;
 public class GameView implements Observer {
 
     /**
-     * Amount of time, in milliseconds, to show the attacking
-     * effects on the critters.
+     * Amount of time, in milliseconds, to show the attacking effects on the critters.
      */
     public static int ATTACK_EFFECTS_DELAY = 15;
 
@@ -178,7 +177,8 @@ public class GameView implements Observer {
 
         this.gameFrame.setResizable(false);
 
-        JOptionPane.showMessageDialog(null, GameScore.displayHighScores(game.grid.getGameScores()), "High scores.", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, GameScore.displayHighScores(game.grid.getGameScores()), "High scores.",
+                        JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -197,7 +197,7 @@ public class GameView implements Observer {
     public void update(Observable observable, Object object) {
         Game game = (Game) observable;
 
-        for (GridLocation attackLocation: game.attackedCritters) {
+        for (GridLocation attackLocation : game.attackedCritters) {
             this.tiles[attackLocation.x][attackLocation.y].setIcon(new ImageIcon("icons/fire.png"));
             try {
                 Thread.sleep(GameView.ATTACK_EFFECTS_DELAY);
@@ -238,10 +238,12 @@ public class GameView implements Observer {
         }
 
         if (game.isOver()) {
-            JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.",
+                            JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
         } else if (game.isWon()) {
-            JOptionPane.showMessageDialog(null, "You won the game!", "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "You won the game!", "Congratulations!",
+                            JOptionPane.INFORMATION_MESSAGE);
             this.gameFrame.setVisible(false);
         }
     }
@@ -249,7 +251,7 @@ public class GameView implements Observer {
     /**
      * Removes a critter form the specified location.
      *
-     * @param line   Line from where to remove the critter.
+     * @param line Line from where to remove the critter.
      * @param column Column from where to remove the critter.
      */
     public void removeCritter(int line, int column) {
@@ -260,7 +262,7 @@ public class GameView implements Observer {
     /**
      * Places a critter at the specified location.
      *
-     * @param line   Line where to place the critter.
+     * @param line Line where to place the critter.
      * @param column Column where to place the critter.
      */
     private void placeCritter(int line, int column) {
@@ -309,6 +311,7 @@ public class GameView implements Observer {
         }
         return null;
     }
+
     /**
      *
      * Shows the details of the critter in the critter inspection panel.
@@ -501,7 +504,7 @@ public class GameView implements Observer {
             towerDetailsPanel.add(space1);
             towerDetailsPanel.add(space2);
 
-            for (String log: tower.getLogs()) {
+            for (String log : tower.getLogs()) {
                 // Tower Log
                 JLabel towerLogtxt = new JLabel("Log: ");
                 towerLogtxt.setForeground(Color.white);
@@ -512,9 +515,6 @@ public class GameView implements Observer {
             }
 
         }
-
-
-
 
         towerInspectionFrame.setVisible(true);
     }

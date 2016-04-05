@@ -4,38 +4,38 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import model.GridLocation;
+
 /**
  * This class performs test for objects of GridLocation class using JUnit3.
+ * 
  * @author Team 6
  *
  */
-
 public class GridLocationTestCase extends TestCase {
-    
-    /**
-     * Test default constructor.
-     */
 
+    /**
+     * Tests the default constructor.
+     */
     @Test
     public void testDefaultConstructor() {
         GridLocation gridLocation = new GridLocation();
         TestCase.assertEquals(-1, gridLocation.x);
         TestCase.assertEquals(-1, gridLocation.y);
     }
-    /**
-     * Tests constructor. 
-     */
 
+    /**
+     * Tests the class' constructor.
+     */
     @Test
     public void testConstructor() {
         GridLocation gridLocation = new GridLocation(4, 5);
         TestCase.assertEquals(4, gridLocation.x);
         TestCase.assertEquals(5, gridLocation.y);
     }
+
     /**
      * Tests the toString method.
      */
-
     @Test
     public void testToString() {
         GridLocation gridLocation = new GridLocation(2, 3);
@@ -43,11 +43,10 @@ public class GridLocationTestCase extends TestCase {
         String expected = "GridLocation (2, 3)";
         TestCase.assertEquals(result, expected);
     }
+
     /**
-     * Tests distance method.
+     * Tests the distance method.
      */
-
-
     public void testDistance() {
         GridLocation gridLocation1 = new GridLocation(2, 3);
         GridLocation gridLocation2 = new GridLocation(4, 5);
@@ -61,12 +60,10 @@ public class GridLocationTestCase extends TestCase {
         GridLocation gridLocation6 = new GridLocation(2, 2);
         TestCase.assertEquals(GridLocation.distance(gridLocation5, gridLocation6), 0);
     }
+
     /**
-     * Tests nearby method.
+     * Tests the nearby method.
      */
-
-
-
     @Test
     public void testNearby() {
         GridLocation gridLocation1 = new GridLocation(2, 3);
