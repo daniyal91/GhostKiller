@@ -63,6 +63,7 @@ public class Game extends Observable {
     private int crittersReleased;
     private int lives;
     private int wave;
+    private int killedCritters = 0;
 
     /**
      * Constructs the Game object with an empty 100x100 grid.
@@ -286,7 +287,7 @@ public class Game extends Observable {
         if (this.isOver() || this.isWon()) {
             GameScore gameScore = new GameScore();
             gameScore.datePlayed = new Date(System.currentTimeMillis());
-            gameScore.crittersKilled = (Game.CRITTERS_PER_WAVE * (this.wave - 1)) + (Game.CRITTERS_PER_WAVE - this.critters.size());
+            gameScore.killedCritters = this.killedCritters;
             gameScore.won = this.isWon();
             this.grid.addGameScore(gameScore);
             this.grid.writeToFile();
@@ -416,6 +417,7 @@ public class Game extends Observable {
             } else {
                 log+="critter ["+critter.critterID+ "] has been neutralized at " +critter.gridLocation+"\n";
                 this.money += critter.getReward();
+                this.killedCritters++;
             }
         }
         this.critters = critters;
@@ -429,11 +431,11 @@ public class Game extends Observable {
     public int getLives() {
         return lives;
     }
+
     /**
      * Sets the remaining lives of the player.
      * @param lives an integer representing the remaining lives of the player.
      */
-
 
     public void setLives(int lives) {
         this.lives = lives;
@@ -449,11 +451,10 @@ public class Game extends Observable {
         return this.lives <= 0;
     }
 
-
     /**
      * Determines if the player has won the game
      *
-     * @return True if the number of waves erached the required wave for winning
+     * @return True if the number of waves required wave for winning is reached.
      */
     public boolean isWon() {
         return this.wave > Game.WAVES_TO_WIN;
@@ -478,32 +479,51 @@ public class Game extends Observable {
             this.gameThread = null;
         }
         this.wave++;
+        this.critters.clear();
         this.crittersReleased = 0;
     }
+
     /**
      * Prints the statues of the game on the console.
      */
-
     public void gameState(){
         System.out.println(this.grid.getCases());
         System.out.println(this.grid.getCases()[0].length);
 
     }
+
     /**
      * Saves the current game.
      * @param savedgame a string representing the file name of the saving game
      */
-
     public void saveGame(String savedgame){
         Store.saveGame(this, savedgame);
     }
+
     /**
      * Loads the saved game.
      * @param savedgame a string representing the file name of the saved game
      */
-
     public void loadGame(String savedgame){
         Store.loadGame(this, savedgame);
+    }
+
+    /**
+     * Gets the number of killed critters.
+     *
+     * @return The number of killed critters in the game.
+     */
+    public int getKilledCritters() {
+        return this.killedCritters;
+    }
+
+    /**
+     * Gets the current wave.
+     *
+     * @return The serial number of the current wave.
+     */
+    public int getWave() {
+        return this.wave;
     }
 
 }

@@ -21,7 +21,7 @@ public class GameScore implements Comparable<GameScore>{
     public static int HIGH_SCORES_COUNT = 5;
 
     public java.util.Date datePlayed = new Date(System.currentTimeMillis());
-    public int crittersKilled = 0;
+    public int killedCritters = 0;
     public boolean won = false;
 
     public GameScore() {
@@ -29,25 +29,25 @@ public class GameScore implements Comparable<GameScore>{
     }
 
     public GameScore(int crittersKilled, boolean won) {
-        this.crittersKilled = crittersKilled;
+        this.killedCritters = crittersKilled;
         this.won = won;
     }
 
     @Override
     public int compareTo(GameScore gameScore) {
-        return gameScore.crittersKilled - this.crittersKilled;
+        return gameScore.killedCritters - this.killedCritters;
     }
 
     @Override
     public String toString() {
-        return this.datePlayed.toGMTString() + ',' + this.crittersKilled + ',' + (this.won != false ? "won" : "lost");
+        return this.datePlayed.toGMTString() + ',' + this.killedCritters + ',' + (this.won != false ? "won" : "lost");
     }
 
     @SuppressWarnings("deprecation")
     public void fromString(String gameScoreString) {
         String[] infos = gameScoreString.split(",", 1000);
         this.datePlayed = new Date(Date.parse(infos[0]));
-        this.crittersKilled = Integer.parseInt(infos[1]);
+        this.killedCritters = Integer.parseInt(infos[1]);
         this.won = (infos[2].length() == 3);
     }
 
@@ -68,8 +68,8 @@ public class GameScore implements Comparable<GameScore>{
         String response = "Date                                    Critters killed  Result\n";
         for (GameScore gameScore: highScores) {
             response += gameScore.datePlayed.toGMTString() + "  ";
-            response += gameScore.crittersKilled + "                       ";
-            if (gameScore.crittersKilled < 10) {
+            response += gameScore.killedCritters + "                       ";
+            if (gameScore.killedCritters < 10) {
                 response += "  ";
             }
             response += (gameScore.won ? "won" : "lost") + '\n';

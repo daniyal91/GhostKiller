@@ -56,8 +56,11 @@ public class GameView implements Observer {
     private JLabel lifeLabel;
     private JFrame towerInspectionFrame;
     private JFrame critterInspectionFrame;
+    private JLabel crittersKilledLabel;
+    private JLabel waveLabel;
 
     private GameController gameController;
+
 
     /**
      * Constructs the GameView object.
@@ -135,10 +138,21 @@ public class GameView implements Observer {
 
         }
 
-        // Health and bank panel
+        // Critters killed, Health points and money panel.
         JPanel healthBankPanel = new JPanel();
         healthBankPanel.setBackground(Color.DARK_GRAY);
         mainPane.add(healthBankPanel, BorderLayout.SOUTH);
+
+        this.waveLabel = new JLabel("Wave: " + game.getWave());
+        this.waveLabel.setForeground(Color.green);
+        healthBankPanel.add(this.waveLabel);
+
+        // Critters image
+        JLabel crittersImgLabel = new JLabel(new ImageIcon(Critter.ICON_PATH));
+        healthBankPanel.add(crittersImgLabel);
+        this.crittersKilledLabel = new JLabel("" + game.getKilledCritters());
+        this.crittersKilledLabel.setForeground(Color.green);
+        healthBankPanel.add(this.crittersKilledLabel);
 
         // Bank image
         JLabel bankImgLabel = new JLabel(new ImageIcon("icons/bank_icon.png"));
@@ -209,8 +223,11 @@ public class GameView implements Observer {
 
             }
         }
+
         this.cashLabel.setText("$" + game.getMoney());
         this.lifeLabel.setText("" + game.getLives());
+        this.crittersKilledLabel.setText("" + game.getKilledCritters());
+        this.waveLabel.setText("Wave: " + game.getWave());
 
         if (this.selectedCritter != null) {
             this.showCritterDetails(this.selectedCritter);
@@ -460,9 +477,6 @@ public class GameView implements Observer {
         JLabel towerSpecialEffects = new JLabel(tower.getSpecialEffect());
         towerSpecialEffects.setForeground(Color.white);
         towerDetailsPanel.add(towerSpecialEffects);
-
-
-
 
         if (placedOnTile) {
 
