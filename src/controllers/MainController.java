@@ -13,14 +13,29 @@ import views.MainView;
 
 /**
  * Main controller for the game program. Will listen to actions from the user in the MainView,
- * and choose what new view to instantiate accordingly
+ * and choose what new view to instantiate accordingly.
+ * This class implements the singleton pattern.
  *
  * @author Team 6
  *
  */
 public class MainController implements Runnable, ActionListener {
 
+    /**
+     * The only instance of this Singleton class.
+     */
+    private static MainController instance = new MainController();
+
     private MainView mainFrame;
+
+    /**
+     * Returns the single instance of the MainController class.
+     *
+     * @return the single instance of the MainController class.
+     */
+    public static MainController getInstance() {
+        return MainController.instance;
+    }
 
     /**
      * {@inheritDoc}

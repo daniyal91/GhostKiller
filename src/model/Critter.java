@@ -137,7 +137,7 @@ public class Critter {
      * @return An integer representing the reward as money.
      */
     public int getReward() {
-        return this.healthPoints * Critter.REWARD_RATIO;
+        return Critter.INITIAL_HEALTH_POINTS + (Critter.HEALTH_POINTS_PER_LEVEL * this.level);
     }
 
     /**

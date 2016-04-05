@@ -91,4 +91,18 @@ public class CritterTestCase extends TestCase {
 
     }
 
+    @Test
+    public void testgetRewards() {
+        Critter critter = new Critter(new GridLocation(1, 0), 1);
+
+        int reward = critter.getReward();
+
+        assertEquals(reward, Critter.INITIAL_HEALTH_POINTS + (1 * Critter.HEALTH_POINTS_PER_LEVEL));
+
+        critter = new Critter(new GridLocation(1, 0), 2);
+
+        assertTrue(critter.getReward() > reward);
+
+    }
+
 }

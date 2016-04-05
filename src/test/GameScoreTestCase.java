@@ -27,8 +27,8 @@ public class GameScoreTestCase {
         ArrayList<GameScore> highScores = GameScore.getHighScores(gameScores);
 
         assertEquals(highScores.size(), GameScore.HIGH_SCORES_COUNT);
-        assertEquals(highScores.get(0).crittersKilled, 50);
-        assertEquals(highScores.get(4).crittersKilled, 4);
+        assertEquals(highScores.get(0).killedCritters, 50);
+        assertEquals(highScores.get(4).killedCritters, 4);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class GameScoreTestCase {
         serialized.fromString(gameScore.toString());
 
         assertTrue(serialized.won);
-        assertEquals(serialized.crittersKilled, 35);
+        assertEquals(serialized.killedCritters, 35);
 
     }
 
@@ -66,7 +66,7 @@ public class GameScoreTestCase {
         serialized.fromString(gameScore.toString());
 
         assertFalse(serialized.won);
-        assertEquals(serialized.crittersKilled, 0);
+        assertEquals(serialized.killedCritters, 0);
 
     }
 

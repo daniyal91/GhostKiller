@@ -15,10 +15,7 @@ public class Main {
      * @param args command line arguments.
      */
     public static void main(final String[] args) {
-
-        MainController gameController = new MainController();
-        EventQueue.invokeLater(gameController);
-
+        EventQueue.invokeLater(MainController.getInstance());
     }
 
 }

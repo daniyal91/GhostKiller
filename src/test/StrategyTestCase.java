@@ -152,6 +152,17 @@ public class StrategyTestCase extends TestCase {
     }
 
     @Test
+    public void testStrongestStrategyNoCritters() {
+        AttackStrategy strategy = new StrongestStrategy();
+
+        Tower tower = new FireTower(new GridLocation(5, 5));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertNull(closest);
+    }
+
+    @Test
     public void testFirstStrategy() {
         AttackStrategy strategy = new FirstStrategy();
 
@@ -174,6 +185,15 @@ public class StrategyTestCase extends TestCase {
 
     }
 
+    @Test
+    public void testFirstStrategyNoCritters() {
+        AttackStrategy strategy = new FirstStrategy();
 
+        Tower tower = new FireTower(new GridLocation(5, 5));
+
+        Collection<Critter> critters = new ArrayList<Critter>();
+        Critter closest = strategy.attackCritter(tower, critters, new GridLocation(0, 0));
+        assertNull(closest);
+    }
 
 }
