@@ -64,6 +64,9 @@ public class GameScore implements Comparable<GameScore>{
     }
 
     public static String displayHighScores(ArrayList<GameScore> gameScores) {
+        if (gameScores.size() == 0) {
+            return "No high scores for this map!";
+        }
         ArrayList<GameScore> highScores = GameScore.getHighScores(gameScores);
         String response = "Date                                    Critters killed  Result\n";
         for (GameScore gameScore: highScores) {
