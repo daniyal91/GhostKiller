@@ -44,6 +44,7 @@ public class GameController implements MouseListener, ActionListener {
         this.game.addObserver(this.gameView);
         this.game.addObserver(this.gameLog);
         this.gameView.show();
+        this.gameView.update(this.game, this.game);
     }
 
     /**

@@ -16,11 +16,11 @@ public class TowerFactory {
      * @return A new Tower instance.
      */
     public static Tower createTower(String towerName) {
-        if (towerName == "Fire tower") {
+        if (towerName.equals("Fire tower")) {
             return new FireTower();
-        } else if (towerName == "Ice tower") {
+        } else if (towerName.equals("Ice tower")) {
             return new IceTower();
-        } else if (towerName == "Explosion tower") {
+        } else if (towerName.equals("Explosion tower")) {
             return new ExplosionTower();
         } else {
             throw new IllegalArgumentException("Invalid tower name " + towerName);

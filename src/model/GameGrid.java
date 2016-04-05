@@ -152,7 +152,7 @@ public class GameGrid {
      */
     public void readFromFile(String filename, Boolean addRandomBushes) {
 
-        filePath=filename;
+        filePath = filename;
         int linenumber = 0; // line number starts from the second line
         int rows = 0;
         int columns = 0; // n customer, k teams

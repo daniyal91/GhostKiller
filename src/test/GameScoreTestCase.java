@@ -70,5 +70,13 @@ public class GameScoreTestCase {
 
     }
 
+    @Test
+    public void testNoHighScores() throws IOException {
+
+        String highScore = GameScore.displayHighScores(new ArrayList<GameScore>());
+        assertEquals(highScore, "No high scores for this map!");
+
+    }
+
 
 }

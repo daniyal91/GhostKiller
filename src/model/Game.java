@@ -1,6 +1,12 @@
 package model;
 
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -486,19 +492,96 @@ public class Game extends Observable {
     }
 
     /**
-     * Saves the current game.
-     * @param savedgame a string representing the file name of the saving game
+     * Saves the current game to a file.
+     * @param filePath a string representing the file name of the saving game
      */
-    public void saveGame(String savedgame){
-        Store.saveGame(this, savedgame);
+    public void saveGame(String filePath){
+
+        PrintWriter printWriter;
+
+        try {
+
+            printWriter = new PrintWriter(filePath);
+
+            printWriter.println(this.grid.filePath);
+
+            // health and money
+            printWriter.println(this.getLives());
+            printWriter.println(this.getMoney());
+            printWriter.println(this.getWave());
+            printWriter.println(this.getKilledCritters());
+
+            printWriter.println(this.towers.size());
+            for (Tower t : this.getTowers().values()) {
+                printWriter.print(t.getLocation().x + ",");
+                printWriter.print(t.getLocation().y + ",");
+                printWriter.print(t.getName() + ",");
+                printWriter.print(t.getLevel() + ",");
+                printWriter.print(t.getAttackStrategy().getName() + ",");
+                printWriter.println();
+            }
+
+            printWriter.close();
+
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
+
     }
 
     /**
      * Loads the saved game.
-     * @param savedgame a string representing the file name of the saved game
+     *
+     * @param filePath a string representing the file name of the saved game
      */
-    public void loadGame(String savedgame){
-        Store.loadGame(this, savedgame);
+    public void loadGame(String filePath){
+
+        HashMap<Point, Tower> towers = new HashMap<Point, Tower>();
+        String[] tokens;
+
+        try {
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+            String line = null;
+
+            // read the 1st line, dimensions of the map
+            String mapFilePath = br.readLine();
+            this.grid = new GameGrid();
+            this.grid.readFromFile(mapFilePath, false);
+
+            this.lives = Integer.parseInt(br.readLine());
+            this.money = Integer.parseInt(br.readLine());
+            this.wave = Integer.parseInt(br.readLine());
+            this.killedCritters = Integer.parseInt(br.readLine());
+
+            int towerCount = Integer.parseInt(br.readLine());
+
+            for (int i = 0; i < towerCount; i++) {
+
+                line = br.readLine();
+                tokens = line.split(",");
+
+                int x = Integer.parseInt(tokens[0]);
+                int y = Integer.parseInt(tokens[1]);
+                Tower tower = TowerFactory.createTower(tokens[2]);
+                int level = Integer.parseInt(tokens[3]);
+                String strategyName = tokens[4];
+
+                tower.setLocation(new GridLocation(x, y));
+                tower.setLevel(level);
+                tower.setAttackStrategy(strategyName);
+
+                towers.put(tower.getLocation(), tower);
+            }
+
+            br.close();
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        this.setTowers(towers);
+
     }
 
     /**
