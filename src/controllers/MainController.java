@@ -125,8 +125,10 @@ public class MainController implements Runnable, ActionListener {
             String filePath = Utils.selectFile();
             if (filePath != null) {
 
-                Game game=new Game();
+                Game game = new Game();
                 game.loadGame(filePath);
+                GameController gameController = new GameController(game);
+
               }
         }
 

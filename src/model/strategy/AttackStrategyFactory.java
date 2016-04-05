@@ -32,15 +32,15 @@ public class AttackStrategyFactory {
      * @return A new AttackStrategy instance.
      */
     public static AttackStrategy createStrategy(String strategyName) {
-        if (strategyName == "random") {
+        if (strategyName.equals("random")) {
             return new RandomStrategy();
-        } else if (strategyName == "nearest") {
+        } else if (strategyName.equals("nearest")) {
             return new NearestStrategy();
-        } else if (strategyName == "first") {
+        } else if (strategyName.equals("first")) {
             return new FirstStrategy();
-        } else if (strategyName == "weakest") {
+        } else if (strategyName.equals("weakest")) {
             return new WeakestStrategy();
-        } else if (strategyName == "strongest") {
+        } else if (strategyName.equals("strongest")) {
             return new StrongestStrategy();
         } else {
             throw new IllegalArgumentException("Invalid strategy name.");
