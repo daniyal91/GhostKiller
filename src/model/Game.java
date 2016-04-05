@@ -1,6 +1,12 @@
 package model;
 
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -486,19 +492,179 @@ public class Game extends Observable {
     }
 
     /**
-     * Saves the current game.
-     * @param savedgame a string representing the file name of the saving game
+     * Saves the current game to a file.
+     * @param filePath a string representing the file name of the saving game
      */
-    public void saveGame(String savedgame){
-        Store.saveGame(this, savedgame);
+    public void saveGame(String filePath){
+
+        PrintWriter printWriter;
+
+        try {
+            printWriter = new PrintWriter(filePath);
+
+            // size of the grid
+            printWriter.print(this.grid.getCases().length + " " + this.grid.getCases()[0].length);
+
+            // the gameGrid
+            for (int i = 0; i < this.grid.getCases().length; i++) {
+                printWriter.println();
+                for (int j = 0; j < this.grid.getCases()[0].length; j++) {
+                    printWriter.print(this.grid.getCases()[i][j].ordinal() + " ");
+                }
+            }
+
+            printWriter.println();
+
+            // health and money
+            printWriter.print("h,");
+            printWriter.println(this.getLives());
+            printWriter.print("m,");
+            printWriter.print(this.getMoney());
+
+            for (Tower t : this.getTowers().values()) {
+                printWriter.println();
+                printWriter.print("t,");
+                printWriter.print(t.getLocation().x + ",");
+                printWriter.print(t.getLocation().y + ",");
+                printWriter.print(t.getName() + ",");
+                printWriter.print(t.getLevel() + ",");
+                printWriter.print(t.getAttackStrategy().getName() + ",");
+            }
+
+            for (Critter c : this.critters.values()) {
+                printWriter.println();
+                printWriter.print("c,");
+                printWriter.print(c.getLevel() + ",");
+                printWriter.print(c.gridLocation.x + ",");
+                printWriter.print(c.gridLocation.y + ",");
+                printWriter.print(c.getHealthPoints() + ",");
+            }
+
+            printWriter.close();
+
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
+
     }
 
     /**
      * Loads the saved game.
-     * @param savedgame a string representing the file name of the saved game
+     * @param filePath a string representing the file name of the saved game
      */
-    public void loadGame(String savedgame){
-        Store.loadGame(this, savedgame);
+    public void loadGame(String filePath){
+        int linenumber = 0; // line number starts from the second line
+        int rows = 0;
+        int columns = 0; // n customer, k teams
+
+        this.grid = new GameGrid();
+        this.grid.cases = new CASE_TYPES[1][1];
+        HashMap<Point, Critter> newcritters = new HashMap<Point, Critter>();
+        HashMap<Point, Tower> newtowers = new HashMap<Point, Tower>();
+        int newmoney = 0, newhealth = 0;
+        String[] tokens;
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+            String line = null;
+
+            // read the 1st line, dimensions of the map
+            line = br.readLine();
+            tokens = line.split("\\s+");
+            rows = Integer.parseInt(tokens[0]);
+            columns = Integer.parseInt(tokens[1]);
+
+            this.grid.cases = new CASE_TYPES[rows][columns];
+
+            // read grids
+            while ((line = br.readLine()).charAt(0) != 'h') {
+
+                // \\s+ means any number of white spaces between tokens
+                tokens = line.split("\\s+");
+
+                for (int i = 0; i < columns; i++) {
+                    int caseValue = Integer.parseInt(tokens[i]);
+                    this.grid.cases[linenumber][i] = CASE_TYPES.values()[caseValue];
+                }
+
+                linenumber = linenumber + 1; // next line (lane) information
+
+            } // end of read grids
+
+
+            while ((line = br.readLine()) != null) {
+
+                tokens = line.split(",");
+                switch (tokens[0]) {
+                    case "h":
+                        newhealth = Integer.parseInt(tokens[1]);
+                        break;
+                    case "m":
+                        newmoney = Integer.parseInt(tokens[1]);
+                        break;
+                    case "t":
+                        String towertype = "";
+                        switch (tokens[3]) {
+                            case "Fire tower":
+                                towertype = "Fire tower";
+                                break;
+                            case "Ice tower":
+                                towertype = "Ice tower";
+                                break;
+                            case "Explosion tower":
+                                towertype = "Explosion towerr";
+                                break;
+                        }
+
+                        Tower temptower = TowerFactory.createTower(towertype);
+                        temptower.setLevel(Integer.parseInt(tokens[4]));
+                        String strategy = "";
+                        switch (tokens[5]) {
+                            case "random":
+                                strategy = "random";
+                                break;
+                            case "nearest":
+                                strategy = "nearest";
+                                break;
+                            case "weakest":
+                                strategy = "weakest";
+                                break;
+                            case "strongest":
+                                strategy = "strongest";
+                                break;
+                            case "first":
+                                strategy = "first";
+                                break;
+                        }
+
+                        temptower.setAttackStrategy(strategy);
+
+                        newtowers.put(new Point(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])), temptower);
+                        break;
+                    case "c":
+                        GridLocation temploc =
+                                        new GridLocation(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+                        Critter tempcritter = new Critter(temploc, Integer.parseInt(tokens[1]));
+                        if (tokens[4].equals("true")) {
+                            tempcritter.freeze();
+                        }
+                        newcritters.put(temploc, tempcritter);
+                        break;
+                }
+
+            }
+
+            br.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        this.setLives(newhealth);
+        this.setMoney(newmoney);
+        this.critters = newcritters;
+        this.setTowers(newtowers);
+
     }
 
     /**
