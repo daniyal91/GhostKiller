@@ -15,7 +15,7 @@ import model.tower.Tower;
 
 /**
  * This class performs tests for objects of Game class.
- * 
+ *
  * @author Team 6
  *
  */
@@ -25,7 +25,7 @@ public class GameTestCase {
 
     /**
      * This method runs before each test method. It initiates an object of Game class.
-     * 
+     *
      * @throws Exception
      */
     @Before
@@ -80,7 +80,7 @@ public class GameTestCase {
     @Test
     public void testLoadGame() {
         Game game = new Game();
-        game.loadGame("game.txt");
+        game.loadGame("src/test/testfiles/game.txt");
         assertEquals(game.getKilledCritters(), 0);
         assertEquals(game.getMoney(), 100);
         assertEquals(game.getLives(), 3);
@@ -108,7 +108,7 @@ public class GameTestCase {
     public void testSaveLoadGame() {
         Game game = new Game();
 
-        game.loadGame("game.txt");
+        game.loadGame("src/test/testfiles/game.txt");
 
         game.endTurn();
 

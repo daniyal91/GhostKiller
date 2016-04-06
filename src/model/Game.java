@@ -226,7 +226,7 @@ public class Game extends Observable {
     public void changeStrategyTower(String strategy, int line, int column) {
         Tower tower = this.getTower(line, column);
         tower.setAttackStrategy(strategy);
-        log = "tower   [" + tower.getTowerID() + "] attack strategy has been changed to " + strategy + "\n";
+        log = String.format("%s now has attack strategy %s", tower, strategy);
         this.setChanged();
         this.notifyObservers();
     }
