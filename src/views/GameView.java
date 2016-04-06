@@ -229,7 +229,7 @@ public class GameView implements Observer {
         this.crittersKilledLabel.setText("" + game.getKilledCritters());
         this.waveLabel.setText("Wave: " + game.getWave());
 
-        if (this.selectedCritter != null) {
+        if (this.selectedCritter != null && this.critterInspectionFrame.isVisible()) {
             this.showCritterDetails(this.selectedCritter);
         }
 

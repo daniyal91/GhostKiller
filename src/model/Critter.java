@@ -21,12 +21,12 @@ public class Critter {
     /**
      * Initial health points of a new Critter.
      */
-    public static int INITIAL_HEALTH_POINTS = 50;
+    public static int INITIAL_HEALTH_POINTS = 30;
 
     /**
      * Initial speed of a new Critter.
      */
-    public static int INITIAL_SPEED = 20;
+    public static int INITIAL_SPEED = 70;
 
 
     /**
@@ -76,7 +76,7 @@ public class Critter {
      */
     public Critter(Critter critter) {
         this.gridLocation = critter.gridLocation;
-        this.healthPoints = Critter.HEALTH_POINTS_PER_LEVEL * critter.level;
+        this.healthPoints = Critter.INITIAL_HEALTH_POINTS + (Critter.HEALTH_POINTS_PER_LEVEL * critter.level);
         this.level = critter.level;
         this.critterID = critter.critterID;
     }
@@ -226,7 +226,11 @@ public class Critter {
      */
 
     public int getSpeed() {
-        return Critter.INITIAL_SPEED + (Critter.SPEED_PER_LEVEL * this.level);
+        int speed = Critter.INITIAL_SPEED + (Critter.SPEED_PER_LEVEL * this.level);
+        if (this.isFrozen) {
+            return speed / 2;
+        }
+        return speed;
     }
 
 }
