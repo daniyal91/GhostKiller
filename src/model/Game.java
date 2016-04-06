@@ -218,7 +218,6 @@ public class Game extends Observable {
         }
     }
 
-
     /**
      * Change the attack strategy of the tower at a specific location.
      *
@@ -233,8 +232,6 @@ public class Game extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
-
-
 
     /**
      * Initiates a new wave of critters.
