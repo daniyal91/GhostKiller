@@ -92,11 +92,10 @@ public class Game extends Observable {
     }
 
     /**
-     * Sets the current amount of the money the player has
+     * Sets the current amount of the money the player has.
      *
-     * @param money an integer representing amount of money the player has
+     * @param money an integer representing the amount of money the player has.
      */
-
     public void setMoney(int money) {
         this.money = money;
     }
@@ -182,9 +181,8 @@ public class Game extends Observable {
     /**
      * Gets the towers.
      *
-     * @return towers
+     * @return Hash map of the tower on the grid, indexed by their location.
      */
-
     public HashMap<Point, Tower> getTowers() {
         return towers;
     }
@@ -192,9 +190,8 @@ public class Game extends Observable {
     /**
      * Sets the towers.
      *
-     * @param towers a hashMap representing the towers and their points
+     * @param towers Hash map of the tower to place on the grid, indexed by their location.
      */
-
     public void setTowers(HashMap<Point, Tower> towers) {
         this.towers = towers;
     }
@@ -202,7 +199,7 @@ public class Game extends Observable {
     /**
      * Upgrade the level of the tower at a specific location.
      *
-     * @param line Line of the tower to uprade.
+     * @param line Line of the tower to upgrade.
      * @param column Column of the tower to upgrade.
      */
     public void upgradeTower(int line, int column) {

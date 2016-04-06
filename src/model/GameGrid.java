@@ -257,11 +257,10 @@ public class GameGrid {
     }
 
     /**
-     * Returns an array with represents the connections between entry and exit points
+     * Returns an array representing the connections between entry and exit points.
      *
      * @returns Connectivity Array
      */
-
     public int[][][] connectivities() {
         GridLocation entryPoint = this.entryPoint();
         int[][][] connectivities = new int[this.cases.length][this.cases[0].length][3];
@@ -308,7 +307,7 @@ public class GameGrid {
     /**
      * Returns the path grid.
      *
-     * @returns an arraylist of GridLocation
+     * @returns an array list of GridLocation
      */
     public ArrayList<GridLocation> road() {
         return this.getCasesByType(CASE_TYPES.ROAD);
@@ -421,10 +420,20 @@ public class GameGrid {
         return false;
     }
 
+    /**
+     * Add a score to the game grid.
+     *
+     * @param gameScore The new score to associate to the grid.
+     */
     public void addGameScore(GameScore gameScore) {
         this.scores.add(gameScore);
     }
 
+    /**
+     * Gets the scores associated with the game grid.
+     *
+     * @return An array list of scores associated with this game grid.
+     */
     public ArrayList<GameScore> getGameScores() {
         return this.scores;
     }
