@@ -58,7 +58,6 @@ public class ExplosionTower extends Tower {
             critterToAttack.takeDamage(this.power, false);
             for (Critter critter : critters) {
                 if (GridLocation.nearby(critter.gridLocation, critterToAttack.gridLocation)) {
-                    System.out.print("Nearby critter taking damage!!!");
                     critter.takeDamage(this.power / 4, false);
                 }
             }

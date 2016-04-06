@@ -51,7 +51,6 @@ public class GameScore implements Comparable<GameScore> {
     public static ArrayList<GameScore> getHighScores(ArrayList<GameScore> gameScores) {
         ArrayList<GameScore> response = new ArrayList<GameScore>();
         Object[] gameScoresArray = gameScores.toArray();
-        // System.out.println(gameScoresArray);
         Arrays.sort(gameScoresArray);
         int highScoreCounts = Math.min(GameScore.HIGH_SCORES_COUNT, gameScores.size());
         for (int i = 0; i < highScoreCounts; i++) {
