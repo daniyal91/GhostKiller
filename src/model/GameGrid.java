@@ -106,6 +106,9 @@ public class GameGrid {
 
             pr.println();
             pr.println(this.dateCreated.toGMTString());
+            long currentTime = System.currentTimeMillis();
+            this.dateModified = new Date(currentTime);
+
             pr.println(this.dateModified.toGMTString());
 
             for (GameScore gameScore : this.scores) {
