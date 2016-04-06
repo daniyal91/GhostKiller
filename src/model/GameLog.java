@@ -37,7 +37,7 @@ public class GameLog implements Observer {
 
     private String oldlog = "";
     private HashMap<String, List<String>> logMap = new HashMap<String, List<String>>();
-    private List<String> towerColLog=new ArrayList<String>();
+    private List<String> towerColLog = new ArrayList<String>();
 
     /**
      * Method called when the observed object is modified.
@@ -78,9 +78,9 @@ public class GameLog implements Observer {
 
                 if (lines[i].indexOf("[") == 18) {
                     String key = lines[i].substring(10, 21);
-                    if (key.indexOf("tower")==0){
-                        towerColLog.add(lines[i]+"\n");
-                    }                  
+                    if (key.indexOf("tower") == 0) {
+                        towerColLog.add(lines[i] + "\n");
+                    }
                     if (logMap.containsKey(key)) {
                         logMap.get(key).add(lines[i] + "\n");
                     } else {
@@ -100,7 +100,7 @@ public class GameLog implements Observer {
                     Map.Entry pair = (Map.Entry) it.next();
                     List<String> sList = (ArrayList<String>) pair.getValue();
 
-                    //sorting the list of collective logs
+                    // sorting the list of collective logs
                     Set<String> sortIt = new LinkedHashSet<>();
                     sortIt.addAll(sList);
                     sList.clear();
@@ -140,7 +140,8 @@ public class GameLog implements Observer {
         String init;
         Calendar cal = Calendar.getInstance();
         init = LONG_DATE_FORMAT.format(cal.getTime()) + "  Game Started \n";
-        init += "Game Grid (" + game.grid.filePath + ") : " + game.grid.cases.length + " x " + game.grid.cases[0].length+ "\n";
+        init += "Game Grid (" + game.grid.filePath + ") : " + game.grid.cases.length + " x " + game.grid.cases[0].length
+                        + "\n";
         init += "Map Entry Point : " + game.grid.entryPoint() + " | Map Exit Point : " + game.grid.exitPoint() + " \n";
         init += "Starting health = " + game.getLives() + "\n";
         init += "Starting money = " + game.getMoney() + " units\n";
