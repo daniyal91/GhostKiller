@@ -212,6 +212,7 @@ public class Game extends Observable {
                             + " units \n";
             this.setChanged();
             this.notifyObservers();
+            log="";
         }
     }
 
@@ -340,7 +341,7 @@ public class Game extends Observable {
                 log += "critter [" + this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID
                                 + "] attacked by tower ["
                                 + this.getTower(tower.getLocation().x, tower.getLocation().y).getTowerID()
-                                + "] and lost one life \n";
+                                + "] and lost one health point \n";
 
             }
             if (attackedLocation != null) {
