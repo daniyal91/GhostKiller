@@ -128,7 +128,7 @@ public class GameLog implements Observer {
      * Returns a string which shows the game log.
      *
      * @param game an object of Game class
-     * @return a string representing initial log
+     * @return a string representing the initial log
      */
     private String initialLog(Game game) {
         String init;

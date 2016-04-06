@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * This class implements components for calculating shortest path, finding neighbors with minimum distance, getting next
  * location on the path and calculating if a location is on the path.
- * 
+ *
  * @author Team 6
  *
  */
@@ -63,7 +63,7 @@ public class Path {
 
     /**
      * Gets the shortest path associated with the grid.
-     * 
+     *
      * @return An array list of GridLocation representing the shortest path from the entry point to the exit point in
      *         the grid.
      */
@@ -92,7 +92,7 @@ public class Path {
 
     /**
      * Finds the neighbor with the minimum distance from the entry (nearest).
-     * 
+     *
      * @param gridLocation The current grid location.
      * @param connectivites Grid connectivities.
      *
@@ -165,10 +165,10 @@ public class Path {
         return true;
     }
 
-
     /**
      * Returns the String consists of GridLocations in the shortest path
      */
+    @Override
     public String toString() {
         String pathstr = "";
         this.shortestPath = this.calculateShortestPath();

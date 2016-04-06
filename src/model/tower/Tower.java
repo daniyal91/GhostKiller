@@ -97,10 +97,20 @@ public abstract class Tower {
         return name;
     }
 
+    /**
+     * Gets the logs associated with the tower.
+     *
+     * @return Array list of log line for the tower.
+     */
     public ArrayList<String> getLogs() {
         return this.logs;
     }
 
+    /**
+     * Gets the id of the tower.
+     *
+     * @return Integer representing the id of the tower.
+     */
     public int getTowerID() {
         return towerID;
     }
@@ -134,6 +144,11 @@ public abstract class Tower {
         this.level = level;
     }
 
+    /**
+     * Gets the location of the tower.
+     *
+     * @return Grid location of the tower.
+     */
     public GridLocation getLocation() {
         return this.location;
     }
