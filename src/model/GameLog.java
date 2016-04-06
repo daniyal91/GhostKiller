@@ -55,7 +55,6 @@ public class GameLog implements Observer {
 
         PrintWriter pr;
         try {
-
             pr = new PrintWriter(new BufferedWriter(new FileWriter(game.logfile, true)));
 
             if (game.startlog) {
@@ -74,18 +73,14 @@ public class GameLog implements Observer {
             }
 
             String[] lines = game.log.split("\\\n");
-
             for (int i = 0; i < lines.length; i++) {
                 lines[i] = "@" + SHORT_DATE_FORMAT.format(cal.getTime()) + " " + lines[i];
 
                 if (lines[i].indexOf("[") == 18) {
-
                     String key = lines[i].substring(10, 21);
-
                     if (key.indexOf("tower")==0){
                         towerColLog.add(lines[i]+"\n");
-                    }
-                    
+                    }                  
                     if (logMap.containsKey(key)) {
                         logMap.get(key).add(lines[i] + "\n");
                     } else {
@@ -102,9 +97,10 @@ public class GameLog implements Observer {
                 System.out.println("-----------object logs----------------------------------");
                 Iterator it = logMap.entrySet().iterator();
                 while (it.hasNext()) {
-
                     Map.Entry pair = (Map.Entry) it.next();
                     List<String> sList = (ArrayList<String>) pair.getValue();
+
+                    //sorting the list of collective logs
                     Set<String> sortIt = new LinkedHashSet<>();
                     sortIt.addAll(sList);
                     sList.clear();
@@ -122,7 +118,6 @@ public class GameLog implements Observer {
                 System.out.println(towerColLog);
                 pr.println(" \n -------------------Towers Collective Log----------------- \n");
                 pr.println(towerColLog);
-                
             }
             oldlog = game.log;
             pr.close();
@@ -145,8 +140,7 @@ public class GameLog implements Observer {
         String init;
         Calendar cal = Calendar.getInstance();
         init = LONG_DATE_FORMAT.format(cal.getTime()) + "  Game Started \n";
-        init += "Game Grid (" + game.grid.filePath + ") : " + game.grid.cases.length + " x " + game.grid.cases[0].length
-                + "\n";
+        init += "Game Grid (" + game.grid.filePath + ") : " + game.grid.cases.length + " x " + game.grid.cases[0].length+ "\n";
         init += "Map Entry Point : " + game.grid.entryPoint() + " | Map Exit Point : " + game.grid.exitPoint() + " \n";
         init += "Starting health = " + game.getLives() + "\n";
         init += "Starting money = " + game.getMoney() + " units\n";
