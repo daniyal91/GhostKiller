@@ -125,7 +125,6 @@ public class MainController implements Runnable, ActionListener {
         } else if (event.getSource() == this.mainFrame.buttonLoad) {
             String filePath = Utils.selectFile();
             if (filePath != null) {
-
                 Game game = new Game();
                 game.loadGame(filePath);
                 GameController gameController = new GameController(game);
