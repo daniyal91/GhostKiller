@@ -32,8 +32,9 @@ public class GameController implements MouseListener, ActionListener {
     private GameLog gameLog;
 
     /**
-     * Constructs a new GameController object. Links the Game object to a GameView object using the Observer design
-     * pattern.
+     * Constructs a new GameController object.
+     * Links the Game object to a GameView object
+     * using the Observer design pattern.
      *
      * @param game Game object to use with the view object.
      *

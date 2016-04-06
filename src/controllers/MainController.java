@@ -66,8 +66,8 @@ public class MainController implements Runnable, ActionListener {
             try {
                 lineCount = Integer.parseInt(lineText);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "The number of lines must be an integer!", "Invalid lines value",
-                                JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The number of lines must be an integer!",
+                                "Invalid lines value", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -76,19 +76,19 @@ public class MainController implements Runnable, ActionListener {
                 columnCount = Integer.parseInt(columnText);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "The number of columns must be an integer!",
-                                "Invalid columns value", JOptionPane.WARNING_MESSAGE);
+                                              "Invalid columns value", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (lineCount < 5) {
                 JOptionPane.showMessageDialog(null, "The height of the new grid must be at least 5!",
-                                "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                                              "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (columnCount < 5) {
                 JOptionPane.showMessageDialog(null, "The width of the new grid must be at least 5!",
-                                "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
+                                              "Invalid dimensions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

@@ -31,7 +31,6 @@ public class NearestStrategy extends AttackStrategy {
                 continue;
             }
 
-
             if (distance < minimum) {
                 minimum = distance;
                 target = critter;

@@ -21,12 +21,12 @@ public class Critter {
     /**
      * Initial health points of a new Critter.
      */
-    public static int INITIAL_HEALTH_POINTS = 30;
+    public static int INITIAL_HEALTH_POINTS = 50;
 
     /**
      * Initial speed of a new Critter.
      */
-    public static int INITIAL_SPEED = 30;
+    public static int INITIAL_SPEED = 20;
 
 
     /**
@@ -154,7 +154,7 @@ public class Critter {
 
     /**
      * Gets the level.
-     * 
+     *
      * @return an integer representing the speed
      */
 
@@ -164,7 +164,7 @@ public class Critter {
 
     /**
      * Sets the level.
-     * 
+     *
      * @param level an integer representing the speed
      */
 
@@ -183,7 +183,7 @@ public class Critter {
 
     /**
      * Checks if movement threshold is reached.
-     * 
+     *
      * @return true if critter can still be moved otherwise false
      */
 
@@ -201,7 +201,7 @@ public class Critter {
 
     /**
      * returns the movement points.
-     * 
+     *
      * @return an integer representing the movement points
      */
 
@@ -211,7 +211,7 @@ public class Critter {
 
     /**
      * Checks if the critter is frozen.
-     * 
+     *
      * @return true if the critter is frozen otherwise false
      */
     public boolean isFrozen() {
@@ -221,7 +221,7 @@ public class Critter {
 
     /**
      * Returns the critter's speed.
-     * 
+     *
      * @return an integer representing the critter's speed
      */
 
