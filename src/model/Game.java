@@ -118,7 +118,7 @@ public class Game extends Observable {
         Tower newTower = TowerFactory.createTower(tower.getName());
         newTower.setLocation(new GridLocation(line, column));
         log = "tower   [" + newTower.getTowerID() + "] (" + newTower.getName() + ") " + "was bought and placed at ["
-                        + line + "," + column + "] \n";
+                + line + "," + column + "] \n";
         this.addTower(newTower, line, column);
     }
 
@@ -133,8 +133,8 @@ public class Game extends Observable {
         this.money += tower.refundAmout();
         this.towers.remove(new Point(line, column));
         log = "tower   [" + tower.getTowerID() + "] (" + tower.getName() + ") level (" + tower.getLevel() + ") at ["
-                        + line + "," + column + "] has been sold and " + tower.refundAmout()
-                        + " money units has been refunded \n";
+                + line + "," + column + "] has been sold and " + tower.refundAmout()
+                + " money units has been refunded \n";
         this.setChanged();
         this.notifyObservers();
     }
@@ -202,7 +202,7 @@ public class Game extends Observable {
     /**
      * Upgrade the level of the tower at a specific location.
      *
-     * @param line Line of the tower to uprade.
+     * @param line Line of the tower to upgrade.
      * @param column Column of the tower to upgrade.
      */
     public void upgradeTower(int line, int column) {
@@ -211,12 +211,30 @@ public class Game extends Observable {
             tower.upgradeLevel();
             this.money -= tower.getLevelCost();
             log = "tower   [" + tower.getTowerID() + "] (" + tower.getName() + ") at [" + line + "," + column
-                            + "] had been upgraded to " + tower.getLevel() + " which costed " + tower.getLevelCost()
-                            + " units \n";
+                    + "] had been upgraded to " + tower.getLevel() + " which costed " + tower.getLevelCost()
+                    + " units \n";
             this.setChanged();
             this.notifyObservers();
         }
     }
+
+
+    /**
+     * Change the attack strategy of the tower at a specific location.
+     *
+     * @param strategy is the name of the new strategy
+     * @param line Line of the tower to upgrade.
+     * @param column Column of the tower to upgrade.
+     */
+    public void changeStrategyTower(String strategy, int line, int column) {
+        Tower tower = this.getTower(line, column);
+        tower.setAttackStrategy(strategy);
+        log="tower   [" + tower.getTowerID() + "] attack strategy has been changed to "+strategy +"\n";
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+
 
     /**
      * Initiates a new wave of critters.
@@ -289,7 +307,7 @@ public class Game extends Observable {
 
 
         if (this.isWon()) {
-            log += "Player Won the Game !! \n";
+            log += "\n Player Won the Game !! remaining lives: "+this.getLives()+" ,total money: "+this.getMoney()+", critters killed:"+this.killedCritters+ "\n";
         }
 
         if (this.isOver() || this.isWon()) {
@@ -322,12 +340,12 @@ public class Game extends Observable {
             attackedLocation = tower.attack(aliveCritters, this.grid.exitPoint());
             if (tower.attack(aliveCritters, this.grid.entryPoint()) != null) {
                 log += "tower   [" + this.getTower(tower.getLocation().x, tower.getLocation().y).getTowerID() + "] at "
-                                + tower.getLocation() + " Attacked a critter at "
-                                + tower.attack(aliveCritters, this.grid.entryPoint()) + "\n";
+                        + tower.getLocation() + " Attacked a critter at "
+                        + tower.attack(aliveCritters, this.grid.entryPoint()) + "\n";
                 log += "critter [" + this.critters.get(tower.attack(aliveCritters, this.grid.entryPoint())).critterID
-                                + "] attacked by tower ["
-                                + this.getTower(tower.getLocation().x, tower.getLocation().y).getTowerID()
-                                + "] and lost one life \n";
+                        + "] attacked by tower ["
+                        + this.getTower(tower.getLocation().x, tower.getLocation().y).getTowerID()
+                        + "] and lost one life \n";
 
             }
             if (attackedLocation != null) {
@@ -395,7 +413,7 @@ public class Game extends Observable {
                 this.critters.remove(critter.gridLocation);
                 this.lives--;
                 log += "critter [" + critter.critterID + "] passed the exit ! total health is now  " + this.getLives()
-                                + "\n";
+                + "\n";
                 if (this.lives == 0) {
                     log += "Player has lost all of the lives , GAME IS OVER \n";
                     log += "Record: waves: " + this.wave + "  , money: " + this.getMoney() + " units";

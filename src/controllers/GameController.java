@@ -54,7 +54,7 @@ public class GameController implements MouseListener, ActionListener {
     public void mouseClicked(MouseEvent event) {
 
         if (event.getSource() instanceof JButton
-                        && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
+                && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
             JButton buttonClicked = (JButton) event.getSource();
             GridLocation clickLocation = this.gameView.getButtonLocation(buttonClicked);
             // System.out.println("This is in the click event");
@@ -151,12 +151,14 @@ public class GameController implements MouseListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.gameView.strategyComboBox) {
             JComboBox<String> strategyCombo = (JComboBox<String>) e.getSource();
-            gameView.selectedTower.setAttackStrategy((String) strategyCombo.getSelectedItem());
+            String strategy=(String) strategyCombo.getSelectedItem();
+            this.game.changeStrategyTower(strategy,this.gameView.selectedTower.getLocation().x,
+                    this.gameView.selectedTower.getLocation().y);
         } else if (e.getSource() == this.gameView.sellTowerButton) {
             this.game.sellTower(this.gameView.selectedTower.getLocation().x,
-                            this.gameView.selectedTower.getLocation().y);
+                    this.gameView.selectedTower.getLocation().y);
             this.gameView.removeTower(this.gameView.selectedTower.getLocation().x,
-                            this.gameView.selectedTower.getLocation().y);
+                    this.gameView.selectedTower.getLocation().y);
             this.gameView.closeTowerDetails();
         } else if (e.getSource() == this.gameView.upgradeTowerButton) {
             game.upgradeTower(this.gameView.selectedTower.getLocation().x, this.gameView.selectedTower.getLocation().y);
