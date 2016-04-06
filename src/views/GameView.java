@@ -233,10 +233,6 @@ public class GameView implements Observer {
             this.showCritterDetails(this.selectedCritter);
         }
 
-        if (this.selectedTower != null && this.critterInspectionFrame.isVisible()) {
-            this.showTowerDetails(this.selectedTower);
-        }
-
         if (game.isOver()) {
             JOptionPane.showMessageDialog(null, "Sorry, you lost. Please try again.", "Game Over.",
                             JOptionPane.INFORMATION_MESSAGE);
