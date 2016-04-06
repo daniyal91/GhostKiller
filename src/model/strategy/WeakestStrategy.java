@@ -28,7 +28,6 @@ public class WeakestStrategy extends AttackStrategy {
 
             int distance = GridLocation.distance(tower.getLocation(), critter.gridLocation);
             if (distance > tower.getRange()) {
-                System.out.println("out of range" + tower.getRange());
                 continue;
             }
 

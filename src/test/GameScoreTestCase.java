@@ -13,7 +13,7 @@ import model.GameScore;
 
 /**
  * This class performs tests for objects of GameScore class.
- * 
+ *
  * @author Team 6
  *
  */
@@ -21,7 +21,7 @@ public class GameScoreTestCase {
 
     /**
      * This method checks the getHighScores method.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -44,7 +44,7 @@ public class GameScoreTestCase {
 
     /**
      * This method checks the getHighScores method.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -61,7 +61,7 @@ public class GameScoreTestCase {
 
     /**
      * This method checks the fromString method when the game was won.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -70,7 +70,6 @@ public class GameScoreTestCase {
         GameScore gameScore = new GameScore(35, true);
 
         GameScore serialized = new GameScore();
-        System.out.println(gameScore.toString());
         serialized.fromString(gameScore.toString());
 
         assertTrue(serialized.won);
@@ -80,7 +79,7 @@ public class GameScoreTestCase {
 
     /**
      * This method checks the fromString method when the game was lost.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -98,7 +97,7 @@ public class GameScoreTestCase {
 
     /**
      * Tests the displayHighScores method when there is no game score.
-     * 
+     *
      * @throws IOException
      */
     @Test
