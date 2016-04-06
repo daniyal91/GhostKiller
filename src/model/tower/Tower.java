@@ -219,7 +219,12 @@ public abstract class Tower {
      */
     @Override
     public String toString() {
-        return "Tower named " + this.name;
+        String template = "Tower [%s] (%s)";
+        String response = String.format(template, this.towerID, this.name);
+        if (this.location != null) {
+            response += String.format(" placed at [%s]", this.location.toString());
+        }
+        return response;
     }
 
     /**
@@ -260,6 +265,14 @@ public abstract class Tower {
     public void setLocation(GridLocation gridLocation) {
         this.location = gridLocation;
         this.logs.add("Placed the tower at " + this.location.toString());
+    }
+
+    /**
+     * Resets the id counter used to generate the
+     * unique ids of the towers.
+     */
+    public static void resetIdCounter() {
+        Tower.idCounter = -3;
     }
 
 }
