@@ -60,6 +60,7 @@ public class GameLog implements Observer {
 
             if (game.startlog) {
                 pr.println(initialLog(game));
+                System.out.println("format the code then remove it ! ");
                 System.out.println(initialLog(game));
                 game.startlog = false;
             }
