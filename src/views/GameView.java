@@ -76,7 +76,7 @@ public class GameView implements Observer {
         this.gameFrame = new JFrame("Tower defense game");
         this.gameController = controller;
         this.towerInspectionFrame = new JFrame("Tower Inspection");
-        this.towerInspectionFrame.setBounds(700 + 530 * col / 10, 400, 500, 500);
+        this.towerInspectionFrame.setBounds(700 + 530 * col / 10, 600, 600, 500);
 
         this.critterInspectionFrame = new JFrame("Critter Inspection");
         this.critterInspectionFrame.setBounds(450 + 530 * col / 10, 160, 230, 100);
@@ -386,7 +386,7 @@ public class GameView implements Observer {
         // Open new window for tower inspection.
         JPanel towerInspectionPanel = new JPanel();
         towerInspectionPanel.setBackground(Color.DARK_GRAY);
-        towerInspectionPanel.setSize(100, 250);
+        towerInspectionPanel.setSize(200, 450);
         this.towerInspectionFrame.setContentPane(towerInspectionPanel);
 
         // Tower Image Sell Tower Button and Upgrade Tower Button.

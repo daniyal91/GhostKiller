@@ -546,6 +546,7 @@ public class Game extends Observable {
             String mapFilePath = br.readLine();
             this.grid = new GameGrid();
             this.grid.readFromFile(mapFilePath, false);
+            this.shortestPath = new Path(this.grid);
 
             this.lives = Integer.parseInt(br.readLine());
             this.money = Integer.parseInt(br.readLine());

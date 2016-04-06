@@ -195,7 +195,6 @@ public class GameGrid {
                 gameScore.fromString(line);
                 this.scores.add(gameScore);
             }
-            // while line
 
             br.close();
         } catch (IOException exception) {

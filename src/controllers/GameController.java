@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import misc.Utils;
 import model.Critter;
 import model.Game;
 import model.GameGrid;
@@ -25,8 +26,8 @@ import views.GameView;
  */
 public class GameController implements MouseListener, ActionListener {
 
-    // must be private
     public Game game;
+
     private GameView gameView;
     private GameLog gameLog;
 
@@ -57,8 +58,6 @@ public class GameController implements MouseListener, ActionListener {
                         && this.gameView.getButtonLocation((JButton) event.getSource()) != null) {
             JButton buttonClicked = (JButton) event.getSource();
             GridLocation clickLocation = this.gameView.getButtonLocation(buttonClicked);
-            // System.out.println("This is in the click event");
-            // System.out.print(clickLocation);
             GameGrid.CASE_TYPES caseType = this.game.grid.getCases()[clickLocation.x][clickLocation.y];
             if (this.game.hasCritter(clickLocation)) {
                 Critter critter = this.game.critters.get(clickLocation);
@@ -97,13 +96,12 @@ public class GameController implements MouseListener, ActionListener {
         // sends a wave of critters
         else if (event.getSource() == this.gameView.playButton) {
             this.game.sendWave();
-            // System.out.print("play");
         }
 
         // calls the method "save"
         else if (event.getSource() == this.gameView.saveButton) {
-            this.game.saveGame("newsavedgame");
-            // System.out.print("save");
+            String savedGamePath = Utils.selectFile();
+            this.game.saveGame(savedGamePath);
         }
 
     }
