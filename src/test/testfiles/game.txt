@@ -1,4 +1,4 @@
-map.txt
+src/test/testfiles/map.txt
 3
 100
 1
